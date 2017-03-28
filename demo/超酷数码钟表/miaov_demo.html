@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>超酷数码钟表 - 妙味课堂 - www.miaov.com</title>
+    <link href="miaov_style.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<div id="clock" class="date">
+    <h2><img src="images/title.png"/></h2>
+    <div class="year">
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img src="images/year.png" alt="year" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img src="images/month.png" alt="month" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img src="images/seven.png" alt="seven" longdesc="http://www.miaov.com"/>
+    </div>
+    <div class="time">
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img src="images/sign.png" alt="sign" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img src="images/sign.png" alt="sign" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com"/>
+        <img class="pos2" src="images/week.png" alt="week" longdesc="http://www.miaov.com"/>
+        <img class="num2" src="images/one.png" alt="one" longdesc="http://www.miaov.com"/>
+    </div>
+    <div class="url" title="妙味课堂-超酷时钟"><a href="http://www.miaov.com/"><img src="images/miaov.png" alt="妙味课堂"
+                                                                            longdesc="http://www.miaov.com"/></a></div>
+</div>
+<script>
+    //f2优化点：减少DOM修改,f1中每间隔1s 时分秒的DOM都要被修改
+    window.onload = f2
+    function f2() {
+        var oTimeDiv = document.getElementsByClassName('time')[0]
+        var aTimeImgs = oTimeDiv.getElementsByClassName('num')
+        var oDayImg = oTimeDiv.getElementsByClassName('num2')[0]
+        var oYearDiv = document.getElementsByClassName('year')[0]
+        var aYearImgs = oYearDiv.getElementsByClassName('num')
+        var aDayName = ['seven', 'one', 'two', 'three', 'four', 'five', 'six']
+        var oDate = new Date()
+        var iHours = oDate.getHours(),
+            iMinutes = oDate.getMinutes(),
+            iSeconds = oDate.getSeconds(),
+            iDay = oDate.getDay(),
+            iYear = oDate.getFullYear(),
+            iMonth = oDate.getMonth()+1,
+            iDate = oDate.getDate()
+        function initTime() {
+            aTimeImgs[0].src = 'images/' + Math.floor(iHours / 10) + '.png'
+            aTimeImgs[1].src = 'images/' + iHours % 10 + '.png'
+            aTimeImgs[2].src = 'images/' + Math.floor(iMinutes / 10) + '.png'
+            aTimeImgs[3].src = 'images/' + iMinutes % 10 + '.png'
+            aTimeImgs[4].src = 'images/' + Math.floor(iSeconds / 10) + '.png'
+            aTimeImgs[5].src = 'images/' + iSeconds % 10 + '.png'
+            oDayImg.src = 'images/' + aDayName[iDay] + '.png'
+            //年
+            aYearImgs[0].src = 'images/' + Math.floor(iYear/1000) + '.png'
+            aYearImgs[1].src = 'images/' + Math.floor(iYear%1000/100) + '.png'
+            aYearImgs[2].src = 'images/' + Math.floor(iYear%1000%100/10) + '.png'
+            aYearImgs[3].src = 'images/' + iYear%10 + '.png'
+            //月
+            aYearImgs[4].src = 'images/' + Math.floor(iMonth/10) + '.png'
+            aYearImgs[5].src = 'images/' + Math.floor(iMonth%10) + '.png'
+            //日
+            aYearImgs[6].src = 'images/' + Math.floor(iDate/10) + '.png'
+            aYearImgs[7].src = 'images/' + Math.floor(iDate%10) + '.png'
+        }
+        function updateTime() {
+            oDate = new Date()
+            var iHours2 = oDate.getHours(),
+                iMinutes2 = oDate.getMinutes(),
+                iSeconds2 = oDate.getSeconds(),
+                iDay2 = oDate.getDay()
+            //hours变化时 才更新hours对应的DOM
+            if (iHours != iHours2) {
+                //更新全局变量
+                iHours = iHours2
+                aTimeImgs[0].src = 'images/' + Math.floor(iHours2 / 10) + '.png'
+                aTimeImgs[1].src = 'images/' + iHours2 % 10 + '.png'
+            }
+            if (iMinutes != iMinutes2) {
+                iMinutes = iMinutes2
+                aTimeImgs[2].src = 'images/' + Math.floor(iMinutes2 / 10) + '.png'
+                aTimeImgs[3].src = 'images/' + iMinutes2 % 10 + '.png'
+            }
+            aTimeImgs[4].src = 'images/' + Math.floor(iSeconds2 / 10) + '.png'
+            aTimeImgs[5].src = 'images/' + iSeconds2 % 10 + '.png'
+            //更新星期几 img
+            if(iDay != iDay2){
+                iDay = iDay2
+                oDayImg.src = 'images/' + aDayName[iDay2] + '.png'
+            }
+        }
+        initTime()
+        setInterval(updateTime, 1000)
+    }
+
+    function f1() {
+        function fix2Bits(i) {
+            return i < 10 ? '0' + i : i
+        }
+
+        var oTimeDiv = document.getElementsByClassName('time')[0]
+        var aTimeImgs = oTimeDiv.getElementsByClassName('num')
+        var oDayImg = oTimeDiv.getElementsByClassName('num2')[0]
+        var aDayName = ['seven', 'one', 'two', 'three', 'four', 'five', 'six']
+        var len = aTimeImgs.length
+        var oDate = new Date()
+        var sTime = '' + fix2Bits(oDate.getHours()) + fix2Bits(oDate.getMinutes()) + fix2Bits(oDate.getSeconds())
+
+        function updateTime() {
+            //更新time字符串
+            oDate = new Date()
+            sTime = '' + fix2Bits(oDate.getHours()) + fix2Bits(oDate.getMinutes()) + fix2Bits(oDate.getSeconds())
+            //更新time img
+            for (var i = 0; i < len; i++) {
+                aTimeImgs[i].setAttribute('src', 'images/' + sTime.charAt(i) + '.png')
+            }
+            //更新星期几 img
+            oDayImg.src = 'images/' + aDayName[oDate.getDay()] + '.png'
+        }
+
+        setInterval(updateTime, 1000)
+        updateTime()
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>妙味课堂</title>
+    <link href="miaov_style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        window.onload = function () {
+            var oDiv = document.getElementById('pingfen')
+            var aLi = oDiv.getElementsByTagName('li')
+            var oRateText = oDiv.getElementsByTagName('p')[0]
+            var aRate = ['很渣！', '不推荐', '一般', '推荐', '力荐！']
+            var bIsMarked = false
+            for (var i = 0, length = aLi.length; i < length; i++) {
+                aLi[i].index = i
+                aLi[i].onmouseenter = function () {
+                    if (bIsMarked) return
+                    for (var j = 0; j <= this.index; j++) {
+                        aLi[j].className = 'active'
+                    }
+                    oRateText.innerHTML = '推荐度：' + aRate[this.index]
+                }
+                aLi[i].onmouseleave = function () {
+                    if (bIsMarked) return
+                    for (var j = 0; j < length; j++) {
+                        aLi[j].className = ''
+                    }
+                    oRateText.innerHTML = ''
+                }
+                aLi[i].onclick = function () {
+                    bIsMarked = true
+                    //点亮
+                    for (var j = 0; j <= this.index; j++) {
+                        aLi[j].className = 'active'
+                    }
+                    //熄灭
+                    for (var k = this.index + 1; k < length; k++) {
+                        aLi[k].className = ''
+                    }
+                    oRateText.innerHTML = '推荐度：' + aRate[this.index]
+
+                }
+
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+<div id="pingfen">
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <p></p>
+</div>
+</body>
+</html>

@@ -19,6 +19,8 @@ module.exports = {
     output: {
         path: './build/',
         publicPath: 'build/',
+        library: 'CC',
+        libraryTarget: 'umd',
         //多页面
         //filename: '[name].js'
         //单页面
@@ -59,6 +61,7 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
+    module.exports.output.filename='ccjs.min.js';
     module.exports.devtool = '#source-map';
     module.exports.plugins = (module.exports.plugins || []).concat([
         new webpack.optimize.DedupePlugin(),

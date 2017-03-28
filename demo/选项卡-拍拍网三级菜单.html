@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡-拍拍网三级菜单</title>
+    <style>
+        .tabs1>li {
+            display: inline-block;
+            width:90px;
+            height:20px;
+            line-height: 20px;
+            text-align: center;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<ul class="tabs1">
+    <li>所有分类
+        <ul class="tabs2" style="display: none;">
+            <li>充话费 网游 Q币
+                <ul class="tabs3" style="display: none;">
+                    <li> 移动 电信 联通</li>
+                    <li>网游</li>
+                    <li>Q币</li>
+                </ul>
+            </li>
+            <li>数码家电
+                <ul class="tabs3">
+                    <li>手机</li>
+                    <li>电脑</li>
+                </ul>
+            </li>
+            <li>家居日用
+                <ul class="tabs3">
+                    <li>纸巾</li>
+                    <li>洗发水</li>
+                </ul>
+            </li>
+            <li>图书
+                <ul class="tabs3">
+                    <li>电子书</li>
+                    <li>纸质书</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>男装</li>
+    <li>女装</li>
+</ul>
+<script>
+    window.onload = function () {
+        var aTabs1 = document.getElementsByClassName('tabs1')
+        var aTabs2 = document.getElementsByClassName('tabs2')
+        var aTabs3 = document.getElementsByClassName('tabs3')
+        for(var i=0;i<aTabs2.length;i++){
+            console.log('parentNode = ' + aTabs2[i].parentNode);
+            aTabs2[i].index = i
+            aTabs2[i].parentNode.onmouseenter = function () {
+                console.log('enter');
+                for (var j = 0; j < aTabs2.length; j++) {
+                    aTabs2[j].style.display = 'none'
+                }
+                this.firstElementChild.style.display = 'block'
+            }
+            aTabs2[i].onmouseleave = function () {
+                for (var j = 0; j < aTabs2.length; j++) {
+                    aTabs2[j].style.display = 'none'
+                }
+
+            }
+
+        }
+
+    }
+</script>
+</body>
+</html>

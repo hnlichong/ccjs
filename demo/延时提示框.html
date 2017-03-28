@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>延时提示框</title>
+    <style>
+
+        #div1 {
+            width: 150px;
+            height: 20px;
+            background: yellow;
+        }
+
+        #div2 {
+            width: 200px;
+            height: 30px;
+            background: lightgray;
+            margin: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+
+<script>
+    window.onload = fn3
+    function fn3() {
+        var oDiv1 = document.getElementById('div1')
+        var oDiv2 = document.getElementById('div2')
+        var iTimer = 0
+        oDiv1.onmouseenter = oDiv2.onmouseenter = function () {
+            oDiv2.style.display = 'block'
+            clearTimeout(iTimer)
+        }
+        oDiv1.onmouseleave = oDiv2.onmouseleave = function () {
+            iTimer = setTimeout(function () {
+                oDiv2.style.display = 'none'
+            }, 2000)
+        }
+    }
+    function fn2() {
+        var oDiv1 = document.getElementById('div1')
+        var oDiv2 = document.getElementById('div2')
+        var bIsDiv2Display = false
+
+        function hideDiv2() {
+            if (bIsDiv2Display) return
+            oDiv2.style.display = 'none'
+        }
+
+        oDiv1.onmouseenter = oDiv2.onmouseenter = function () {
+            oDiv2.style.display = 'block'
+            bIsDiv2Display = true
+        }
+        oDiv1.onmouseleave = oDiv2.onmouseleave = function () {
+            setTimeout(hideDiv2, 2000)
+            bIsDiv2Display = false
+        }
+
+
+    }
+    function fn1() {
+        var oDiv1 = document.getElementById('div1')
+        var oDiv2 = document.getElementById('div2')
+        var bIsDiv2Display = false
+
+        function hideDiv2() {
+            if (bIsDiv2Display) return
+            oDiv2.style.display = 'none'
+        }
+
+        oDiv1.onmouseover = function () {
+            oDiv2.style.display = 'block'
+            bIsDiv2Display = true
+        }
+        oDiv1.onmouseout = function () {
+            setTimeout(hideDiv2, 200)
+            bIsDiv2Display = false
+        }
+        oDiv2.onmouseover = function () {
+            oDiv2.style.display = 'block'
+            bIsDiv2Display = true
+        }
+        oDiv2.onmouseout = function () {
+            setTimeout(hideDiv2, 200)
+            bIsDiv2Display = false
+        }
+
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text">
+<script>
+    window.onload = function () {
+        var oTxt = document.getElementsByTagName('input')[0]
+//        oTxt.value = 'value'
+        oTxt.setAttribute('value','v2')
+        console.log(oTxt.getAttribute('value'));
+        oTxt.removeAttribute('value')
+        console.log(oTxt.getAttribute('value'));
+        console.log(oTxt.value);
+    }
+</script>
+</body>
+</html>

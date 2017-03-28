@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="width: 800px;margin: 100px auto;">
+<form>
+    <div class="input">
+        <label>温度 ：<input type="text" id="fTa"></label>
+        <label>湿度 ：<input type="text" id="fRH"></label>
+        <label>风速 ：<input type="text" id="fV" value="0"></label>
+    </div>
+    <div class="control">
+        <button id="calculate" type="button">计算</button>
+        <button id="reset" type="reset">重置</button>
+    </div>
+    <div class="output">
+        <label>体感温度 ：<input type="text" id="fTg"></label>
+    </div>
+</form>
+<script>
+    window.onload = function () {
+        var oTa = document.getElementById('fTa'),
+            oRH = document.getElementById('fRH'),
+            oV = document.getElementById('fV'),
+            oTg = document.getElementById('fTg'),
+            oBtnCalculate = document.getElementById('calculate')
+        oBtnCalculate.onclick = function () {
+            var fTa = parseFloat(oTa.value),
+                fRH = parseFloat(oRH.value),
+                fV = parseFloat(oV.value);
+            console.log('input Ta = ' + fTa);
+            oTg.value = fnGetTg(fTa, fRH, fV)
+        }
+        //最适温度ts
+        var fTs = 21.6,
+            //体感温度 tg
+            fTg = 0.0,
+            //室内最适湿度
+            fRHs = 50
+
+        function fnGetTg(fTa, fRH, fV) {
+            var aWind = [0, 2, 4, 6]
+            fV = aWind[fV]
+            if (fTa >= fTs) {
+                fTg = fTa + 14 * (Math.exp(0.05 * (fTa - fTs) * (fRH - fRHs) * 0.01) - 1) - 0.03 * (fTa - fTs) * fV
+            } else {
+                fTg = fTa - 14 * (Math.exp(0.013 * (fTs - fTa) * (fRH - fRHs) * 0.01) + 1) - 0.01 * (fTs - fTa) * fV
+            }
+            return fTg
+        }
+
+    }
+</script>
+</body>
+</html>

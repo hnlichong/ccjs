@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>可视区滚动距离scrollTop即可视区距离页面顶端距离</title>
+</head>
+<body style="height: 2000px;">
+<div style="background: green; width:100px;height:100px;position: absolute;"></div>
+<script>
+    window.onload = function () {
+        var oDiv = document.getElementsByTagName('div')[0]
+        document.onmousemove = function (e) {
+            console.log('move');
+            var oE = e || event
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
+            oDiv.style.left = oE.clientX + scrollLeft +'px'
+            oDiv.style.top = oE.clientY + scrollTop + 'px'
+            //一般地，sclientY与scrollTop配套使用
+        }
+
+        document.onclick = function () {
+            alert(document.body.scrollTop)
+
+        }
+
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div1" style="-position: relative;left: 100px;top:100px;background: red;width: 200px;height: 200px;">
+    <div id="div2"
+         style="position:absolute;left: 100px;top: 100px;width: 200px;height: 200px;background: yellow;"></div>
+</div>
+<script>
+    window.onload = function () {
+        var oDiv2 = document.getElementById('div2')
+        alert(oDiv2.offsetParent.tagName)
+    }
+</script>
+</body>
+</html>

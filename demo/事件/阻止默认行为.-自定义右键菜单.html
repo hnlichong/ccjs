@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #menu {
+            width: 100px;
+            position: absolute;
+            background: #cccccc;
+            border: 1px solid black;
+            display: none;
+            margin:0;
+            padding:0;
+        }
+    </style>
+</head>
+<body>
+<form id="form1" action="https://www.bing.com/">
+    <button type="submit">提交</button>
+</form>
+
+<ul id="menu">
+    <li>登录</li>
+    <li>注册</li>
+    <li>注销</li>
+    <li>关于</li>
+    <li>退出</li>
+</ul>
+<script>
+    window.onload = function () {
+        var doc = document
+        var menu = doc.getElementById('menu')
+        doc.oncontextmenu = function (e) {
+            e = e || event
+            var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop
+            var scrollLeft = doc.documentElement.scrollLeft || doc.body.scrollLeft
+            var left = e.clientX + scrollLeft + 'px'
+            var top = e.clientY + scrollTop + 'px'
+            console.log(menu.style.cssText);
+            menu.style.cssText+= 'display:block;left:' + left + ';top:' + top + ';'
+            return false;
+        }
+        doc.onclick = function () {
+            menu.style.display = 'none'
+        }
+        var form1 = doc.getElementById('form1')
+        form1.onsubmit = function () {
+            //表单校验
+
+            //正确
+            //return true
+
+            //错误，不提交
+            return false
+        }
+    }
+</script>
+</body>
+</html>

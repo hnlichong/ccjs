@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+addcf
+<ul>
+    <li>li01<a href="javascript:void(0);">删除</a></li>
+    dsadf
+    <li>li02<a href="javascript:void(0);">删除</a></li>
+    <li>li03<a href="javascript:void(0);">删除</a></li>
+    <li>li04<a href="javascript:void(0);">删除</a></li>
+    <li>li05<a href="javascript:void(0);">删除</a></li>
+</ul>
+<script>
+    window.onload = function () {
+        var oUl = document.getElementsByTagName('ul')[0]
+        console.log(oUl.childNodes.length);
+        console.log(oUl.childNodes[1].nodeType);
+        //1     元素节点
+        //3     文本节点
+    }
+</script>
+</body>
+</html>

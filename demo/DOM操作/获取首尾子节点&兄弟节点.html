@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li>li01<a href="javascript:void(0);">删除</a></li>
+    <li id="li2">li02<a href="javascript:void(0);">删除</a></li>
+    adbc333
+    <li>li03<a href="javascript:void(0);">删除</a></li>
+    <li>li04<a href="javascript:void(0);">删除</a></li>
+    <li>li05<a href="javascript:void(0);">删除</a></li>
+</ul>
+<script>
+    window.onload = function () {
+        var oUl = document.getElementsByTagName('ul')[0]
+        var oLi2 = document.getElementById('li2')
+        //firstChild获取第一个节点（包含文本节点）, firstElementChild获取第一个子元素节点
+        alert(oUl.firstChild)
+        //兼容性处理, IE不支持firstElementChild
+        var oFirst = oUl.firstElementChild || oUl.firstChild
+        oFirst.style.background = 'yellow'
+//        oUl.lastElementChild || oUl.lastChild
+//        oLi2.nextElementSibling || oLi2.nextSibling
+//        oLi2.previousElementSibling || oLi2.previousSibling
+
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div1" style="width: 100px;height: 100px;background: red;position:absolute;left: 0;top:0"></div>
+<script>
+    window.onload = function () {
+        var doc = document
+        var div1 = doc.getElementById('div1')
+        var timer = 0
+        var timers = {}
+//        doc.onkeydown = function () {
+//            var a, b, c
+//            a = div1.style.left;
+//            b = div1.offsetLeft;
+//            c = -1;
+//            div1.style.left = 200 + 'px'
+//            console.log('a = ' + a)
+//            console.log('div1.style.left = ' + div1.style.left)
+//
+//        }
+
+        doc.onkeydown = function (e) {
+            e = e || event
+            var key = e.keyCode
+            var speed = 2,
+                delay = 0;
+            switch (key) {
+                case 37: {
+                    if(timers[key]){
+                        break;
+                    }
+                    timers[key] = setInterval(function () {
+                        //a = b + c + 'px'
+                        div1.style.left = div1.offsetLeft - speed + 'px'
+                    },delay);
+                    break;
+                }
+                case 38: {
+                    if(timers[key]){
+                        break;
+                    }
+                    timers[key] = setInterval(function () {
+                        div1.style.top = div1.offsetTop - speed + 'px'
+                    },delay);
+                    break;
+                }
+                case 39: {
+                    if(timers[key]){
+                        break;
+                    }
+                    timers[key] = setInterval(function () {
+                        div1.style.left = div1.offsetLeft + speed + 'px'
+                    },delay);
+                    break;
+                }
+                case 40: {
+                    if(timers[key]){
+                        break;
+                    }
+                    timers[key] = setInterval(function () {
+                        div1.style.top = div1.offsetTop + speed + 'px'
+                    },delay);
+                    break;
+                }
+                default: {
+                    break
+                }
+            }
+        }
+        doc.onkeyup = function (e) {
+            e = e || event
+            var key = e.keyCode
+            clearInterval(timers[key])
+            delete timers[key]
+        }
+
+    }
+</script>
+</body>
+</html>

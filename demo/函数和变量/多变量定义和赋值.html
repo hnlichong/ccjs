@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    window.onload = function () {
+        var oDate = new Date()
+        //多个变量赋不同的值
+        var iHours = oDate.getHours(),
+            iMinutes = oDate.getMinutes(),
+            iSeconds = oDate.getSeconds(),
+            iDay = oDate.getDay();
+        //多个变量赋相同的值
+        var a,b,c
+        a=b=c=3
+        //不能这样做：
+        var e=f=g=4
+        //否则只有a被声明为var
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label for="textarea1">新东西</label>
+<textarea name="newthings" id="textarea1" cols="30" rows="10"></textarea>
+<button id="btn1">打开新窗口</button>
+<script>
+    window.onload = function () {
+        var oBtn1 = document.getElementById('btn1')
+        var oTextarea = document.getElementById('textarea1')
+        oBtn1.onclick = function () {
+            var oWin = window.open('about:black')
+            oWin.document.write(oTextarea.value)
+            //常用到的document实际上是window.document的简写
+        }
+    }
+</script>
+</body>
+</html>

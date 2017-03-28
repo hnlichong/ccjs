@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label>插入内容：<input type="text"> </label>
+<button>插入</button>
+<ul>
+</ul>
+
+<script>
+    window.onload = function () {
+        var oUl = document.getElementsByTagName('ul')[0]
+        var oBtn = document.getElementsByTagName('button')[0]
+        var oTxt = document.getElementsByTagName('input')[0]
+        var aLi = document.getElementsByTagName('li')
+        oBtn.onclick = function () {
+            var oLi = document.createElement('li')
+            oLi.innerHTML = oTxt.value
+            //在最后插入
+//            oUl.appendChild(oLi)
+            //在最开始插入
+            //父节点.insertBsfore(待插入的子节点，在谁之前插入)
+//            oUl.insertBefore(oLi, aLi[0])
+            if (aLi.length == 0) {
+                oUl.appendChild(oLi)
+            } else {
+                oUl.insertBefore(oLi, aLi[0])
+            }
+        }
+
+
+    }
+</script>
+</body>
+</html>

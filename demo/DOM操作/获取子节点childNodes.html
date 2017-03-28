@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li>li01<a href="javascript:void(0);">删除</a></li>
+    <li>li02<a href="javascript:void(0);">删除</a></li>
+    <li>li03<a href="javascript:void(0);">删除</a></li>
+    <li>li04<a href="javascript:void(0);">删除</a></li>
+    <li>li05<a href="javascript:void(0);">删除</a></li>
+</ul>
+<script>
+    window.onload = function () {
+        var oUl = document.getElementsByTagName('ul')[0]
+        console.log(oUl.childNodes.length);
+        //1.childNodes只包含第一层子节点
+        //2.包含文本节点，所以元素节点之间的空格（属于文本节点）也算进去
+        //3.如果要筛选元素节点可以用节点类型nodeType作为判断标准，或者直接用children（可能有兼容问题）
+        var aChildNodes = oUl.childNodes
+        var iChildElements = 0
+        for (var i = 0, length = aChildNodes.length; i < length; i++) {
+            if (aChildNodes[i].nodeType == 1) {
+                //1 元素节点
+                //3 文本节点
+                aChildNodes[i].style.background = 'green'
+                iChildElements++
+            }
+        }
+        console.log('iChildElements = ' + iChildElements);
+    }
+</script>
+</body>
+</html>

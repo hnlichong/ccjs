@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>可视区滚动距离scrollTop即可视区距离页面顶端距离</title>
+    <style>
+        div {
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            background: red;
+        }
+    </style>
+</head>
+<body style="height: 2000px;">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<script>
+    window.onload = function () {
+        var aDiv = document.getElementsByTagName('div')
+        document.onmousemove = function (e) {
+            console.log('move');
+            //后一个跟着前一个，老鹰捉小鸡
+            //从后往前具有看齐 具有跟随效应（记忆效应）-- 贪吃蛇
+            for (var j = aDiv.length - 1; j > 0; j--) {
+                aDiv[j].style.left = aDiv[j-1].style.left
+                aDiv[j].style.top = aDiv[j-1].style.top
+            }
+            var oE = e || event
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
+            aDiv[0].style.left = oE.clientX + scrollLeft + 'px'
+            aDiv[0].style.top = oE.clientY + scrollTop + 'px'
+            //一般地，clientY与scrollTop配套使用
+        }
+    }
+</script>
+</body>
+</html>

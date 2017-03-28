@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    window.onload = function () {
+        //函数定义中可以不写参数
+        function sum() {
+            alert('lenght = '+ arguments.length)
+            var result = 0
+            for (var i in arguments) {
+                result += arguments[i]
+            }
+            alert('result=' + result)
+        }
+
+        sum(2, 5, 7)
+    }
+</script>
+</body>
+</html>

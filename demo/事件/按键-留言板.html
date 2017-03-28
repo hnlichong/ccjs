@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<textarea rows="20" cols="60" id="txt1" ></textarea>
+<div>
+    <input type="text" placeholder="留言内容" id="txt2">
+    <button id="btn1">发送(Ctrl+Enter)</button>
+</div>
+<script>
+    window.onload = function () {
+        var doc = document,
+            txt1 = doc.getElementById('txt1'),
+            txt2 = doc.getElementById('txt2'),
+            btn1 = doc.getElementById('btn1')
+        function sendMes() {
+            txt1.value += txt2.value + '\n'
+            txt2.value = ''
+        }
+        btn1.onclick = sendMes
+        txt2.onkeydown = function (e) {
+            var e=e||event
+//            alert(e.ctrlKey)
+            if(e.ctrlKey==true && e.keyCode==13){
+                sendMes()
+            }
+        }
+
+    }
+</script>
+</body>
+</html>

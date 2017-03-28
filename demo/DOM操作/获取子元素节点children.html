@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label>插入内容：<input type="text"> </label>
+<button>插入</button>
+<ul>
+    <li>li01<a href="javascript:void(0);">删除</a></li>
+    <li>li02<a href="javascript:void(0);">删除</a></li>
+    adbc333
+    <li>li03<a href="javascript:void(0);">删除</a></li>
+    <li>li04<a href="javascript:void(0);">删除</a></li>
+    <li>li05<a href="javascript:void(0);">删除</a></li>
+</ul>
+<script>
+    window.onload = function () {
+        var oUl = document.getElementsByTagName('ul')[0]
+        console.log(oUl.children.length);
+        //children只包含第一层子元素节点
+    }
+</script>
+</body>
+</html>

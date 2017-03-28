@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>隔行变色</title>
+</head>
+<body>
+<ul id="ul1">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<script>
+    window.onload=function () {
+        var oUl = document.getElementById('ul1')
+        var aLi = oUl.getElementsByTagName('li')
+        for(var i in aLi){
+            if(i%2==0){
+                aLi[i].style.backgroundColor = '#CCC'
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡2</title>
+    <style>
+        .active {
+            background-color: yellow;
+        }
+        #tabs div {
+            width:200px;
+            height:150px;
+            background: #cccccc;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="pagination">
+    <button class="active">1</button>
+    <button>2</button>
+    <button>3</button>
+</div>
+<div id="tabs">
+    <div >aaa</div>
+    <div>bbb</div>
+    <div>ccc</div>
+</div>
+
+<script>
+    window.onload = function () {
+        var aBtn = document.getElementById('pagination').getElementsByTagName('button')
+        var aDiv = document.getElementById('tabs').getElementsByTagName('div')
+        for (var i = 0; i < aBtn.length; i++) {
+            //添加index属性，记录index
+            aBtn[i].index = i
+            aBtn[i].onclick = function () {
+                for (var j = 0; j < aBtn.length; j++) {
+                    aBtn[j].className = ''
+                    aDiv[j].style.display = 'none'
+                }
+                this.className = 'active'
+                aDiv[this.index].style.display = 'block'
+            }
+        }
+    }
+</script>
+</body>
+</html>

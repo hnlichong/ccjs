@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="height: 2000px">
+<div id="div1" style="width:100px;height:100px;background: red;position: absolute;right:0;"></div>
+<script>
+    (function (doc, win) {
+        var div1 = doc.getElementById('div1')
+        var width = div1.offsetWidth
+        var height = div1.offsetHeight
+        var updatePos = function () {
+            var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop
+            var top = doc.documentElement.clientHeight / 2 + scrollTop - height / 2
+            div1.style.cssText += 'top:' + top + 'px;'
+        }
+        updatePos()
+        win.onresize = win.onscroll = updatePos
+
+    })(document, window);
+</script>
+</body>
+</html>

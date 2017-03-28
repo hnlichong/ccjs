@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "rm -rf build&& mkdir build",
-    "dev":"cross-env NODE_ENV=development webpack-dev-server --inline --hot --host 10.202.193.239 --port 7777",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --host localhost --port 3333",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "author": "congcong",
@@ -21,6 +21,7 @@
     "file-loader": "^0.8.4",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
+    "gulp-connect": "^5.0.0",
     "url-loader": "^0.5.7",
     "vue": "^1.0.26",
     "vue-hot-reload-api": "^1.2.0",

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="height: 2000px;">
+<div style="background: green; width:100px;height:100px;position: absolute;"></div>
+<script>
+    window.onload = function () {
+        var oDiv = document.getElementsByTagName('div')[0]
+        document.onmousemove = function (e) {
+            console.log('move');
+            var oE = e || event
+            oDiv.style.left = oE.clientX + 'px'
+            oDiv.style.top = oE.clientY + 'px'
+        }
+
+    }
+
+</script>
+</body>
+</html>
