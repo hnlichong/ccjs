@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>侧边栏广告css</title>
+    <style>
+        #box {
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            top: 50%;
+            margin-top: -50px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+<script>
+    window.onload = function () {
+        var ss =''
+        for (let i = 0; i < 1000; i++) {
+            ss += '<div>' + i + '</div>'
+        }
+        var wrapper = document.createElement('div')
+        wrapper.id = 'wrapper'
+        document.body.insertBefore(wrapper, document.firstChild)
+
+    }
+</script>
+</body>
+</html>

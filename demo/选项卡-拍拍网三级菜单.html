@@ -69,7 +69,20 @@
                 }
 
             }
-
+        }
+        for (var i = 0; i < aTabs3.length; i++) {
+            aTabs3[i].index = i;
+            aTabs3[i].parentNode.onmouseenter = function () {
+                for (var j = 0; j < aTabs3.length; j++) {
+                    aTabs3[j].style.display = 'none';
+                }
+                this.firstElementChild.style.display = 'block';
+            }
+            aTabs3[i].onmouseleave = function () {
+                for (var j = 0; j < aTabs3.length; j++) {
+                    aTabs3[j].style.display = 'none';
+                }
+            }
         }
 
     }

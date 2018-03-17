@@ -19,8 +19,8 @@ new Vue({
 
 //library
 import _ from '../js/underscore'
-import Util from './util'
-import Css from './css'
+import Util from '../utils/util'
+import Css from '../utils/css'
 export default {_,Util,Css}
 //相当于：
 // default._ = _;

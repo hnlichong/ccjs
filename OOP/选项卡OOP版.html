@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡OOP版</title>
+    <style>
+        #btn button{
+            width: 100px;
+        }
+        #btn .active{
+            background-color: yellow;
+        }
+        #content div {
+            width: 400px;
+            height: 300px;
+            display: none;
+            background-color: #eeeeee;
+        }
+        #content .active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="btn">
+    <button class="active">互联网</button>
+    <button>财经</button>
+    <button>体育</button>
+</div>
+<div id="content">
+    <div class="active">互联网...</div>
+    <div>财经...</div>
+    <div>体育...</div>
+</div>
+<script>
+    window.onload = function () {
+
+        function Tabs(btnContainerId, contentContainerId) {
+            this.btns = document.getElementById(btnContainerId).getElementsByTagName('button')
+            this.contents = document.getElementById(contentContainerId).getElementsByTagName('div')
+            this.init()
+
+        }
+
+        Tabs.prototype.init = function () {
+            var _this = this
+            for (let i = 0; i < this.btns.length; i++) {
+                var btn = this.btns[i];
+                btn.index = i
+                btn.onclick = function (ev) {
+                    // this -> btn clicked
+                    // deactive btns and contents
+                    for (let j = 0; j < _this.btns.length; j++) {
+                        var btn = _this.btns[j]
+                        btn.className = btn.className.replace('active', '')
+                        _this.contents[j].className = _this.contents[j].className.replace('active', '')
+                    }
+                    // active the new tab
+                    this.className += ' active'
+                    _this.contents[this.index].className += ' active'
+                }
+
+            }
+
+        }
+
+        var tabs = new Tabs('btn', 'content')
+
+
+    }
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import Css from '../css'
+import Css from '../../utils/css'
 
 let obj = {'x':2,'scale':0.7,'width':'20%'};
 Css.smartCss('body',obj,'%')

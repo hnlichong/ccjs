@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>t1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/base.css">
+    <style>
+        body {
+            position: relative;
+        }
+        #box {
+           display: block;
+           position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id='box' style="width:100px;height:100px;background-color:red;">
+    </div>
+    
+</body>
+<script>
+    window.onload = function ( ) {
+        var oBox = document.getElementById('box')
+        var bIsMove = false
+        var iReX = 0
+        var iReY = 0
+        oBox.onmousedown = function (e) {
+            bIsMove = !bIsMove
+            iReX = e.screenX - this.offsetLeft
+            iReY = e.screenY - this.offsetTop
+
+        }
+
+        oBox.onmousemove = function (e) {
+            if (bIsMove) {
+                this.style.left = e.screenX - iReX + 'px'
+                this.style.top = e.screenY - iReY + 'px'
+            }
+        }
+
+        
+    }
+</script>
+</html>

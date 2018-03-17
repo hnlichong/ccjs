@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titld</title>
+</head>
+<body>
+
+</body>
+<script>
+
+
+    function myAjax(method, url, cbSuccess, cbFail) {
+        //init ajax instance
+        var oAjax = new XMLHttpRequest()
+
+        //open connection
+        oAjax.open(method, url, true)
+
+        //send request
+        oAjax.send()
+
+        //receive response
+        oAjax.onreadystatechange = function (ev) {
+            if (oAjax.readyState === 4) {
+                if (oAjax.status === 200) {
+                    cbSuccess(oAjax.responseText)
+                } else {
+                    if (cbFail) {
+                        cbFail(oAjax.status)
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    myAjax('GET', 'data.json', function (res) {
+        alert('res: ' + res)
+        alert(typeof res)
+    }, function (statusCode) {
+        alert('fail, statusCode = ' + statusCode)
+    })
+</script>
+
+</html>

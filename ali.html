@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="page">
+        <div class="content main">
+            <div class="refer">
+                <ul>
+                    <li>aa</li>
+                    <li>b</li>
+                </ul>
+             </div>
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = function () {
+        var genCssSelector = function(e){
+            // your code here
+            var arr = []
+            function getClassName (s) {
+                var arr = s.split(' ')
+                return arr.join('.')
+            }
+            while (e.tagName != 'HTML') {
+                var val = e.id ? '#' + e.id :(e.className ? '.' + getClassName(e.className) : e.tagName.toLowerCase())
+                arr.push(val)
+                e = e.parentNode
+            }
+            arr.push('html')
+            arr.reverse()
+            return arr.join(' ')
+
+        }
+    
+        document.addEventListener('click', function(e){
+            //点击li时，返回：html body #page .content.main .refer ul li
+            console.log(genCssSelector(e.target));
+        })
+    }
+
+</script>
+</html>

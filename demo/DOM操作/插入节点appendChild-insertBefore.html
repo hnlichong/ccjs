@@ -23,12 +23,14 @@
 //            oUl.appendChild(oLi)
             //在最开始插入
             //父节点.insertBsfore(待插入的子节点，在谁之前插入)
-//            oUl.insertBefore(oLi, aLi[0])
-            if (aLi.length == 0) {
-                oUl.appendChild(oLi)
-            } else {
-                oUl.insertBefore(oLi, aLi[0])
-            }
+           // oUl.insertBefore(oLi, refNode)
+           //refNode can be null
+           //  if (oUl.firstChild == null) {
+           //      oUl.appendChild(oLi)
+           //  } else {
+           //      oUl.insertBefore(oLi, oUl.firstChild)
+           //  }
+            oUl.insertBefore(oLi, oUl.firstChild)
         }
 
 

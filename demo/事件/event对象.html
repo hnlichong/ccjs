@@ -7,10 +7,13 @@
 <body>
 <script>
     window.onload = function () {
-        document.onclick = function (e) {
-//       alert(event.clientX + ', '+ event.clientY)
-            var oE = e || event
-            alert(oE.clientX + ', ' + oE.clientY)
+        document.onclick = function (ev) {
+            // alert(event.clientX + ', '+ event.clientY)
+            var oE = ev || event
+            console.log('ev = ' + ev + 'event = ' + event)
+            console.log('clientX clientY: ' + oE.clientX + ', ' + oE.clientY)
+            console.log('screenX screenY: ' + oE.screenX + ', ' + oE.screenY)
+
         }
 
     }

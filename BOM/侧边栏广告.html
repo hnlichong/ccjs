@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>侧边栏广告</title>
+    <style>
+        #box {
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script>
+    function setBoxTop(oBox) {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        oBox.style.top = scrollTop + (document.documentElement.clientHeight - oBox.offsetHeight)/2 + 'px'
+
+    }
+</script>
+<script>
+    window.onload = function () {
+        var ss = ''
+        for (let i = 0; i < 1000; i++) {
+            ss += '<div>' + i + '</div>'
+        }
+        // document.body.insertAdjacentHTML('afterbegin', ss)
+        var wrapper = document.createElement('div')
+        wrapper.id = 'wrapper'
+        wrapper.innerHTML = ss
+        document.body.insertBefore(wrapper, document.body.firstChild)
+
+        var oBox = document.getElementById('box')
+        setBoxTop(oBox)
+        window.onresize = window.onscroll = function (ev) {
+            setBoxTop(oBox)
+        }
+
+    }
+</script>
+</body>
+</html>
