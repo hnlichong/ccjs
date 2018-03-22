@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text">
+<script>
+    window.onload = function () {
+        var oTxt = document.getElementsByTagName('input')[0]
+        // 特性attribute和属性property不一样
+        // set/getAttribute 一般用于访问自定义特性 data-...
+        // 元素自带的属性(比如input的value)使用点或方括号访问.value/['value']
+        console.log(oTxt.value) // ''
+        oTxt['value'] = 'v1'
+        console.log(oTxt.value) // v1
+        oTxt.setAttribute('value','v2')  //没有用，不会在input元素上有反应
+        oTxt.value = 'v3'
+        console.log(oTxt.value) // v3
+        console.log(oTxt.getAttribute('value')); // v2
+        oTxt.value = ''
+        console.log(oTxt.value); // ''
+        console.log(oTxt.getAttribute('value')); // v2
+        oTxt.removeAttribute('value')
+        console.log(oTxt.getAttribute('value')); // null
+
+
+        // 自定义特性data-show
+        console.log('data-show: ' + oTxt.getAttribute('data-show'))
+        oTxt.setAttribute('data-show', true)
+        console.log('data-show: ' + oTxt.getAttribute('data-show'))
+        oTxt.removeAttribute('data-show')
+        console.log('data-show: ' + oTxt.getAttribute('data-show'))
+
+        oTxt.setAttribute('data-show', false)
+        oTxt.setAttribute('data-specified', true)
+        oTxt.vaa = 'specific property vaa'
+        // 自定义的属性property不会成为特性attribute
+
+        // 遍历元素的特性attributes
+        var attrs = []
+        for (var i = 0, len = oTxt.attributes.length; i < len; i++) {
+            var node = oTxt.attributes[i]
+            attrs.push('name = ' + node.nodeName + ', value = ' + node.nodeValue)
+        }
+        console.log('遍历元素的特性')
+        console.log(attrs.join('\n'))
+
+    }
+</script>
+</body>
+</html>

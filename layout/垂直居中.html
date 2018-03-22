@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>垂直居中</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <style>
+        .wrapper {
+            border: black 1px solid;
+            margin: 10px 0;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrapper" style="height: 100px; line-height: 100px; text-align: center; ">
+    文本结点垂直居中用 line-height, 水平居中用text-align. line-height 只对每行文本起效果.
+</div>
+<div class="wrapper">
+    <p style="display: inline-block; margin: 0 auto;">
+        水平居中用margin: 0 auto; 需手动定宽width, 用inline-block自动定宽没有效果
+    </p>
+</div>
+</body>
+</html>

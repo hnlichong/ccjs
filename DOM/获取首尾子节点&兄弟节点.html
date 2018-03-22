@@ -17,9 +17,9 @@
     window.onload = function () {
         var oUl = document.getElementsByTagName('ul')[0]
         var oLi2 = document.getElementById('li2')
-        //firstChild获取第一个节点（包含文本节点）, firstElementChild获取第一个子元素节点
+        //firstChild获取第一个节点（含文本节点）, firstElementChild获取第一个子元素节点
         alert(oUl.firstChild)
-        //兼容性处理, IE不支持firstElementChild
+        // firstElementChild (IE9+), firsetChild (IE9- 不包含空文本节点)
         var oFirst = oUl.firstElementChild || oUl.firstChild
         oFirst.style.background = 'yellow'
 //        oUl.lastElementChild || oUl.lastChild

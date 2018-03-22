@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event</title>
+</head>
+<body>
+<div id="box">
+    <button id="btn">click me!</button>
+</div>
+<script>
+    window.onload = function () {
+        var btn = document.getElementById('btn')
+        btn.onclick = function (ev) {
+            var e = ev || event
+            alert(ev)
+            alert(event)
+            alert(e.target.innerHTML)
+        }
+    }
+</script>
+</body>
+</html>

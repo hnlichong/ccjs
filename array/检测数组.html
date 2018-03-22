@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>检测数组</title>
+
+</head>
+<body>
+<iframe src="array.html" frameborder="0" width="400" height="300"></iframe>
+<script>
+    window.onload = function () {
+        var arr =[2, '3', 'd', 1]
+        var obj = {a: 'aa', b: 22, 3:'iam3'}
+
+        // typeof操作符 最不太靠谱, 很多类型都区分不了
+        console.log(typeof null) // 'object'
+        console.log(typeof [2, 3]) // 'object'
+        console.log(typeof new RegExp()) // 'object'
+        console.log(typeof Math.random) // 'function'
+
+        // instanceof 检测只认一个全局执行环境
+        console.log(arr instanceof Array) // true
+        var fw = window.frames[0]
+        console.log(fw.arr instanceof Array) // false
+
+        // Array.isArray() ES5新增的方法(IE9+)用于检测数组，不管是哪个全局执行环境
+        console.log(Array.isArray(arr)) // true
+        console.log(Array.isArray(fw.arr)) // true
+
+        // Object.prototype.toString.call(value) 方法最靠谱，不管全局执行环境，也不受兼容性影响
+        console.log(isArray(arr)) // true
+        console.log(isArray(fw.arr)) // true
+        // 通吃所有js原生类型，原理在于Object原生的toString()方法返回一个[object NativeConstructorName] 格式的字符串
+        /*
+        * Object.prototype.toString.call(regexp)
+        "[object RegExp]"
+        Object.prototype.toString.call(isArray)
+        "[object Function]"
+        Object.prototype.toString.call([])
+        "[object Array]"
+        Object.prototype.toString.call({})
+        "[object Object]"
+        Object.prototype.toString.call('')
+        "[object String]"
+        Object.prototype.toString.call(null)
+        "[object Null]"
+        Object.prototype.toString.call(undefined)
+        "[object Undefined]"
+        Object.prototype.toString.call(8)
+        "[object Number]"
+        Object.prototype.toString.call(true)
+        "[object Boolean]"
+        * */
+
+
+
+    }
+    //
+    function isArray(value) {
+        return Object.prototype.toString.call(value) === '[object Array]'
+    }
+
+    function isFunction(value) {
+        return Object.prototype.toString.call(value) === '[object Function]'
+    }
+
+    function isRegExp(value) {
+        return Object.prototype.toString.call(value) === '[object RegExp]'
+    }
+
+
+
+</script>
+</body>
+</html>

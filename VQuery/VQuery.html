@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VQuery.html</title>
+    <style>
+        #box {
+            background-color: red;
+            width: 100px;
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<button class="btn">btn1</button>
+<button class="btn">btn2</button>
+<button class="btn">btn3</button>
+<input type="text" id="username">
+
+
+<script src="../js/jquery-1.7.1.js"></script>
+<script src="vquery.js"></script>
+<script>
+    new VQuery(function () {
+        // new VQuery(function () {
+        //     alert('a fn')
+        //
+        // })
+        // new VQuery(function () {
+        //     alert('b fn')
+        // })
+        //
+
+
+        // var vq1 = new VQuery('#box')
+        // alert(vq1.elements.length)
+        // var vq2 = new VQuery('.btn')
+        // alert(vq2.elements.length)
+        // var vq3 = new VQuery('input')
+        // alert(vq3.elements.length)
+
+
+        // var btns = new VQuery('.btn')
+        // alert(btns.css('backgroundColor'))
+        // btns.css('backgroundColor', 'red')
+        // alert(btns.css('backgroundColor'))
+        // new VQuery('#box').css('color', 'blue')
+
+
+        // $$('.btn').click(function (ev) {
+        //     alert(this.innerHTML)
+        // })
+
+
+        // $$('#box').show()
+
+
+        $$('#box').hover(function () {
+            console.dir('this = ')
+            console.dir(this)
+            console.dir('$$(this) = ')
+            console.dir($$(this))
+            $$(this).css('backgroundColor', 'blue')
+        }, function () {
+            $$(this).css('backgroundColor', 'red')
+        })
+
+
+
+    })
+
+</script>
+</body>
+</html>

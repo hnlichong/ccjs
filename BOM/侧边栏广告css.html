@@ -26,7 +26,8 @@
         }
         var wrapper = document.createElement('div')
         wrapper.id = 'wrapper'
-        document.body.insertBefore(wrapper, document.firstChild)
+        wrapper.innerHTML = ss
+        document.body.insertBefore(wrapper, document.body.firstChild)
 
     }
 </script>

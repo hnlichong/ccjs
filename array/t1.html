@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t1</title>
+</head>
+<body>
+
+<script>
+    var nk = read_line()
+    var ai = read_line()
+    var bi = read_line()
+    var ci = read_line()
+    var parseStrArray = function (str) {
+        // str = '[' + str.replace(' ', ',') + ']'
+        // return JSON.parse(str)
+        var arr = str.split(' ')
+        var ret = []
+        arr.forEach(function (v, i, a) {
+           ret.push(parseInt(v))
+        })
+        return ret
+    }
+
+    nk = parseStrArray(nk)
+    n = nk[0]
+    k = nk[1]
+    ai = parseStrArray(ai)
+    bi = parseStrArray(bi)
+    ci = parseStrArray(ci)
+    var aa = ai.concat(bi, ci)
+    aa.sort(function (a, b) {
+        return a - b
+    })
+    var res = aa[k - 1]
+    print(res)
+</script>
+</body>
+</html>

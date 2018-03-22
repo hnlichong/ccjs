@@ -22,18 +22,10 @@
 
     }
 </script>
+<script src="../utils/common.js"></script>
 <script>
     window.onload = function () {
-        var ss = ''
-        for (let i = 0; i < 1000; i++) {
-            ss += '<div>' + i + '</div>'
-        }
-        // document.body.insertAdjacentHTML('afterbegin', ss)
-        var wrapper = document.createElement('div')
-        wrapper.id = 'wrapper'
-        wrapper.innerHTML = ss
-        document.body.insertBefore(wrapper, document.body.firstChild)
-
+        genLongHTML()
         var oBox = document.getElementById('box')
         setBoxTop(oBox)
         window.onresize = window.onscroll = function (ev) {

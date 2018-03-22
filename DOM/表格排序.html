@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格排序</title>
+</head>
+<body>
+<ul id="ul">
+    <li>32</li>
+    <li>21</li>
+    <li>89</li>
+    <li>12</li>
+    <li>76</li>
+    <li>30</li>
+    <li>8</li>
+</ul>
+<input type="text" placeholder="item" id="newItem">
+<input type="text" placeholder="price" id="newPrice">
+<button id="insertRow">insert</button>
+</body>
+<script>
+    window.onload = function () {
+        var ul = document.getElementById('ul')
+        var lis = ul.getElementsByTagName('li')
+        // alert(lis)
+        //  Array.prototype.sort.call(lis, function (a, b) {
+        //     // return a.innerHTML - b.innerHTML
+        //      return parseInt(a.innerHTML) - parseInt(b.innerHTML)
+        //
+        // })
+        //以上不会改变lis， 因为HTMLCollection是动态变化的，时刻监视DOM的状态，DOM没变，它就不变
+        //需要先将 类数组的HTMLCollection 转化成数组, 再进行数组排序操作
+
+        // 转成数组
+        var lisArr = Array.prototype.slice.call(lis, 0)
+
+        // 数组排序
+        lisArr.sort(function (a, b) {
+            return parseInt(a.innerHTML) - parseInt(b.innerHTML)
+        })
+
+        // 插入元素，重新插入到ul中
+        // appendChild 是先remove 再append，在DOM中每个node都是唯一个的，有且只有一个
+        for (var i = 0, len = lisArr.length; i < len; i++) {
+            var el = lisArr[i]
+            ul.appendChild(el)
+        }
+
+        //
+        // 表格排序
+        //
+        // 创建表格
+        var tb = document.createElement('table')
+        tb.id = 'priceTable'
+        tb.style.borderSpacing = '8px'
+        var thd = tb.createTHead()
+        var tbd = tb.createTBody()
+        var r = thd.insertRow()
+        r.insertCell().appendChild(document.createTextNode('ID'))
+        r.insertCell().appendChild(document.createTextNode('Item'))
+        r.insertCell().innerHTML = '<a href="javascript:void(0);" class="priceTable-sort-price">Price</a>'
+        r.insertCell().appendChild(document.createTextNode('Operation'))
+
+        for (var i = 0; i < 10; i++) {
+            var r = tbd.insertRow()
+            r.insertCell().appendChild(document.createTextNode(i))
+            r.insertCell().appendChild(document.createTextNode('Apple' + i))
+            r.insertCell().appendChild(document.createTextNode(getRandomInt(1, 10)))
+            r.insertCell().innerHTML = '<a href="javascript:void(0);" class="priceTable-del-row">X</a>'
+
+        }
+
+        document.body.appendChild(tb)
+
+        var isPriceAscending = true
+        function sortPrice() {
+            // 转成数组
+            var rowsArr = Array.prototype.slice.call(tbd.rows, 0)
+
+            // 数组排序
+            rowsArr.sort(function (r1, r2) {
+                return (isPriceAscending? 1:-1) * (parseInt(r1.cells[2].innerHTML) - parseInt(r2.cells[2].innerHTML))
+            })
+
+            // 插入元素
+            for (var i = 0, len = rowsArr.length; i < len; i++) {
+                tbd.appendChild(rowsArr[i])
+            }
+
+        }
+        sortPrice()
+
+
+        // 事件委派
+        var newItem = document.getElementById('newItem')
+        var newPrice = document.getElementById('newPrice')
+        var baseId = 10
+        document.onclick = function (ev) {
+            var el = ev.target
+            if (el.className === 'priceTable-del-row') {
+                var row = el.parentNode.parentNode
+                row.parentNode.removeChild(row)
+                return false
+            }
+            if (el.id === 'insertRow') {
+               var r = tbd.insertRow()
+                r.insertCell().innerHTML =  baseId++
+                r.insertCell().innerHTML = newItem.value
+                r.insertCell().innerHTML = parseInt(newPrice.value)
+                r.insertCell().innerHTML = '<a href="javascript:void(0);" class="priceTable-del-row">X</a>'
+                return false
+            }
+            if (el.className === 'priceTable-sort-price' ) {
+                isPriceAscending = !isPriceAscending
+                sortPrice()
+            }
+        }
+
+
+
+
+    }
+    
+    function getRandomInt(min, max) {
+        // return a random integer of min <= x < max
+        min = Math.ceil(min)
+        max = Math.floor(max)
+        return Math.floor(Math.random() * (max - min) + min)
+    }
+</script>
+</html>

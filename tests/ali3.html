@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ali3</title>
+</head>
+<body>
+<script>
+    function sum() {
+        var s = 0
+        for (var i = 0; i < arguments.length; i++) {
+            var x = parseFloat(arguments[i])
+            if (isNaN(x)) continue;
+            s += x
+        }
+        return parseFloat(s.toFixed(1))
+    }
+    function sum2() {
+        var s = 0
+        for (var i = 0; i < arguments.length; i++) {
+            var x = arguments[i]
+            x = parseFloat(x)
+            s += isNaN(x)? 0:x
+        }
+        return parseFloat(s.toFixed(1))
+    }
+</script>
+</body>
+</html>

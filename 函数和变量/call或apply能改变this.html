@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call或apply能改变this</title>
+</head>
+<body>
+<script>
+    window.onload = function () {
+        function show(a, b) {
+            alert('this: ' + this + ', a: ' + a + ', b: ' + b)
+        }
+
+        show(3, 4)
+        show.call('12', 3, 4)
+        show.apply('12', [3, 4])
+
+    }
+</script>
+</body>
+</html>

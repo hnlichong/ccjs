@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ali4</title>
+    <style>
+        #friends {
+            border-spacing: 4px;
+            width:400px;
+            padding: 4px;
+        }
+        #chong {
+            color: green;
+
+        }
+    </style>
+</head>
+<body>
+<table id="friends">
+    <tbody>
+    <tr>
+        <td style="color: red;" id="chong">
+            LiChong
+        </td>
+        <td>
+            Basketball
+        </td>
+    </tr>
+        <tr>
+        <td>
+            YuJiapei
+        </td>
+        <td>
+            Badminton
+        </td>
+    </tr>
+        <tr>
+        <td>
+            MaXiaoTian
+        </td>
+        <td>
+            Running
+        </td>
+    </tr>
+        <tr>
+        <td>
+            XuYuntao
+        </td>
+        <td>
+            Basketball
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    var tb = document.getElementById('friends')
+    var rows = tb.getElementsByTagName('tbody')[0].getElementsByTagName('tr')
+    for (var i = 0; i < rows.length; i++) {
+        var r = rows[i]
+        r.style.backgroundColor = i % 2 ? '#CCCCCC':'#FFFFFF'
+        r._backgroundColor = r.style.backgroundColor
+        r.onmouseenter = function (ev) {
+            var e = ev || event
+            e.target.style.backgroundColor = 'yellow'
+        }
+        r.onmouseleave = function (ev) {
+            var e = ev || event
+            e.target.style.backgroundColor = e.target._backgroundColor
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hasFocus</title>
+</head>
+<body>
+
+<script>
+    window.onload = function () {
+        setInterval(function () {
+            if (!document.hasFocus()) {
+                alert("don't go!")
+            }
+        }, 1000)
+    }
+</script>
+</body>
+</html>

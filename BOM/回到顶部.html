@@ -18,13 +18,44 @@
 </head>
 <body>
 <button id="retTop">^</button>
+<script src="../utils/common.js"></script>
 <script>
     window.onload = function () {
+        genLongHTML()
         var btn = document.getElementById('retTop')
+        var timer = null
+        var isUserScroll = false
+        var isSysScroll = false
         btn.onclick = function (ev) {
-            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-            scrollTop = '0px'
+            if (timer != null) {
+                return
+            }
+            timer = setInterval(function () {
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+                if (scrollTop == 0) {
+                    clearInterval(timer)
+                    timer = null
+                }
+                document.documentElement.scrollTop = document.body.scrollTop = Math.floor(scrollTop * 0.9)
+                isSysScroll = true
+            }, 30)
         }
+        window.onscroll = function (ev) {
+            if (!isSysScroll) {
+                clearInterval(timer)
+                timer = null
+            }
+            isSysScroll = false
+        }
+
+        var len = document.body.childElementCount
+        var tDiv = document.body.children[len - 5]
+        setTimeout(function () {
+            // tDiv.focus()
+            // alert(document.activeElement)
+            tDiv.scrollIntoView()
+            console.log('over')
+        }, 5000)
     }
 </script>
 </body>
