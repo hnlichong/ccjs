@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tencent1</title>
+</head>
+<body>
+<script>
+    // var n = parseInt(readline());
+    var n = 1
+    for(var i = 0;i < n; i++){
+        // var x = readline().split(" ")
+        // var y = readline().split(" ")
+        // var dots = {
+        //     'a': [x[0], y[0]],
+        //     'b': [x[1], y[1]],
+        //     'c': [x[2], y[2]],
+        //     'd': [x[3], y[3]]
+        // }
+        var dots = {
+            'a': [0, 0],
+            'b': [0, 3],
+            'c': [7, 0],
+            'd': [7, 3]
+        }
+        main(dots)
+    }
+
+    var xx = readline().split(" ")
+    var yy = readline().split(" ")
+    var x = xx.map(function (item) {
+        return parseInt(item)
+    })
+    var y = yy.map(function (item) {
+        return parseInt(item)
+    })
+    var dots = {
+        'a': [x[0], y[0]],
+        'b': [x[1], y[1]],
+        'c': [x[2], y[2]],
+        'd': [x[3], y[3]]
+    }
+
+
+    function getDisctanceSqr(a, b) {
+        return Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
+    }
+
+    function main(dots) {
+        var disSqr = {
+            'ab': getDisctanceSqr(dots['a'], dots['b']),
+            'ac': getDisctanceSqr(dots['a'], dots['c']),
+            'ad': getDisctanceSqr(dots['a'], dots['d']),
+            'bc': getDisctanceSqr(dots['b'], dots['c']),
+            'bd': getDisctanceSqr(dots['b'], dots['d']),
+            'cd': getDisctanceSqr(dots['c'], dots['d'])
+        }
+
+        var bian = {}
+        var distArr = []
+        Object.keys(disSqr).forEach(function (item, index, array) {
+            var dist = disSqr[item]
+            if (bian[dist] === undefined) {
+                bian[dist] = 1
+                distArr.push(dist + '')
+            } else {
+                bian[dist] ++
+            }
+        })
+
+        var isThat = false
+        if (Object.keys(bian).length === 2 && bian[distArr[0]] === 4) {
+            isThat = true
+        }
+        // print(isThat)
+        console.log(isThat)
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div1" style="width:100px;height:100px;background: red;position: absolute;"></div>
+<script>
+    //拖拽原理
+    //距离不变
+    //三个事件
+
+    /**
+     * test 函数注释，写好函数后 在函数上方输入/**再按回车即可出现
+     * @param a
+     * @param b
+     * @returns {*}
+     */
+    function test(a, b) {
+        var i = a
+        return i+1
+    }
+
+    (function (doc, win) {
+        var div1 = doc.getElementById('div1')
+        var width = div1.offsetWidth
+        var height = div1.offsetHeight
+        var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop
+        var scrollLeft = doc.documentElement.scrollLeft || doc.body.scrollLeft
+        var clientWidth = doc.documentElement.clientWidth || doc.body.clientWidth
+        var clientHeight = doc.documentElement.clientHeight || doc.body.clientHeight
+        //鼠标按下 拖拽开始
+        div1.onmousedown = function (e) {
+            e = e || event
+            var dX = e.clientX + scrollLeft - div1.offsetLeft
+            var dY = e.clientY + scrollTop - div1.offsetTop
+            //鼠标移动 拖拽中
+            doc.onmousemove = function (e) {
+                e = e || event
+                var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop
+                var scrollLeft = doc.documentElement.scrollLeft || doc.body.scrollLeft
+                var left = e.clientX + scrollLeft - dX
+                var top = e.clientY + scrollTop - dY
+                //限幅
+                // 0<= left <=  clientWidth - width
+                left = Math.max(0, Math.min(left, clientWidth - width))
+                top = Math.max(0, Math.min(top, clientHeight - height))
+                div1.style.cssText += 'left:' + left + 'px; top:' + top + 'px;'
+            }
+            //鼠标抬起 拖拽结束，注销事件
+            doc.onmouseup = function (e) {
+                doc.onmousemove = null
+                doc.onmouseup = null
+            }
+            //取消默认行为-- 拖动出现选择文本的光标
+            return false
+        }
+
+    })(document, window);
+</script>
+</body>
+</html>

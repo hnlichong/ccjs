@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>toutiao5</title>
+</head>
+<body>
+<script>
+    var lines = readline().split(' ')
+    var arr = lines.map(function (item) {
+        return parseInt(item)
+    })
+    // arr = [3, 3, 2]
+    var N = arr[0],
+        K = arr[1],
+        H = arr[2]
+    var boards = []
+    for (var i = 0; i < N; i++) {
+        boards.push(parseInt(readline()))
+    }
+    // boards = [1, 3, 6]
+    boards.sort(function (a, b) {
+        return b - a
+    })
+    var height = 0
+    for (var i = 0; i < K; i++) {
+        if (boards[0] <= height) break
+        for (var j = 0; j < N; j++) {
+            if (boards[j] - height <= H) {
+                height = height + (boards[j] - height) * 2
+                break
+            }
+        }
+    }
+
+    print(height)
+    // console.log(height)
+</script>
+</body>
+</html>

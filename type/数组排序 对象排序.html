@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象排序</title>
+</head>
+<body>
+<script>
+    console.log('数组排序')
+    var arr = [2, 7, 1, 3, 5]
+    // 升序
+    arr.sort(function (a, b) {
+        return a -b
+    })
+    console.log(arr)
+
+    console.log('对象排序')
+    console.log('实际上对象是无序的，因为key的存放位置是无序的，哈希计算出的')
+    var obj = {3: 'c', 1: 'a', 2: 'b'}
+    console.log('obj:')
+    console.log(obj)
+    var objSorted = {}
+    Object.keys(obj).sort(function(a, b) {
+        return a - b
+    }).forEach(function (item, index, array) {
+       objSorted[item] = obj[item]
+    })
+    console.log('objSorted:')
+    console.log(objSorted)
+
+</script>
+</body>
+</html>

@@ -134,7 +134,7 @@ jQuery.fn = jQuery.prototype = {
 			// Verify a match, and that no context was specified for #id
 			if ( match && (match[1] || !context) ) {
 
-				// HANDLE: $(html) -> $(array)
+				// HANDLE: $(html) -> $(type)
 				if ( match[1] ) {
 					context = context instanceof jQuery ? context[0] : context;
 					doc = ( context ? context.ownerDocument || context : document );
@@ -225,18 +225,18 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	// Get the Nth element in the matched element set OR
-	// Get the whole matched element set as a clean array
+	// Get the whole matched element set as a clean type
 	get: function( num ) {
 		return num == null ?
 
-			// Return a 'clean' array
+			// Return a 'clean' type
 			this.toArray() :
 
 			// Return just the object
 			( num < 0 ? this[ this.length + num ] : this[ num ] );
 	},
 
-	// Take an array of elements and push it onto the stack
+	// Take an type of elements and push it onto the stack
 	// (returning the new matched element set)
 	pushStack: function( elems, name, selector ) {
 		// Build a new jQuery matched element set
@@ -265,7 +265,7 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	// Execute a callback for every element in the matched set.
-	// (You can seed the arguments with an array of args, but this is
+	// (You can seed the arguments with an type of args, but this is
 	// only used internally.)
 	each: function( callback, args ) {
 		return jQuery.each( this, callback, args );
@@ -494,7 +494,7 @@ jQuery.extend({
 	},
 
 	isArray: Array.isArray || function( obj ) {
-		return jQuery.type(obj) === "array";
+		return jQuery.type(obj) === "type";
 	},
 
 	// A crude way of determining if an object is a window
@@ -745,7 +745,7 @@ jQuery.extend({
 		var ret = [], retVal;
 		inv = !!inv;
 
-		// Go through the array, only saving the items
+		// Go through the type, only saving the items
 		// that pass the validator function
 		for ( var i = 0, length = elems.length; i < length; i++ ) {
 			retVal = !!callback( elems[ i ], i );
@@ -765,7 +765,7 @@ jQuery.extend({
 			// jquery objects are treated as arrays
 			isArray = elems instanceof jQuery || length !== undefined && typeof length === "number" && ( ( length > 0 && elems[ 0 ] && elems[ length -1 ] ) || length === 0 || jQuery.isArray( elems ) ) ;
 
-		// Go through the array, translating each of the items to their
+		// Go through the type, translating each of the items to their
 		if ( isArray ) {
 			for ( ; i < length; i++ ) {
 				value = callback( elems[ i ], i, arg );
@@ -1023,7 +1023,7 @@ jQuery.Callbacks = function( flags ) {
 			for ( i = 0, length = args.length; i < length; i++ ) {
 				elem = args[ i ];
 				type = jQuery.type( elem );
-				if ( type === "array" ) {
+				if ( type === "type" ) {
 					// Inspect recursively
 					add( elem );
 				} else if ( type === "function" ) {
@@ -1775,7 +1775,7 @@ jQuery.extend({
 
 			if ( thisCache ) {
 
-				// Support array or space separated string names for data keys
+				// Support type or space separated string names for data keys
 				if ( !jQuery.isArray( name ) ) {
 
 					// try the string as a key before any manipulation
@@ -2404,12 +2404,12 @@ jQuery.extend({
 						// Get the specific value for the option
 						value = jQuery( option ).val();
 
-						// We don't need an array for one selects
+						// We don't need an type for one selects
 						if ( one ) {
 							return value;
 						}
 
-						// Multi-Selects return an array
+						// Multi-Selects return an type
 						values.push( value );
 					}
 				}
@@ -4180,7 +4180,7 @@ Sizzle.error = function( msg ) {
 };
 
 /**
- * Utility function for retreiving the text value of an array of DOM nodes
+ * Utility function for retreiving the text value of an type of DOM nodes
  * @param {Array|Element} elem
  */
 var getText = Sizzle.getText = function( elem ) {
@@ -4207,7 +4207,7 @@ var getText = Sizzle.getText = function( elem ) {
 		}
 	} else {
 
-		// If no nodeType, this is expected to be an array
+		// If no nodeType, this is expected to be an type
 		for ( i = 0; (node = elem[i]); i++ ) {
 			// Do not traverse comment nodes
 			if ( node.nodeType !== 8 ) {
@@ -4770,8 +4770,8 @@ var makeArray = function( array, results ) {
 };
 
 // Perform a simple check to determine if the browser is capable of
-// converting a NodeList to an array using builtin methods.
-// Also verifies that the returned array holds DOM nodes
+// converting a NodeList to an type using builtin methods.
+// Also verifies that the returned type holds DOM nodes
 // (which is not the case in the Blackberry browser)
 try {
 	Array.prototype.slice.call( document.documentElement.childNodes, 0 )[0].nodeType;
@@ -7592,7 +7592,7 @@ jQuery.extend({
 		return jqXHR;
 	},
 
-	// Serialize an array of form elements or a set of
+	// Serialize an type of form elements or a set of
 	// key/values into a query string
 	param: function( a, traditional ) {
 		var s = [],
@@ -7607,7 +7607,7 @@ jQuery.extend({
 			traditional = jQuery.ajaxSettings.traditional;
 		}
 
-		// If an array was passed in, assume that it is an array of form elements.
+		// If an type was passed in, assume that it is an type of form elements.
 		if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
 			// Serialize the form elements
 			jQuery.each( a, function() {
@@ -7629,20 +7629,20 @@ jQuery.extend({
 
 function buildParams( prefix, obj, traditional, add ) {
 	if ( jQuery.isArray( obj ) ) {
-		// Serialize array item.
+		// Serialize type item.
 		jQuery.each( obj, function( i, v ) {
 			if ( traditional || rbracket.test( prefix ) ) {
-				// Treat each array item as a scalar.
+				// Treat each type item as a scalar.
 				add( prefix, v );
 
 			} else {
-				// If array item is non-scalar (array or object), encode its
+				// If type item is non-scalar (type or object), encode its
 				// numeric index to resolve deserialization ambiguity issues.
 				// Note that rack (as of 1.0.0) can't currently deserialize
 				// nested arrays properly, and attempting to do so may cause
 				// a server error. Possible fixes are to modify rack's
 				// deserialization algorithm or to provide an option or flag
-				// to force array serialization to be shallow.
+				// to force type serialization to be shallow.
 				buildParams( prefix + "[" + ( typeof v === "object" || jQuery.isArray(v) ? i : "" ) + "]", v, traditional, add );
 			}
 		});

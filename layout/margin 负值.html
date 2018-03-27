@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>margin 负值</title>
+    <style>
+        body {
+            margin: 20px 20px 100px;
+            /* 文档留白，利用margin改变占位空间的特点 */
+        }
+
+        #box0 > .main {
+            float: left;
+            width: 100%;
+            background-color: pink;
+        }
+
+        #box0 > .main > .content {
+            margin: 0 210px;
+            background-color: lightgreen;
+            height: 400px;
+        }
+
+        #box0 > .left {
+            float: left;
+            width: 200px;
+            margin-left: -100%;
+            background-color: orange;
+            height: 300px;
+        }
+
+        #box0 > .right {
+            float: left;
+            width: 200px;
+            margin-left: -200px;
+            background-color: blue;
+            height: 300px;
+        }
+
+
+        .bc-lightgrey {
+            background-color: #F3F5FA;
+        }
+
+        #box2 {
+            width: 200px;
+            background-color: pink;
+
+        }
+
+        #box2 > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            margin-right: -10px;
+        }
+
+        #box2 > ul > li {
+            float: left;
+            width: 60px;
+            height: 100px;
+            margin-right: 10px;
+            background-color: lightgreen;
+        }
+
+        #box3 > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 400px;
+            overflow: hidden;
+
+        }
+
+        #box3 > ul > li {
+            float: left;
+            width: 200px;
+            padding-bottom: 9999px;
+            margin-bottom: -9999px;
+        }
+
+        #box3 > ul > li.green {
+            background-color: green;
+        }
+
+        #box3 > ul > li.yellow {
+            background-color: yellow;
+        }
+
+        #box4 {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background-color: lightgreen;
+        }
+
+        #box4 > .outer {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+        }
+
+        #box4 > .outer > .inner {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin-left: -50%;
+            margin-top: -50%;
+
+        }
+
+        #columns > li {
+            line-height: 1.3em;
+        }
+
+        #columns > .col2 {
+            margin-left: 100px;
+        }
+
+        #columns > .col3 {
+            margin-left: 200px;
+        }
+
+        #columns > .top {
+            margin-top: -2.6em;
+        }
+
+        #heightAdaptive {
+            background-color: pink;
+        }
+
+        #heightAdaptive > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #heightAdaptive > ul > li:first-child {
+            height: 100px;
+            background-color: orange;
+        }
+
+        #heightAdaptive > ul > li:nth-child(2) {
+            margin-top: -100px;
+            margin-left: 200px;
+            height: 200px;
+            background-color: lightgreen;
+        }
+
+        #tabs > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border: 1px solid #A4B2D5;
+            overflow: hidden;
+        }
+
+        #tabs > ul > li {
+            float: left;
+            width: 100px;
+            text-align: center;
+            height: 20px;
+            line-height: 20px;
+            color: #3D518A;
+            background-color: #EBF0FD;
+            border-left: 1px solid #A4B2D5;
+            border-right: 1px solid #A4B2D5;
+            margin-left: -1px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h2>
+    应用1：[双飞翼] 三栏自适应布局
+</h2>
+<p>
+    中间为主要部分，采用宽度100%自适应布局，左右两边侧边栏（双飞翼）采用固定宽度。
+</p>
+<div id="box0">
+    <div class="main">
+        <div class="content"></div>
+    </div>
+    <div class="left"></div>
+    <div class="right"></div>
+</div>
+
+<h2>
+    图文混排
+</h2>
+<div id="floatImg">
+    <h3>
+        1.图片左浮动，文字自然环绕。
+    </h3>
+    <div class="resizable">
+        <img src="../img/zhang.jpg" width="150" style="float: left;">
+        <p style="">
+            原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+            1.图片左浮动，文字自然环绕。 2.给文字增加margin-left 可视尺寸减小，实现宽度自适应效果。
+            3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。 4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层，使用margin负值定位。
+        </p>
+    </div>
+    <h3>
+        2.给文字增加margin-left 使可视尺寸减小，实现宽度自适应效果。
+    </h3>
+    <div class="resizable">
+        <img src="../img/zhang.jpg" width="150" style="float: left;">
+        <p style="margin-left: 170px;">
+            原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+            1.图片左浮动，文字自然环绕。 2.给文字增加margin-left 可视尺寸减小，实现宽度自适应效果。
+            3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。 4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层，使用margin负值定位。
+        </p>
+    </div>
+    <h3>
+        3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。
+    </h3>
+    <div class="resizable">
+        <img src="../img/zhang.jpg" alt="zhang" width="150" style="float: right;">
+        <p style="margin-right: 170px;">
+            原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+            1.图片左浮动，文字自然环绕。 2.给文字增加margin-left 可视尺寸减小，实现宽度自适应效果。
+            3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。 4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层，使用margin负值定位。
+        </p>
+    </div>
+    <h3>
+        4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层宽度100%的div，img使用margin负值改变元素占据空间的大小，从而改变浮动位置。
+    </h3>
+    <div class="resizable">
+        <div style="float:left; width: 100%;">
+            <p style="margin-right: 170px;">
+                原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+                1.图片左浮动，文字自然环绕。 2.给文字增加margin-left 可视尺寸减小，实现宽度自适应效果。
+                3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。 4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层，使用margin负值定位。
+            </p>
+        </div>
+        <img src="../img/zhang.jpg" alt="zhang" width="150" style="float:left; margin-left: -150px;">
+    </div>
+    <p>
+        此时img的占据空间大小为margin-left + width = -150 + 150 = 0, 因此左浮动后紧跟在宽度100%的div之后
+    </p>
+</div>
+
+
+<h2>
+    应用2：两端对齐
+</h2>
+<p>
+    场景：从后台拿到数据后，自动生成横向列表(数量未知)，列表之间保持一定间距(margin-right相同)，但是最后一项不能看到右边距，即实现两端对齐。
+</p>
+<p>
+    原理：当子宽度不设置宽度时(width: auto)，边距越大，宽度越小；边距越小，宽度越大。
+</p>
+<div id="box2">
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</div>
+
+<h2>
+    应用3：等高对齐
+</h2>
+<div id="box3">
+    <ul>
+        <li class="yellow">
+            原理：边距能改变元素占位大小（width + padding + border + margin）
+            背景色可以在padding里显示，可以为每一个列表项都设置一个很大的padding值用以显示背景色值然后用margin负值抵消，这样就不会改变占位大小（还是元素真实内容的大小）。
+        </li>
+        <li class="green">
+            场景：右边内容较少，高度撑不起来，但希望背景色与左边等高，因此加大padding值
+        </li>
+    </ul>
+</div>
+
+<h2>
+    应用4：垂直水平居中
+</h2>
+<p>
+    如果要居中的元素的宽/高是不变的或者说是确定的，比如width/height=100px，那么设置absolute的top/left=50%，然后margin-left/margin-top=-50px即可
+</p>
+<p>
+    如果要居中的元素的宽/高是不确定的，这时margin负值就不能使用具体的px了，可以使用百分比。但由于margin的百分比都是相对于父元素的宽度，利用绝对定位的包裹性，在目标元素外面再包一层absolute定位的父元素，可以实现两层元素等宽等高
+</p>
+<div id="box4">
+    <div class="outer">
+        <div class="inner">
+            content
+        </div>
+    </div>
+</div>
+
+<h2>特点1：元素移动</h2>
+<p>
+    左上负边距移动自己，顶着自己的人也会跟着走
+</p>
+<div id="feature1" style="border: 1px solid red;">
+    <div style="width: 100px; height: 100px; border: 1px solid blue; margin-top: -10px; ">子元素1</div>
+    <div style="width: 100px; height: 100px; border: 1px solid blue; ">子元素2</div>
+</div>
+
+<h2>特点2：拉动覆盖</h2>
+<p>
+    右下负边距拉别人，自己不动（会形成覆盖）
+</p>
+<p>
+    div1右负边距把div2向左拉
+</p>
+<div id="feature2" style="overflow: hidden;">
+    <div style="float:left; margin-right: -20px; border: 1px solid blue; width: 200px; height: 200px;">div1</div>
+    <div style="float:left; border: 1px solid red; width: 200px; height: 200px;">div2</div>
+</div>
+
+<h2>特点3：元素加宽</h2>
+<p>
+    如果元素的宽度没有设置（width: auto, 由浏览器自动计算出实际宽度），左右负边距会把元素向两个方向拉以增加宽度。与正边距的效果一样：当宽度自动时，边距越大，宽度越小；边距越小，宽度越大。应用：两端对齐
+</p>
+<p> 公式：父元素width = 子元素width + padding + border + margin </p>
+<p> 在这里，父元素width = 300，子元素margin = -10, border = 2, padding = 0 => 子元素width = 308px, 从而实现了元素加宽 </p>
+<div id="feature3" style="width: 300px; height: 300px; border: 1px black solid;">
+    <div style="margin-right: -10px; border: 1px red solid;">inner box</div>
+</div>
+
+<h2>
+    两栏高度自适应布局
+</h2>
+<div id="heightAdaptive">
+    <ul>
+        <li>高度固定</li>
+        <li>高度自适应</li>
+    </ul>
+</div>
+
+<h2>
+    消除边框叠加问题
+</h2>
+<p>
+    4个div 5条1px边框
+</p>
+<div id="tabs">
+    <ul>
+        <li>首页</li>
+        <li>技术</li>
+        <li>生活</li>
+        <li>作品</li>
+    </ul>
+</div>
+
+<h2>
+    img的vertical-align指定图片与文字的垂直对齐方式
+</h2>
+<div id="imgVerticalAlign">
+    <ul>
+        <li>
+            默认为vertical-align: baseline;
+        </li>
+        <li>
+            <img src="../img/zhang.jpg" alt="zhang" width="200" style="vertical-align: baseline;">
+            <span>章子怡 无问西东</span>
+        </li>
+        <li>
+            vertical-align: middle;
+        </li>
+        <li>
+            <img src="../img/zhang.jpg" alt="zhang" width="200" style="vertical-align: middle;">
+            <span>章子怡 无问西东</span>
+        </li>
+        <li>
+            vertical-align: top;
+        </li>
+        <li>
+            <img src="../img/zhang.jpg" alt="zhang" width="200" style="vertical-align: top;">
+            <span>章子怡 无问西东</span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

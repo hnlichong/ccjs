@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>meituan1</title>
+</head>
+<body>
+<script>
+    // input:
+    // 4
+    //
+    // math 100 90
+    //
+    // algorithm 10 8
+    //
+    // string 50 1
+    //
+    // dp 100 50
+
+    // output:
+    /*
+    algorithm 3
+
+    dp 4
+
+    math 3
+
+    string 5
+     */
+    var n = parseInt(read_line())
+    var lines = []
+    for (var i = 0; i < n; i++) {
+        lines[i] = read_line().split(' ')
+    }
+
+    var obj = {}
+    function setDifficultyDict(arr) {
+        var passRate = parseInt(arr[2])/ parseInt(arr[1])
+        var difficulty = 0
+        if (passRate <= 0.3) {
+            difficulty = 5
+        } else if (passRate <= 0.6) {
+            difficulty = 4
+        } else {
+            difficulty = 3
+        }
+        obj[arr[0]] = difficulty
+    }
+    // var arr1 = ['math', '100', '90']
+    // var arr2 = ['algorithm', 10, 8]
+    // var arr3 = ['dp', 100, 50]
+    // var arr = [arr1, arr2, arr3]
+    for (var v of lines) {
+        setDifficultyDict(v)
+    }
+    var arr = Object.keys(obj).sort()
+    for (var i = 0; i < arr.length; i++) {
+        var name = arr[i]
+        print(name + ' ' + obj[name])
+    }
+</script>
+</body>
+</html>

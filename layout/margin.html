@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>margin</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <style>
+        .outer-box {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            border: 1px solid black;
+        }
+        .inner-box {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid black;
+            background: lightgreen url("../img/NBA.jpg") center no-repeat;
+        }
+        .input > input {
+            display: inline;
+            margin: 50px;
+        }
+        #ul1 > li {
+            display: inline;
+            margin: 50px;
+            padding: 50px;
+        }
+
+        #ul2 > li {
+            display: inline;
+        }
+
+    </style>
+</head>
+<body>
+<h2>
+    margin是透明的，background-color background-image 是填充在border内部的
+</h2>
+<div class="outer-box">
+    <div class="inner-box">
+        inner-box
+    </div>
+</div>
+<h2>
+    行内元素 内容填充宽高，margin 左右有效，上下无效, input 除外
+</h2>
+<div class="input">
+    <label for="username">用户名：</label>
+    <input type="text" id="username">
+</div>
+<div class="input">
+    <label for="password">密码：</label>
+    <input type="password" id="password">
+</div>
+<ul id="ul1">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ul>
+<ul id="ul2">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>遍历对象 遍历数组</title>
+</head>
+<body>
+<div id="container">
+    <div id="wrapper"></div>
+    <p>paragraph1</p>
+</div>
+<script>
+    // A square has 4 vertexes, 6 edges
+    /*
+        d--c
+        |  |
+        a--b
+     */
+    var vertexes = {
+        'a': [0, 0],
+        'b': [2, 0],
+        'c': [2, 2],
+        'd': [0, 2]
+    }
+    // 6 edges
+    var edges = ['ab', 'ac', 'ad', 'bc', 'bd', 'cd']
+
+    /*
+    * 遍历对象
+    * */
+    console.log('遍历对象')
+    // 向Object对象中插入一个属性，该属性会被所有由Object实例化的对象所继承。
+    Object.prototype.specifiedObjectAttr = 'ccObject'
+    console.log('Object.keys(obj) 【推荐】先返回对象自身属性的一个数组，再对数组进行遍历操作')
+    Object.keys(vertexes).forEach(function (item, index, array) {
+        console.log('key: ' + item + ' value: ' + vertexes[item] )
+    })
+
+    console.log('for in 遍历对象，包含自身属性和继承属性，需要用obj.hasOwnProperty过滤出自身属性')
+    for (var key in vertexes) {
+        if (vertexes.hasOwnProperty(key)) {
+            console.log('key: ' + key + ' value: ' + vertexes[key])
+        } else {
+            console.log('inherited key: ' + key + ' value: ' + vertexes[key])
+        }
+    }
+
+    /*
+    * 遍历数组
+    * */
+    console.log('遍历数组')
+    Array.prototype.sepcifiedArrayAttr = 'ccArray'
+    console.log('一般的for语句【推荐】无兼容性问题，支持continue， break操作符, 提高代码运行效率')
+    for (var i = 0; i < edges.length; i++) {
+        var value = edges[i]
+        console.log('index: ' + i + ', value: ' + value)
+    }
+
+    console.log('arr.forEach【推荐】它是数组的原生迭代方法，注意：1. IE9+ 2.不支持continue, break操作符，普通的循环语句中才能使用')
+    edges.forEach(function (item, index, array) {
+        console.log('item: ' + item + ', index: ' + index)
+    })
+
+    console.log('for key in obj 遍历数组与遍历对象是一样的，既包含自身属性（key就是数组的下标index），也包含对象的继承属性')
+    for (let key in edges) {
+        console.log('key: ' + key + ', value: ' + edges[key])
+    }
+
+    console.log('for value of arr【不推荐】IE不支持。遍历数组的每一个值')
+    for (let value of edges) {
+        console.log('value: ' + value)
+    }
+
+    console.log('遍历子结点')
+    var container = document.getElementById('container')
+    var wrapper = document.getElementById('wrapper')
+    for (var i = 0, len = container.childNodes.length; i < len; i++) {
+        var node = container.childNodes[i]
+        if (node.nodeType === 1) {
+            console.log('child element node: ' + node)
+        }
+    }
+</script>
+</body>
+</html>

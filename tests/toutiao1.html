@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>toutiao</title>
+</head>
+<body>
+<script>
+
+    var lines = readline().split(" ")
+    var n = parseInt( lines[0])
+    var k = parseInt(lines[1])
+    var arr = readline().split(" ")
+
+    Array.prototype.unique = function() {
+        // n为hash表，r为临时数组
+        var n = {}, r = [];
+        for (var i = 0; i < this.length; i++) {
+            // 如果hash表中没有当前项
+            if (!n[this[i]]) {
+                // 存入hash表
+                n[this[i]] = true;
+                // 把当前数组的当前项push到临时数组里面
+                r.push(this[i]);
+            }
+        }
+        return r;
+    }
+    // 数组去重
+    arr = arr.unique()
+
+    // 数组排序, 降序
+    arr.sort(function (a, b) {
+      return a - b
+    })
+
+    // 求差
+    var diffDict = {}
+    function getDiff(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var x = arr[i]
+            for (var j = i + 1; j < arr.length; j++) {
+                var y = arr[j]
+                var diff = x - y
+                if (diffDict[diff] === undefined) {
+                    diffDict[diff] = 1
+                } else {
+                    diffDict[diff] ++
+                }
+            }
+        }
+    }
+    getDiff(arr)
+    var res = 0
+    if (diffDict[k + ''] === undefined) {
+        res = diffDict[ k*(-1) + '']
+    }else{
+        res = diffDict[k + '']
+    }
+    print(res)
+</script>
+</body>
+</html>

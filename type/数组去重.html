@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组去重</title>
+
+</head>
+<body>
+<script src="../utils/common.js"></script>
+<script>
+    console.log('数组去重')
+    console.log('要求1: 正确性，注意元素类型，比如数字1和字符串"1"不同')
+    console.log('要求2：性能，双重循环太慢')
+
+    var arr = ['a', 'b', 'c', '1', 0, 'c', 1, '', 1, 0]
+    console.log('arr: ' + arr)
+
+    /*
+    * arr.indexOf [推荐]
+    * 数组原生方法简单易行，效率高，且支持多种数据类型，比如可以区分'1'和1
+    * 缺点：IE9+
+    * */
+    function unique1(arr) {
+        var arrCleaned = []
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var item = arr[i]
+            if (arrCleaned.indexOf(item) === -1) {
+                arrCleaned.push(item)
+            }
+        }
+        return arrCleaned
+    }
+
+    // 兼容IE8，双重循环效率低
+    function unique2(arr) {
+        var arrCleaned = []
+        var indexOf = [].indexOf ?
+            function (arr, item) {
+                return arr.indexOf(item)
+            }
+            :
+            function (arr, item) {
+                for (var i = 0, len = arr.length; i < len; i ++) {
+                   if (arr[i] === item) {
+                       return i
+                   }
+                }
+                return -1
+            }
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var item = arr[i]
+           if (indexOf(arrCleaned, item) === -1) {
+               arrCleaned.push(item)
+           }
+        }
+        return arrCleaned
+    }
+
+    // 兼容IE8，兼顾效率，用到了哈希查表法
+    function unique3(arr) {
+        var arrCleaned = []
+        var hash = {}
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var item = arr[i]
+            // var key = (typeof item) + item
+            var key = Object.prototype.toString.call(item) + item
+            if (hash[key] === undefined) {
+                hash[key] = 1
+                arrCleaned.push(item)
+            }
+        }
+        return arrCleaned
+    }
+
+    /*
+    * 哈希查找法效率高【推荐】
+    * 缺点：仅支持字符串类型
+    * 适用场合：字符串数组去重
+    * */
+    function unique4(arr) {
+        var hash = {}
+        for (var i = 0, len = arr.length; i < len; i++) {
+            hash[arr[i]] = 1
+        }
+        return Object.keys(hash) // IE9+
+    }
+
+    /*
+    * ES2015 原生类型Set和数组创建方法Array.from()，支持含有多种类型的数组去重
+    * */
+    function unique5(arr) {
+        return Array.from(new Set(arr))
+    }
+
+    /*
+    * ES2015 Map类型，支持多种类型的哈希键名
+    * */
+    function unique6(arr) {
+        const seen = new Map()
+        return arr.filter((item) => !seen.has(item) && seen.set(item, 1))
+    }
+
+
+
+
+    console.log('测量正确性')
+    console.log('unique1 result:' + unique1(arr))
+    console.log('unique2 result:' + unique2(arr))
+    console.log('unique3 result:' + unique3(arr))
+    console.log('unique4 arr: ["3", "2", "3", "1"]')
+    console.log('        res: ' + unique4(["3", "2", "3", "1"]) )
+    console.log('unique5 arr: [{name: "hanzichi"}, {age: 30}, new String(1), new Number(1)]')
+    console.log('        res:' + unique5([{name: "hanzichi"}, {age: 30}, new String(1), new Number(1)]))
+
+
+    console.log('测试性能')
+    var i = 20
+    while(i--) {
+        arr = arr.concat(arr)
+    }
+    console.time('unique1')
+    unique1(arr)
+    console.timeEnd('unique1')
+    console.time('unique2')
+    unique2(arr)
+    console.timeEnd('unique2')
+    console.time('unique3')
+    unique3(arr)
+    console.timeEnd('unique3')
+    console.time('unique4')
+    unique4(arr)
+    console.timeEnd('unique4')
+    console.time('unique5')
+    unique5(arr)
+    console.timeEnd('unique5')
+    console.time('unique6')
+    unique6(arr)
+    console.timeEnd('unique6')
+
+
+</script>
+</body>
+</html>

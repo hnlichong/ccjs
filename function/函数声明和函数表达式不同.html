@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数声明和函数表达式不同</title>
+</head>
+<body>
+<script>
+    // 函数声明提升，函数表达式不提升
+    console.log(diff(5, 3)) // ok
+    // console.log(sum(2, 3)) // error
+
+
+    // 变量声明提升，变量定义不提升
+    console.log(c) // undefined
+    console.log(d) // undefined
+
+    // 函数声明提升
+    function diff (a, b) {
+        return a- b
+
+    }
+
+    // 函数表达式
+    var sum = function (a, b) {
+        return a + b
+    };
+
+    var c
+    var d = 4
+
+    // 总结：在解释器会先读取声明（变量声明、函数声明），并提升到代码顶部，
+    // 然后从上到下执行脚本，执行变量定义definition， 计算表达式 statement 等。
+</script>
+</body>
+</html>

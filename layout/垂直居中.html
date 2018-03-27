@@ -3,23 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>垂直居中</title>
-    <link rel="stylesheet" href="../css/base.css">
     <style>
         .wrapper {
             border: black 1px solid;
             margin: 10px 0;
-            height: 100px;
+            height: 300px;
+            position: relative;
+        }
+        .content {
+            border: 1px black solid;
         }
 
     </style>
 </head>
 <body>
-<div class="wrapper" style="height: 100px; line-height: 100px; text-align: center; ">
-    文本结点垂直居中用 line-height, 水平居中用text-align. line-height 只对每行文本起效果.
+<h2>垂直水平居中</h2>
+<div class="wrapper" style="height: 300px; line-height: 300px; text-align: center; ">
+    [line-height, text-align 方式] 只对文本有效(块级元素无效), line-height = height; text-align: center;
 </div>
 <div class="wrapper">
-    <p style="display: inline-block; margin: 0 auto;">
-        水平居中用margin: 0 auto; 需手动定宽width, 用inline-block自动定宽没有效果
+    <div class="content" style="position: absolute; left: 0; top:0; right: 0; bottom: 0; width: 200px; height:100px; margin: auto;" >
+        [margin: auto方式, 推荐] 绝对定位的block元素, 定好宽高，四边抵边，margin:auto自动填充剩余空间，完成垂直水平居中
+    </div>
+    <p>解释：这个方法使用了一个 position:absolute，有固定宽度和高度的 div。这个 div 被设置为 top:0; bottom:0;。但是因为它有固定高度，其实并不能和上下都间距为 0，因此 margin:auto; 会使它居中。使用 margin:auto;使块级元素垂直居中是很简单的。</p>
+</div>
+<div class="wrapper">
+    <div class="outer" style="position: absolute; top: 50%; left: 50%;">
+        <div class="content" style="width: 200px; height: 200px; border: 1px solid black; margin-left: -50%; margin-top: -50%;">
+            [margin负边距方式，推荐] 兼容性好. margin百分比是相对于父元素，所以要再包一层absolute div
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="content" style="position:absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
+        [translate -50% 方式 ] CSS3特性，移动端兼容性较好 position: absolute; top: 50%; left: 50%; 然后 translate(-50%, -50%) 即可，不需要手动定宽高
+    </div>
+</div>
+<div class="wrapper" style="display:flex; justify-content: center; align-items:center;">
+    <div class="content">
+        [Flex 弹性盒子布局方式 IE11+] display:flex; justify-content: center; align-items:center;
+    </div>
+</div>
+<div class="wrapper" style="display: table;">
+    <div class="content" style="display: table-cell; vertical-align: middle; border: none;">
+        [display table table-cell 方式, 不推荐，具有表格的对齐特点，但是不太灵活] 父元素table 自元素table-cell
+    </div>
+</div>
+
+<h2>水平居中</h2>
+<div class="wrapper">
+    <p style="display: inline-block; margin: 0 auto; border: 1px black solid;">
+        [margin:0 auto; 方式水平居中] 手动定宽，然后margin 0 auto。注意：inline-block自动定宽没有效果
+    </p>
+    <p style="width:400px; margin: 0 auto; border: 1px black solid;">
+        这块水平居中了, width:400px; margin: 0 auto;
     </p>
 </div>
 </body>

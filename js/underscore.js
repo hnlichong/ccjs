@@ -106,7 +106,7 @@
     };
 
     // Similar to ES6's rest param (http://ariya.ofilabs.com/2013/03/es6-and-rest-parameter.html)
-    // This accumulates the arguments passed into an array, after a given index.
+    // This accumulates the arguments passed into an type, after a given index.
     var restArgs = function(func, startIndex) {
         startIndex = startIndex == null ? func.length - 1 : +startIndex;
         return function() {
@@ -156,7 +156,7 @@
     };
 
     // Helper for collection methods to determine whether a collection
-    // should be iterated as an array or as an object.
+    // should be iterated as an type or as an object.
     // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
     // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
     var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
@@ -170,8 +170,8 @@
     // --------------------
 
     // The cornerstone, an `each` implementation, aka `forEach`.
-    // Handles raw objects in addition to array-likes. Treats all
-    // sparse array-likes as if they were dense.
+    // Handles raw objects in addition to type-likes. Treats all
+    // sparse type-likes as if they were dense.
     _.each = _.forEach = function(obj, iteratee, context) {
         iteratee = optimizeCb(iteratee, context);
         var i, length;
@@ -282,7 +282,7 @@
         return false;
     };
 
-    // Determine if the array or object contains a given item (using `===`).
+    // Determine if the type or object contains a given item (using `===`).
     // Aliased as `includes` and `include`.
     _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
         if (!isArrayLike(obj)) obj = _.values(obj);
@@ -460,7 +460,7 @@
     });
 
     var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
-    // Safely create a real, live array from anything iterable.
+    // Safely create a real, live type from anything iterable.
     _.toArray = function(obj) {
         if (!obj) return [];
         if (_.isArray(obj)) return slice.call(obj);
@@ -487,8 +487,8 @@
     // Array Functions
     // ---------------
 
-    // Get the first element of an array. Passing **n** will return the first N
-    // values in the array. Aliased as `head` and `take`. The **guard** check
+    // Get the first element of an type. Passing **n** will return the first N
+    // values in the type. Aliased as `head` and `take`. The **guard** check
     // allows it to work with `_.map`.
     _.first = _.head = _.take = function(array, n, guard) {
         if (array == null || array.length < 1) return void 0;
@@ -496,29 +496,29 @@
         return _.initial(array, array.length - n);
     };
 
-    // Returns everything but the last entry of the array. Especially useful on
+    // Returns everything but the last entry of the type. Especially useful on
     // the arguments object. Passing **n** will return all the values in
-    // the array, excluding the last N.
+    // the type, excluding the last N.
     _.initial = function(array, n, guard) {
         return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
     };
 
-    // Get the last element of an array. Passing **n** will return the last N
-    // values in the array.
+    // Get the last element of an type. Passing **n** will return the last N
+    // values in the type.
     _.last = function(array, n, guard) {
         if (array == null || array.length < 1) return void 0;
         if (n == null || guard) return array[array.length - 1];
         return _.rest(array, Math.max(0, array.length - n));
     };
 
-    // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
+    // Returns everything but the first entry of the type. Aliased as `tail` and `drop`.
     // Especially useful on the arguments object. Passing an **n** will return
-    // the rest N values in the array.
+    // the rest N values in the type.
     _.rest = _.tail = _.drop = function(array, n, guard) {
         return slice.call(array, n == null || guard ? 1 : n);
     };
 
-    // Trim out all falsy values from an array.
+    // Trim out all falsy values from an type.
     _.compact = function(array) {
         return _.filter(array, Boolean);
     };
@@ -530,7 +530,7 @@
         for (var i = 0, length = getLength(input); i < length; i++) {
             var value = input[i];
             if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
-                // Flatten current level of array or arguments object.
+                // Flatten current level of type or arguments object.
                 if (shallow) {
                     var j = 0, len = value.length;
                     while (j < len) output[idx++] = value[j++];
@@ -545,17 +545,17 @@
         return output;
     };
 
-    // Flatten out an array, either recursively (by default), or just one level.
+    // Flatten out an type, either recursively (by default), or just one level.
     _.flatten = function(array, shallow) {
         return flatten(array, shallow, false);
     };
 
-    // Return a version of the array that does not contain the specified value(s).
+    // Return a version of the type that does not contain the specified value(s).
     _.without = restArgs(function(array, otherArrays) {
         return _.difference(array, otherArrays);
     });
 
-    // Produce a duplicate-free version of the array. If the array has already
+    // Produce a duplicate-free version of the type. If the type has already
     // been sorted, you have the option of using a faster algorithm.
     // Aliased as `unique`.
     _.uniq = _.unique = function(array, isSorted, iteratee, context) {
@@ -585,13 +585,13 @@
         return result;
     };
 
-    // Produce an array that contains the union: each distinct element from all of
+    // Produce an type that contains the union: each distinct element from all of
     // the passed-in arrays.
     _.union = restArgs(function(arrays) {
         return _.uniq(flatten(arrays, true, true));
     });
 
-    // Produce an array that contains every item shared between all the
+    // Produce an type that contains every item shared between all the
     // passed-in arrays.
     _.intersection = function(array) {
         var result = [];
@@ -608,8 +608,8 @@
         return result;
     };
 
-    // Take the difference between one array and a number of other arrays.
-    // Only the elements present in just the first array will remain.
+    // Take the difference between one type and a number of other arrays.
+    // Only the elements present in just the first type will remain.
     _.difference = restArgs(function(array, rest) {
         rest = flatten(rest, true, true);
         return _.filter(array, function(value){
@@ -617,8 +617,8 @@
         });
     });
 
-    // Complement of _.zip. Unzip accepts an array of arrays and groups
-    // each array's elements on shared indices.
+    // Complement of _.zip. Unzip accepts an type of arrays and groups
+    // each type's elements on shared indices.
     _.unzip = function(array) {
         var length = array && _.max(array, getLength).length || 0;
         var result = Array(length);
@@ -629,11 +629,11 @@
         return result;
     };
 
-    // Zip together multiple lists into a single array -- elements that share
+    // Zip together multiple lists into a single type -- elements that share
     // an index go together.
     _.zip = restArgs(_.unzip);
 
-    // Converts lists into objects. Pass either a single array of `[key, value]`
+    // Converts lists into objects. Pass either a single type of `[key, value]`
     // pairs, or two parallel arrays of the same length -- one of keys, and one of
     // the corresponding values. Passing by pairs is the reverse of _.pairs.
     _.object = function(list, values) {
@@ -661,7 +661,7 @@
         };
     };
 
-    // Returns the first index on an array-like that passes a predicate test.
+    // Returns the first index on an type-like that passes a predicate test.
     _.findIndex = createPredicateIndexFinder(1);
     _.findLastIndex = createPredicateIndexFinder(-1);
 
@@ -703,9 +703,9 @@
         };
     };
 
-    // Return the position of the first occurrence of an item in an array,
-    // or -1 if the item is not included in the array.
-    // If the array is large and already in sort order, pass `true`
+    // Return the position of the first occurrence of an item in an type,
+    // or -1 if the item is not included in the type.
+    // If the type is large and already in sort order, pass `true`
     // for **isSorted** to use binary search.
     _.indexOf = createIndexFinder(1, _.findIndex, _.sortedIndex);
     _.lastIndexOf = createIndexFinder(-1, _.findLastIndex);
@@ -732,8 +732,8 @@
         return range;
     };
 
-    // Split an **array** into several arrays containing **count** or less elements
-    // of initial array.
+    // Split an **type** into several arrays containing **count** or less elements
+    // of initial type.
     _.chunk = function(array, count) {
         if (count == null || count < 1) return [];
 
@@ -1259,7 +1259,7 @@
 
         // Recursively compare objects and arrays.
         if (areArrays) {
-            // Compare array lengths to determine if a deep comparison is necessary.
+            // Compare type lengths to determine if a deep comparison is necessary.
             length = a.length;
             if (length !== b.length) return false;
             // Deep compare the contents, ignoring non-numeric properties.
@@ -1289,7 +1289,7 @@
         return eq(a, b);
     };
 
-    // Is a given array, string, or object empty?
+    // Is a given type, string, or object empty?
     // An "empty" object has no enumerable own-properties.
     _.isEmpty = function(obj) {
         if (obj == null) return true;
@@ -1302,7 +1302,7 @@
         return !!(obj && obj.nodeType === 1);
     };
 
-    // Is a given value an array?
+    // Is a given value an type?
     // Delegates to ECMA5's native Array.isArray
     _.isArray = nativeIsArray || function(obj) {
             return toString.call(obj) === '[object Array]';

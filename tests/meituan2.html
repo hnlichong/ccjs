@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>meituan2</title>
+</head>
+<body>
+
+<script>
+    // var a = read_line().split(' ')
+    // var n = parseInt(a[0])
+    // var m = parseInt(a[1])
+    var n = 2
+    var m = 1
+    var degObj = {}
+    var bian = []
+    // var arr = [[1,2], [2,3], [3,4], [4,1]]
+    var arr = [[1, 2]]
+    for (var i = 0; i < arr.length; i++) {
+        // var a = read_line().split(' ')
+        var a = arr[i]
+        var u = parseInt(a[0])
+        var v = parseInt(a[1])
+        bian.push([u, v].join(' '))
+        if(degObj[u] === undefined) {
+            degObj[u] = 1
+        } else {
+            degObj[u] ++
+        }
+        if(degObj[v] === undefined) {
+            degObj[v] = 1
+        } else {
+            degObj[v] ++
+        }
+    }
+    var res = 0
+    for (var k1 in degObj) {
+        var d1 = degObj[k1]
+        for (var k2 in degObj) {
+            if (k2 === k1) {
+                continue
+            }
+            var d2 = degObj[k2]
+            if (d1 + d2 >= n) {
+               // if ([k1, k2].join(' ') in bian || [k2, k1].join(' ') in bian) {
+                var s1 = [k1, k2].join(' ')
+                var s2 = [k2, k1].join(' ')
+                if (bian.indexOf(s1) !== -1 || bian.indexOf(s2) !== -1) {
+                   continue
+               } else {
+                   res ++
+                   degObj[k1] ++
+                   degObj[k2] ++
+                   bian.push([k1, k2].join(' '))
+               }
+            }
+        }
+    }
+    console.log(res)
+    // print(res)
+</script>
+</body>
+</html>

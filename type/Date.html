@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Date</title>
+</head>
+<body>
+<script>
+
+    // 获取本地时区的当前日期和时间
+    var date = new Date()
+    console.log(date)
+
+    // 获取毫秒数
+    console.log(Date.now())
+    console.log(+new Date())
+
+    // 创建本地时区的特定时间的日期对象, 月份从0开始
+    var date = new Date(1993, 6, 1, 23, 43, 0)
+    console.log(date)
+
+    // 根据UTC时间创建的本地时区的日期对象
+    var date = new Date(Date.UTC(1993, 6, 1, 23, 43, 0))
+    console.log(date)
+
+    // 日期比较, 比较操作符自动调取日期对象的valueOf()方法, 返回毫秒数进行比较
+    console.log('日期比较')
+    var date1 = new Date(2018, 0, 28)
+    var date2 = new Date(2018, 1, 28)
+    console.log(date1 > date2)
+    console.log(date1 < date2)
+
+
+    // 计算函数执行时间
+    var n = 100
+    var t1 = Date.now()
+
+    function factorial(n) {
+        if (n === 1) {
+            return 1
+        } else {
+            return n * factorial(n - 1)
+        }
+    }
+
+    var res = factorial(n)
+    var t2 = Date.now()
+    console.log('res: ' + res + ', time elapsed: ' + (t2 - t1) + 'ms')
+
+    var t1 = Date.now()
+    var res = 1
+
+    function itarFactorial(n) {
+        var res = 1
+        for (var i = n; i > 0; i--) {
+            res *= i
+        }
+        return res
+    }
+
+    var res = itarFactorial(n)
+    var t2 = Date.now()
+    console.log('res: ' + res + ', time elapsed: ' + (t2 - t1) + 'ms')
+
+    function fibonacciRecursive(n) {
+        if (n === 1 || n === 2) return 1
+        return arguments.callee(n - 1) + arguments.callee(n - 2)
+    }
+
+    function fibonacciIterative(n) {
+        var x1 = 1
+        var x2 =1
+        var x = 0
+        for (var i = 3; i<= n; i++) {
+           x = x1 + x2
+            x2 = x1
+            x1 = x
+        }
+        return x
+
+    }
+
+    function getFnRunningTime(fn, args) {
+        var t1 = Date.now()
+        var res = fn(args)
+        var t2 = Date.now()
+        console.log('res: ' + res + ', time elapsed: ' + (t2 - t1) + 'ms')
+    }
+    console.log('Fibonacci Iterative:')
+    var n = 30
+    getFnRunningTime(fibonacciIterative, n)
+    console.log('Fibonacci Recursive:')
+    getFnRunningTime(fibonacciRecursive, n)
+
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-var genLongHTML = function () {
+function genLongHTML() {
     var ss = ''
     for (let i = 0; i < 1000; i++) {
         ss += '<div>' + i + '</div>'
@@ -16,4 +16,11 @@ function getRandomInt(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min) + min)
+}
+
+function getFnRunningTime(fn, args) {
+    var t1 = Date.now()
+    var res = fn(args)
+    var t2 = Date.now()
+    console.log(fn.name + ' finished, time elapsed: ' + (t2 - t1) + 'ms')
 }
