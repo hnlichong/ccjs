@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<script>
+    var a = 1
+    function b() {
+        var a =2
+        return function c() {
+            // console.log(a)
+            return a
+        }
+
+    }
+    var d = b()
+    a = 3
+    // d(a)
+    console.log(2 === d(a))
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ctrip2</title>
+</head>
+<body>
+<script>
+    /*请完成下面这个函数，实现题目要求的功能
+当然，你也可以不按照下面这个模板来作答，完全按照自己的想法来 ^-^
+******************************开始写代码******************************/
+    function isObject(value) {
+        return Object.prototype.toString.call(value) === '[object Object]'
+    }
+    function isArray(value) {
+        return Object.prototype.toString.call(value) === '[object Array]'
+    }
+
+    function groupList(list) {
+        var group = {}
+        if (isObject(list)) {
+            if (group[list['type']] === undefined) {
+                group[list['type']] = [list['content']]
+            } else {
+                group[list['type']].push(list['content'])
+            }
+        }
+        if (isArray(list)) {
+            for (var i = 0, len = list.length; i < len; i++) {
+                var item = list[i]
+                if (!isObject(item)) continue
+                if (group[item['type']] === undefined) {
+                    group[item['type']] = [item['content']]
+                } else {
+                    group[item['type']].push(item['content'])
+                }
+            }
+        }
+        // format output
+        var res = []
+        Object.keys(group).forEach(function (key) {
+            res.push({
+                type: key,
+                contents: group[key]
+            })
+        })
+        return res
+    }
+
+    /******************************结束写代码******************************/
+
+    var input = read_line()
+    var data = JSON.parse(input)
+    var result = groupList(data)
+    print(JSON.stringify(result))
+</script>
+</body>
+</html>

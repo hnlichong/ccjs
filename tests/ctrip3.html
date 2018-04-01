@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ctrip3</title>
+</head>
+<body>
+<script>
+    /*请完成下面这个函数，实现题目要求的功能
+当然，你也可以不按照下面这个模板来作答，完全按照自己的想法来 ^-^
+******************************开始写代码******************************/
+    function isObject(value) {
+        return Object.prototype.toString.call(value) === '[object Object]'
+    }
+    function isArray(value) {
+        return Object.prototype.toString.call(value) === '[object Array]'
+    }
+    function isString(value) {
+        return Object.prototype.toString.call(value) === '[object String]'
+    }
+
+    function map(data, fn) {
+        var ret = null
+        if (!isObject(data) && !isArray(data)) return null
+        if (isArray(data)) {
+            ret = []
+            data.forEach(function (item, index, array) {
+                ret.push(fn(item, index))
+            })
+        } else {
+            ret = {}
+            Object.keys(data).forEach(function (key) {
+                ret[key] = fn(data[key], key)
+            })
+        }
+        return ret
+    }
+    /******************************结束写代码******************************/
+
+    var input = read_line();
+    var data = JSON.parse(input);
+    var result = map(data, function(value, key) {
+        return {
+            key: key,
+            value: value,
+        }
+    });
+    print(JSON.stringify(result));
+</script>
+</body>
+</html>

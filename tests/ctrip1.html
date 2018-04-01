@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ctrip1</title>
+</head>
+<body>
+<script>
+
+    function unique4(arr) {
+        var hash = {}
+        for (var i = 0, len = arr.length; i < len; i++) {
+            hash[arr[i]] = 1
+        }
+        return Object.keys(hash) // IE9+
+    }
+
+    function unique1(arr) {
+        var arrCleaned = []
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var item = arr[i]
+            if (arrCleaned.indexOf(item) === -1) {
+                arrCleaned.push(item)
+            }
+        }
+        return arrCleaned
+    }
+
+    /*请完成下面这个函数，实现题目要求的功能
+    当然，你也可以不按照下面这个模板来作答，完全按照自己的想法来 ^-^
+    ******************************开始写代码******************************/
+    function test(s) {
+        var num = s.replace(/[^0-9]/gi, '')
+        var cha = s.replace(/[^a-zA-Z]/gi, '')
+
+        var numArr = unique1(num)
+        num = numArr.join('')
+
+        return num + cha
+    }
+    /******************************结束写代码******************************/
+
+
+    var res;
+
+    // var _ = read_line();
+    var _ = '携程C2t0r1i8p2020校招'
+    res = test(_);
+    console.log(res)
+    // print(res);
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>netease3</title>
+</head>
+<body>
+<script>
+    var arr = readline().split(' ').map(function (item, index, array) {
+        return parseInt(item)
+    })
+    var arr = [2, 5]
+    var l = arr[0],
+        r = arr[1],
+        res = 0
+    var lArr = []
+    for (var i = 1; i < l; i++) {
+       lArr.push(i)
+    }
+    var a = lArr.join()
+    for (var i = l; i <=r; i++) {
+        a += i
+        if (parseInt(a) % 3 === 0) res++
+    }
+    print(parseInt(res))
+
+</script>
+</body>
+</html>

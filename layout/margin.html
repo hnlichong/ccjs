@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>margin</title>
-    <link rel="stylesheet" href="../css/base.css">
     <style>
+        body {
+            margin: 50px 20px;
+        }
         .outer-box {
             width: 300px;
             height: 300px;
@@ -37,6 +39,14 @@
 </head>
 <body>
 <h2>
+    宽高2：1的自适应矩形
+</h2>
+<div id="adaptiveRect" style="height: 300px; width: 400px; background-color: lightblue; resize:both; overflow:hidden;">
+    <div style="overflow:hidden; background-color: olive;">
+        <div style="margin: 50%"></div>
+    </div>
+</div>
+<h2>
     margin是透明的，background-color background-image 是填充在border内部的
 </h2>
 <div class="outer-box">
@@ -65,5 +75,14 @@
     <li>2</li>
     <li>3</li>
 </ul>
+<h2>
+    margin 百分比是相对于其父元素的<strong>宽度</strong>
+</h2>
+<div id="percent" style="width: 600px; height: 200px; background-color: lightblue;">
+    <img src="../img/zhang.jpg" alt="zhang" width="200" style="margin: 10%;">
+</div>
+<h2>
+    衬底
+</h2>
 </body>
 </html>

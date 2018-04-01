@@ -15,6 +15,29 @@
 <p style="margin-right: 120px;">
     #NBA赛事回顾# 【@洛杉矶快船 117-106@多伦多猛龙 】快船队路威替补出战砍下26分7助攻，其中末节18分，哈里斯20分，哈雷尔19分5篮板，特奥15分，小乔丹9分14篮板；猛龙队七人上双，瓦兰丘纳斯16分10篮板，范弗里特16分，西亚卡姆15分6篮板，双枪和迈尔斯各11分。更多NBA精彩视频请戳
 </p>
+<h2>
+    float使元素block化
+</h2>
+<button id="btnBlock">float: none</button>
+<h2>
+    float具有包裹性（收缩，坚挺，隔绝）
+</h2>
+<p>
+    加了float:left 的 block displya元素表现的如同inline-block一样，宽度包裹内容而不是独占一行
+</p>
+<p>
+    专业术语是 BFC （Block formatting context 块级格式化上下文）
+</p>
+<div style="float:left; background-color: pink; margin: 20px; width: 100px; height:20px;">float: left;</div>
 
+<script>
+    var btnBlock = document.getElementById('btnBlock')
+    btnBlock.isFloated = false
+    btnBlock.onclick = function (ev) {
+        this.innerHTML = 'float:' + (this.style.float = this.isFloated? 'none':'left')
+        this.isFloated = !this.isFloated
+        console.log('display: ' + getComputedStyle(this)['display'])
+    }
+</script>
 </body>
 </html>

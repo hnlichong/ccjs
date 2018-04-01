@@ -17,9 +17,13 @@
         //多个变量赋相同的值
         var a,b,c
         a=b=c=3
+        // 或者
+        var a = 3,
+            b = 3,
+            c = 3
         //不能这样做：
         var e=f=g=4
-        //否则只有a被声明为var
+        //否则只有a被声明为var, f 和 g 都是window变量
     }
 </script>
 </body>

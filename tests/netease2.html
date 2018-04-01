@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>netease2</title>
+</head>
+<body>
+<script>
+     var arr = readline().split(' ').map(function (item, index, array) {
+         return parseInt(item)
+     })
+     var n = arr[0],
+         k = arr[1],
+         res = 0
+     for (var b = k + 1, a = n, c = k; b <= n; b ++ ) {
+         var i = 1
+         while (1) {
+             var aa = i * b
+             if ( aa > n ) break
+             for (c = k; c<b; c++) {
+                 a = aa + c
+                 if (a > n ) break
+                 res++
+             }
+             i++
+         }
+     }
+     res += (1 + n -k) * (n - k) / 2
+    print(res)
+</script>
+</body>
+</html>
