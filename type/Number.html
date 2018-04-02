@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Number.html</title>
+</head>
+<body>
+
+<script>
+    var n = 15
+    console.log('转换进制用n.toString(基数)返回字符串形式，用parseInt(n, 基数)返回数值')
+    console.log(n.toString(2))
+    console.log(n.toString(16))
+
+    console.log('parseInt()可指定解析的基数')
+    console.log(parseInt('-123d'))
+    console.log(parseInt('0xFF', 16))
+    console.log(parseInt('10', 16))
+    console.log(parseInt('')) // NaN
+
+    console.log('保留小数位数用n.toFixed(), 它会四舍五入到小数点后几位，字符串表示')
+    console.log(n.toFixed(2))
+    var n = 3.1415
+    console.log(n.toFixed(3))
+
+    console.log('ECMAScript会不失时机的将浮点数转换为整数')
+    console.log('1.0 + 2.0 = ' + (1.0 + 2.0))
+    // 1.浮点数占用内存存储空间是整数的两倍
+    // 2.浮点数的计算精度远远不如整数
+    console.log('2.浮点数的计算精度远远不如整数')
+    console.log('0.1 + 0.2 = ' + (0.1 + 0.2))
+    // 所以永远不要测试某个特定的浮点数值，判断是否落在某个区间则是可以的
+
+    console.log('能解析成整数的就返回整数')
+    console.log(parseFloat('11.0'))
+    console.log(parseFloat('11'))
+
+    console.log('单体内置对象Math提供了更强的数学公式和计算功能')
+    console.log('产生1到10的10个随机数：')
+    console.log('值 = Math.floor(Math.random() * 可能值的总数      + 最小值)')
+    console.log('值 = Math.floor(Math.random() * (最大值-最小值+1) + 最小值)')
+    console.log(Math.floor(Math.random() * 10 + 1))
+    console.log(Math.floor(Math.random() * (10 - 1 +1) + 1))
+
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+    }
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    }
+
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+
+
+
+
+
+</script>
+</body>
+</html>

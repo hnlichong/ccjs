@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Function</title>
+</head>
+<body>
+
+<script>
+    console.log('callee and caller')
+    console.log('应用：递归调用，函数自己调用自己')
+    function fatorial(n) {
+       if (n < 2) {
+           whoIsCaller()
+          return 1
+       }
+       return n * arguments.callee(n - 1)
+    }
+    console.log('阶乘 4! = ' + fatorial(4))
+
+    function whoIsCaller() {
+        return console.log('caller: ' + arguments.callee.caller.name)
+    }
+
+    console.log('但是在严格模式下，不能通过脚本访问arguments.callee')
+    console.log('可以用命名函数表达式来实现(与匿名函数相反)')
+    var factorial2 = (function f (n) {
+        if (n < 2) return 1
+        return n * f(n-1)
+    })
+    console.log('3! = ' + factorial2(3))
+    try {
+        console.log(f(3))
+    } catch (e) {
+        console.log(e)
+        console.log('在函数f()外部不能通过f()调用该函数, 因为函数f()被括号扩起来，赋值给fctorial2，已成为了函数表达式，函数名f失效')
+    }
+
+
+
+</script>
+</body>
+</html>

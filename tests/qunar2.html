@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>qunar2</title>
+</head>
+<body>
+
+<script>
+    var arr = read_line().split(' ')
+    var M = arr[1]
+    var neighbours = {}
+    for (var i = 0, len = M; i < len; i++) {
+        var items = read_line().split(' ')
+        var a = items[0],
+            b = items[1]
+        if (neighbours[a] === undefined) {
+            neighbours[a] = [b]
+        } else {
+            neighbours[a].push(b)
+        }
+        if (neighbours[b] === undefined) {
+            neighbours[b] = [a]
+        } else {
+            neighbours[b].push(a)
+        }
+    }
+    var paths = {}
+    for (var k in neighbours) {
+        if (!neighbours.hasOwnProperty(k)) continue
+        if (paths[k] === undefined) {
+            paths[k] = k
+        }
+
+        neighbours[k].forEa
+    }
+</script>
+</body>
+</html>

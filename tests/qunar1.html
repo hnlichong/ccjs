@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>qunar</title>
+</head>
+<body>
+
+<script>
+    var M = parseFloat(read_line())
+    var N = 0
+    var insurance = parseInt(M * 0.2)
+
+    var tax = 0
+    var taxBeyond = 0
+    taxBeyond = M - insurance - 3500
+    var taxRate = 0
+    var taxBias = 0
+    if (taxBeyond <= 0) {
+        taxRate = taxBias = 0
+    } else if (taxBeyond <= 1500) {
+        taxRate = 0.03
+        taxBias = 0
+    } else if (taxBeyond <= 4500) {
+        taxRate = 0.10
+        taxBias = 105
+    } else if (taxBeyond <= 9000) {
+        taxRate = 0.20
+        taxBias = 555
+    } else if (taxBeyond <= 35000) {
+        taxRate = 0.25
+        taxBias = 1005
+    } else if (taxBeyond <= 55000) {
+        taxRate = 0.30
+        taxBias = 2755
+    } else if (taxBeyond <= 80000) {
+        taxRate = 0.35
+        taxBias = 5505
+    } else {
+        taxRate = 0.45
+        taxBias = 13505
+    }
+    tax = parseInt(taxBeyond * taxRate - taxBias)
+
+    N = M - insurance - tax
+    print(N)
+
+
+
+</script>
+</body>
+</html>
