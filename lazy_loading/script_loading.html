@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>script_loading</title>
+</head>
+<body>
+<div>
+    <label for="btn1">点击加载外部脚本文件scripta</label>
+    <button id="btn1">脚本a</button>
+</div>
+<div>
+    <label for="btn2">点击加载脚本文本</label>
+    <button id="btn2">脚本文本</button>
+</div>
+<script>
+    window.onload = function () {
+        var btn1 = document.getElementById('btn1')
+        btn1.onclick = function (ev) {
+            loadScript('./scripta.js', function () {
+                alert('scripta loaded!')
+            })
+        }
+
+        var btn2 = document.getElementById('btn2')
+        btn2.onclick = function (ev) {
+            loadScriptString(`alert('this is script string')`)
+        }
+    }
+
+    function loadScript(url, cb) {
+        var script = document.createElement('script')
+        script.src = url
+        if (cb) {
+            script.addEventListener('load', cb)
+        }
+        document.body.appendChild(script)
+    }
+    function loadScriptString(code, cb) {
+        var script = document.createElement('script')
+        try {
+           script.appendChild(document.createTextNode(code))
+        } catch (ex) {
+            script.text = code
+        }
+        if (cb) {
+            script.addEventListener('load', cb)
+        }
+        document.body.appendChild(script)
+    }
+</script>
+</body>
+</html>

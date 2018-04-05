@@ -11,6 +11,13 @@ function genLongHTML() {
 
 }
 
+// getTypeOf([]) => array
+function getTypeOf(obj) {
+    var s = Object.prototype.toString.call(obj)
+    var pat = /\[object\s+(\w+)\]/
+    return pat.exec(s)[1].toLowerCase()
+}
+
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);

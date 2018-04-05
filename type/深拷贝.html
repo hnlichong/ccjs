@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深拷贝</title>
+</head>
+<body>
+<script>
+    // 深拷贝 适用于只包含[]和{}类型的对象
+    function deepCopy(obj) {
+        var str,
+            newObj = obj.constructor === Array? []:{}
+        if (typeof obj !== 'object') {
+            return null
+        // } else if (window.JSON) {
+        //     newObj = JSON.parse(JSON.stringify(obj))
+        } else {
+            for (var k in obj) {
+                if (!obj.hasOwnProperty(k)) continue
+                newObj[k] = deepCopy(obj[k])
+                newObj[k] = typeof obj[k] === 'object'?
+                    deepCopy(obj[k]):obj[k]
+            }
+        }
+        return newObj
+    }
+    var obj1 = {a:1, b:[2,3], c: {d:[4]} }
+    var obj2 = deepCopy(obj1)
+    var arr1 = [1,2]
+    var arr2 = deepCopy(arr1)
+</script>
+</body>
+</html>

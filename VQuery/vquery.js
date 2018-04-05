@@ -1,14 +1,23 @@
 function addEvent(node, event, fn) {
-    if(node.attachEvent) {
+    if(node.addEventListener()) {
+        node.addEventListener(event, fn)
+    } else {
         // IE
-        node.attachEvent('on'+event, function () {
+        var cb = function () {
             // 调用函数，改变this为node
             fn.call(node)
-        })
-
-    } else {
-        node.addEventListener(event, fn)
+        }
+        node['_on' + event + '_cb'] = cb
+        node.attachEvent('on'+event, cb)
     }
+}
+function removeEvent(node, event, fn) {
+    if (node.removeEventListener) {
+        node.removeEventListener(event, fn)
+    } else {
+        node.detachEvent('on' + event, node['_on'+ event + '_cb'])
+    }
+
 }
 function getStyle(node, attr) {
     if(node.currentStyle) {

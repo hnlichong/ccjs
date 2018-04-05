@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Object</title>
+</head>
+<body>
+
+<script>
+    {
+        console.log('Object.freeze()可以把一个Object或Array对象变成不可变类型')
+        const obj3 = Object.freeze({a: 1, b: 2})
+        obj3.a = 3 // 没有报错，但写入无效
+        obj3.cc = 44 // 没有报错，但写入无效
+        console.log(obj3)
+        const arr3 = Object.freeze([1, 2])
+        arr3[0] = 33// 没有报错，但写入无效
+        console.log(arr3)
+    }
+    {
+        console.log('但只能防止顶层属性被修改，而无法限制对于嵌套属性的修改')
+        const me = Object.freeze({
+            name: 'Jacopo',
+            pet: {
+                type: 'dog',
+                name: 'Spock'
+            }
+        })
+        me.pet.name = 'Rocky'
+        me.pet.breed = 'German Shepherd'
+        console.log(me.pet.name) // print Rocky
+        console.log(me.pet.breed) // print German Shepherd
+    }
+</script>
+</body>
+</html>

@@ -8,19 +8,27 @@
 
 </body>
 <script>
-
-
     function myAjax(method, url, cbSuccess, cbFail) {
         //init ajax instance
-        var oAjax = new XMLHttpRequest()
+        console.log('ajax请求：网页给服务器【打电话】')
+        console.log('【买个手机】创建Ajax对象')
+        var oAjax = new XMLHttpRequest() // IE7+
+        // 解决兼容性问题
+        // 访问一个不存在的变量 -- 报错 VM157:1 Uncaught ReferenceError: a is not defined
+        // 访问一个不存在的属性 -- undefined
+        // typeof a -> 'undefined' 不论a是不存在的变量还是属性都返回'undefined'
+        var oAjax = window.XMLHttpRequest? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP')
 
         //open connection
+        console.log('【拨号】创建连接')
         oAjax.open(method, url, true)
 
         //send request
+        console.log('【说话】发送请求')
         oAjax.send()
 
         //receive response
+        console.log('【听】接收响应')
         oAjax.onreadystatechange = function (ev) {
             if (oAjax.readyState === 4) {
                 if (oAjax.status === 200) {

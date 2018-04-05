@@ -10,8 +10,8 @@
     var date = new Date()
     console.log(date)
 
-
     // 获取毫秒数
+    console.log(new Date().getTime())
     console.log(Date.now())
     console.log(+new Date())
 
@@ -23,14 +23,14 @@
     var date = new Date(Date.UTC(1993, 6, 1, 23, 43, 0))
     console.log(date)
 
-    // 日期比较, 比较操作符自动调取日期对象的valueOf()方法, 返回毫秒数进行比较
+    // 日期比较, 比较操作符自动调取日期对象的valueOf()方法, 根据返回的毫秒数进行比较
     console.log('日期比较')
     var date1 = new Date(2018, 0, 28)
     var date2 = new Date(2018, 1, 28)
     console.log(date1 > date2)
     console.log(date1 < date2)
 
-
+    // 应用
     // 计算函数执行时间
     var n = 100
     var t1 = Date.now()
