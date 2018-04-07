@@ -7,9 +7,9 @@
     console.log(ss)
 }
 {
-    console.log('ES6 多行字符串用反引号`, 字符串格式化用${}')
+    console.log('ES6 多行字符串用反引号`, 变量包裹用${}')
     const age = 25
-    const template = `<div>age: ${age}
+    const template = `<div>age: ${age} 
 birthday: 1993.7.1</div>`
     console.log(template)
 
