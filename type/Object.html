@@ -7,6 +7,7 @@
 <body>
 
 <script>
+    // 'use strict'
     {
         console.log('Object.freeze()可以把一个Object或Array对象变成不可变类型')
         const obj3 = Object.freeze({a: 1, b: 2})
@@ -30,6 +31,67 @@
         me.pet.breed = 'German Shepherd'
         console.log(me.pet.name) // print Rocky
         console.log(me.pet.breed) // print German Shepherd
+    }
+
+    {
+        console.log('Object.defineProperties()定义属性(property)的特征(attribute)')
+        const book = {}
+        Object.defineProperties(book, {
+            _year: {
+                writable: true,
+                value: 2004
+            },
+            edition: {
+                writable: true,
+                value: 1
+            },
+            year: {
+                get: function () {
+                    return this._year
+                },
+                set: function (newValue) {
+                    if (newValue > 2004) {
+                        this._year = newValue
+                        this.edition +=newValue - 2004
+                    }
+                }
+            }
+        })
+
+        console.log(book.year, book.edition)
+        book.year = 2006
+        console.log(book.year, book.edition)
+
+        let descriptor = Object.getOwnPropertyDescriptor(book, '_year')
+        console.log(descriptor.value)
+        console.log(descriptor.configurable)
+        console.log(typeof descriptor.get)
+
+        descriptor = Object.getOwnPropertyDescriptor(book, 'year')
+        console.log(descriptor.value)
+        console.log(descriptor.configurable)
+        console.log(typeof descriptor.get)
+    }
+
+    {
+        console.log('扩展对象，浅拷贝对象 Object.assign()')
+        const o1 = {a:1}
+        const o2 = {b: 2}
+        const o3 = {arr: [3,4]}
+        const o4 = {
+            title: {
+                text: 'hello world',
+                subtext: 'great js'
+            }
+        }
+        const copy = Object.assign({}, o1, o2, o3, o4, {
+            title: {
+                subtext: 'I love js'
+            }
+        })
+        copy.arr.push(5)
+        console.log(o3)
+        console.log(copy)
     }
 </script>
 </body>

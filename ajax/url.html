@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>url</title>
+</head>
+<body>
+
+<script>
+    function addQueryString(url, name, value) {
+        if (url.indexOf('?') === -1){
+            url+='?'
+        } else {
+            url+='&'
+        }
+        return url+=encodeURIComponent(name) + '=' + encodeURIComponent(value)
+    }
+    // https://www.baidu.com/s?word=encode
+    let url = 'https://www.baidu.com/s'
+    let url2 = addQueryString(url, 'word', 'encode')
+    let url3 = addQueryString(url, 'word', '编码')
+    console.log(url2)
+    console.log(url3)
+</script>
+</body>
+</html>

@@ -1,9 +1,10 @@
 ((window) => {
+    `主要区别：箭头函数本身不具有this和arguments这两个特殊变量；箭头函数是固定上下文，this绑定到函数定义时通过作用域链找到的最近一个执行环境；箭头函数需要用Rest运算符...args实现函数的可变参数`
     {
-        console.log('function函数中this具有动态上下文，指向函数调用者的作用域，可以根据其调用方式动态的改变上下文')
+        console.log('function函数中this指向函数的执行环境context(对象、function、window)，是动态上下文')
 
         function Person() {
-            this.myname = 'congcong'
+            this.myname = 'personcongcong'
             this.obj = {
                 myname: 'objcongcong',
                 sayName: function () {
@@ -17,11 +18,18 @@
         window.myname = 'windowname'
         window.sayName = person.obj.sayName
         console.log(window.sayName()) // windowname
+
+        function student() {
+            function boy() {
+                console.log(`student.boy() this: ${this}`)
+            }
+            boy()
+        }
+        student()
     }
 
     {
-        console.log('箭头函数的this是固定上下文，指向函数定义时绑定(bind)的外围作用域，不再改变')
-
+        console.log('箭头函数本身不具有this变量，this绑定到函数定义时通过作用域链找到的最近一个执行环境，绑定后 this固定不变，因此是固定上下文')
         function Person2() {
             this.myname = 'congcong'
             this.obj = {
@@ -30,27 +38,42 @@
             }
         }
 
-        var person2 = new Person2()
-        console.log(person2.obj.sayName()) // congcong
-        window.myname = 'windowname'
-        window.sayName2 = person2.obj.sayName
-        console.log(window.sayName2()) // congcong
         /*
         * Person2中箭头函数相当于
         * sayName: function() {
         *   return this.name
         *   }.bind(this)
         *   */
+
+        let person2 = new Person2() // this === person2
+        console.log(person2.obj.sayName()) // congcong
+
+        window.myname = 'windowname'
+        window.sayName2 = person2.obj.sayName // this === person2
+        console.log(window.sayName2()) // 仍然是congcong，因为this绑定的是person2, 绑定后 this固定不变
+
+        Person2()  // this === window，this绑定的是window，绑定后 this固定不变
+        window.myname = 'win2name'
+        console.log(window.sayName()) //win2name
+
+        let obj = {
+            person: Person2
+        }
+        obj.person() // this === obj，this绑定的是obj，绑定后 this固定不变
+        console.log(obj)
+        console.log(obj.obj.sayName()) //congcong
+
+
     }
 
     {
         console.log(`
-        箭头函数书写简洁，但适合使用箭头函数的情形只有一种：
-        无需动态上下文、无多层嵌套的纯函数场景，例如用在map、reduce、filter的回调函数定义中。
+        箭头函数只适合用在无需动态上下文、无多层嵌套的纯函数场景，例如用在map、reduce、filter的回调函数定义中。
+        箭头函数书写简洁，但适合使用箭头函数的情形只有一种，千万不要滥用.
         `)
         // https://segmentfault.com/a/1190000007074846
-        console.log('不要滥用箭头函数:')
-        console.log('1.在对象上定义函数')
+        console.log('不适合箭头函数的场景有很多:')
+        console.log('1.不要在对象上定义箭头函数')
         const obj = {
             that: this, // obj对象中没有this，因此this继承自外部作用域：Window
             pName: 'congcong',
@@ -77,7 +100,7 @@
     }
 
     {
-        console.log('2.在原型上定义函数')
+        console.log('2.不要在原型上定义箭头函数')
         {
             function Person(pName) {
                 this.pName = pName;
@@ -111,7 +134,7 @@
     }
 
     if (0) {
-        console.log('3.动态上下文中的回调函数')
+        console.log('3.动态上下文中的回调函数不要用箭头函数')
         var button = document.getElementById('myButton');
         button.addEventListener('click', function() {
             console.log(this === button); // => true
@@ -127,19 +150,21 @@
 
     if (0) {
         console.log('在构造函数中，this指向新创建的对象实例')
-        // this instanceOf MyFunction === true
+        function Persion2 () { this.name = 'congcong'}
+        let person2 = new Persion2()
+        // person2 instanceof Person2 === true
 
-        console.log('4.构造函数无法使用箭头函数，因为箭头函数在创建时this对象就绑定了，更不会指向对象实例。')
-        var Person = (name) => {
+        console.log('4.无法用箭头函数实现构造函数，因为箭头函数在创建时this对象就绑定了，更不会指向对象实例。')
+        let Person = (name) => {
             this.name = name;
         }
 
         // Uncaught TypeError: Person is not a constructor
-        var person = new Person('wdg');
+        let person = new Person('wdg');
     }
 
     {
-        console.log('5.多层嵌套的函数中使用=>不易看清返回值')
+        console.log('5.多层嵌套的函数中使用箭头函数不易看清返回值')
         {
             let multiply = (a, b) => b === undefined ? b => a * b : a * b;
 
@@ -166,7 +191,7 @@
         }
     }
     {
-        console.log('ES6支持函数参数默认值')
+        console.log('箭头函数支持函数参数默认值')
         // 箭头函数中 如果参数只有一个，可以省略(); 如果函数表达式只有一个，且作为返回值，可以省略{}
         let sum = (a, b = 3, c = 7) => a + b + c
         console.log(sum(1))

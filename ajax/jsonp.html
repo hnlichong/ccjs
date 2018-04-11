@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonp</title>
+</head>
+<body>
+<p>Your IP address is <strong class="ip"></strong> </p>
+<button class="btn-start">start JSONP request</button>
+<script>
+
+    function loadScript(url, cb) {
+        let script = document.createElement('script')
+        script.src = url
+        if (cb) {
+            script.addEventListener('load', cb)
+        }
+        document.body.appendChild(script)
+    }
+    function showIP(obj) {
+        let ipNode = document.querySelector('.ip')
+        ipNode.innerHTML = obj.ip
+    }
+
+    let btn = document.querySelector('.btn-start')
+    btn.onclick = function () {
+        console.log('start JSONP request')
+        let url = 'http://127.0.0.1:3000/api/ip?callback=showIP'
+        loadScript(url, function () {
+            console.log('script load success')
+        })
+    }
+
+</script>
+</body>
+</html>

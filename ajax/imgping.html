@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>imgping</title>
+</head>
+<body>
+<script>
+    let img= new Image()
+    img.onload = function () {
+        console.log('ping success!')
+    }
+    img.onerror = function () {
+        console.log('ping fail')
+    }
+    img.src = 'https://baidu.com'
+</script>
+</body>
+</html>
