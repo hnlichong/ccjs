@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+<div class="box1" style="width:100%;height:100%;background-color: lightgreen;"></div>
+<form name="search-form">
+    <label>
+        搜索：
+        <input type="text" name="search-box">
+    </label>
+</form>
+<div class="box2" style="width:300px;height:300px; background-color: lightgreen;resize:both;overflow:auto;"></div>
+<script src="../utils/common.js"></script>
+<script>
+    {
+        console.log('throttle节流函数一般应用在高频率触发的事件处理函数上，scroll,resize 等')
+        function resizeDiv() {
+            let box1 = document.querySelector('.box1')
+            box1.style.height = box1.offsetWidth + 'px'
+        }
+
+        window.addEventListener('resize', function () {
+            throttle(resizeDiv, 100)
+            // debounce(resizeDiv, 100)
+            // resizeDiv()
+        })
+    }
+    {
+        console.log('debounce防抖函数一般用于文本输入后的实时搜索')
+        let input = document.forms['search-form'].elements['search-box']
+        function ajaxSearch() {
+            console.log('ajax search begin')
+        }
+        input.onkeypress = function () {
+            console.log('debounce和throttle都不能接受匿名函数，高频率调用的事件处理函数会反复创建新的匿名函数实例')
+            // debounce(function () {
+            //     console.log('ajax get begin...')
+            // }, 1000)
+            debounce(ajaxSearch, 1000)
+        }
+    }
+    {
+        console.log('throttle类似的方案requestAnimationFrame')
+        // 它相当于throttle(method, '1000ms/60帧=16.7ms')
+        let box2 = document.querySelector('.box2')
+        box2.animating = false
+        const box2Animation = function () {
+            console.log('box2 is animating')
+            box2.animating = false
+        }
+        box2.onmousemove = function () {
+            // console.log('box2 onmousemove')
+            // 需要设置触发锁
+            if (box2.animating) return
+            box2.animating = true
+            requestAnimationFrame(box2Animation)
+        }
+
+
+    }
+
+</script>
+</body>
+</html>

@@ -35,7 +35,7 @@ ES6 中可以通过 Symbol.iterator 给对象设置默认的遍历器，无论�
 }
 
 {
-    console.log('生成器Generators')
+    console.log('生成器Generators返回一个迭代器实例')
     function *infiniteNumbers() {
         let n =1
         while (true) {
@@ -46,5 +46,5 @@ ES6 中可以通过 Symbol.iterator 给对象设置默认的遍历器，无论�
     console.log(numbers.next())
     console.log(numbers.next())
     console.log(numbers.next())
-    console.log('生成器每调用一次才生成一个元素，不用担心会无限循环')
+    console.log('每调用一次next()才生成一个元素，不用担心会无限循环')
 }

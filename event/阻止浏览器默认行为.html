@@ -11,9 +11,13 @@
 <script>
     window.onload = function () {
         var doc = document
-        doc.oncontextmenu = function () {
-            return false;
+        console.log('e.preventDefault()阻止浏览器默认行为')
+        doc.oncontextmenu = function (ev) {
+            let e = ev || event
+            e.preventDefault()
         }
+
+        console.log('return false 阻止浏览器默认行为')
         var form1 = doc.getElementById('form1')
         form1.onsubmit = function () {
             //表单校验

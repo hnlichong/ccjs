@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托</title>
+</head>
+<body>
+<ul id="test">
+    <li>
+        <p>11111111111</p>
+    </li>
+    <li>
+        <div>
+        </div>
+    </li>
+    <li>
+        <span>3333333333</span>
+    </li>
+    <li>4444444</li>
+</ul>
+<button id="addLi">添加li</button>
+<script>
+    {
+        console.log(`采用事件委托方式管理事件的好处1：节省内存开销，只需要创建一个函数实例用于处理事件即可；2. DOM引用减少，提高运行性能`)
+        let ul = document.querySelector('#test')
+        ul.onclick = ul.onmouseover = ul.onmouseout = function(ev) {
+            ev = ev || event
+            eventDelegation(ev, ul, 'li')
+        }
+        console.log(`适合事件委托处理的事件：click，mouseover, mouseout, keydown，keyup，keypress等`)
+        console.log(`不同事件类型用ev.type区分，事件触发的元素用ev.target获取`)
+
+        /**
+         *
+         * @param ev
+         * @param eventDelegator
+         * @param targetTag
+         */
+        function eventDelegation(ev, eventDelegator=null, targetTag='') {
+            let target = ev.target || ev.srcElement
+            if (targetTag !== '') {
+                // 只在targetTag元素上执行相关操作
+                if (target === eventDelegator) return
+                while (target.tagName.toLowerCase() !== targetTag) {
+                    target = target.parentNode
+                }
+            }
+            switch (ev.type) {
+                case 'click': {
+                    console.log(target.innerHTML)
+                    break
+                }
+                case 'mouseover': {
+                    target.style.backgroundColor = 'lightgreen'
+                    break
+                }
+                case 'mouseout': {
+                    target.style.backgroundColor = ''
+                    break
+                }
+                default:break
+            }
+        }
+
+        console.log('好处2：动态添加的DOM元素不用绑定事件, 新元素上触发的事件也能冒泡到eventDelegator上被处理')
+        let btn = document.querySelector('#addLi')
+        btn.onclick = function (ev) {
+            ev = ev || event
+            let li  = document.createElement('li')
+            li.innerHTML = 'a new li, created on ' + Date.now()
+            ul.appendChild(li)
+        }
+
+        console.log('优点3：避免内存中留有那些"空事件处理程序"，因为事件处理程序只绑定在DOM树中尽量高的层次上，大多数元素并没有绑定事件，所以当这些元素被替换、删除时，不必考虑移除他们的事件处理程序。')
+
+    }
+</script>
+</body>
+</html>

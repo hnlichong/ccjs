@@ -37,3 +37,20 @@ console.log(`Spread/Reset Operator ..., 具体是Spread or Rest需要看上下�
     }
     console.log(obj3)
 }
+
+{
+    console.log('拷贝数组,一层拷贝')
+    const arr = [1,2]
+    const arr2 = [...arr]
+    arr2.push(3)
+    console.log(arr)
+    console.log(arr2)
+
+    console.log('拷贝对象,一层拷贝')
+    const obj = {arr, arr2}
+    const obj2 = {...obj}
+    obj2.a = 'aa'
+    obj2.arr2.push(4)
+    console.log(obj)
+    console.log(obj2)
+}

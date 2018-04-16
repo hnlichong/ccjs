@@ -17,7 +17,6 @@
         } else {
             for (var k in obj) {
                 if (!obj.hasOwnProperty(k)) continue
-                newObj[k] = deepCopy(obj[k])
                 newObj[k] = typeof obj[k] === 'object'?
                     deepCopy(obj[k]):obj[k]
             }

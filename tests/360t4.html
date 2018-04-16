@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>360t4</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        #warning {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        #drawing {
+            position: absolute;
+            left:0;
+            top:0;
+            right:0;
+            bottom: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="warning">
+    <canvas id="drawing">Your browser does not support canvas</canvas>
+</div>
+
+<script>
+    CanvasRenderingContext2D.prototype.sector = function (x, y, radius, startAngle, endAngle, anticlockwise=false) {
+        this.save()
+        this.beginPath()
+        this.moveTo(x, y)
+        this.arc(x,y,radius,startAngle,endAngle, anticlockwise)
+        this.closePath()
+        this.restore()
+        return this
+    }
+
+    {
+        const canvas = document.querySelector('#drawing')
+        const ctx = canvas.getContext('2d')
+        let angle = 60 * Math.PI / 180
+        let radius = 100
+        canvas.width = canvas.height =  2 * radius
+
+        let x,y
+        x = y = radius
+        for (let i = 0, len = Math.PI * 2 / angle; i<len;i++) {
+            ctx.sector(x, y, radius, i * angle, (i+1) * angle)
+            ctx.fillStyle = i%2? 'black':'yellow'
+            ctx.fill()
+        }
+
+    }
+</script>
+</body>
+</html>
