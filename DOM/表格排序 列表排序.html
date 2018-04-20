@@ -20,6 +20,9 @@
 </body>
 <script>
     window.onload = function () {
+        /*
+        列表排序
+         */
         var ul = document.getElementById('ul')
         var lis = ul.getElementsByTagName('li')
         // alert(lis)
@@ -40,15 +43,15 @@
         })
 
         // 插入元素，重新插入到ul中
-        // appendChild 是先remove 再append，在DOM中每个node都是唯一个的，有且只有一个
+        // 对已存在的DOM元素，appendChild会先remove 再append，因为在DOM树中每个node都是唯一个的，有且只有一个
         for (var i = 0, len = lisArr.length; i < len; i++) {
             var el = lisArr[i]
             ul.appendChild(el)
         }
 
-        //
-        // 表格排序
-        //
+        /*
+        表格排序
+         */
         // 创建表格
         var tb = document.createElement('table')
         tb.id = 'priceTable'

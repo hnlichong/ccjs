@@ -4,39 +4,86 @@
     <meta charset="UTF-8">
     <title>float</title>
     <style>
+        html {
+            margin: 20px;
+        }
         p {
             margin: 0;
         }
+        .clearfix{
+            *zoom: 1;
+        }
+        .clearfix:after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+
     </style>
 </head>
 <body>
-<img class="avatar" src="../img/NBA.jpg" alt="NBA" style="float: right; width: 100px;">
-<img class="avatar" src="../img/zhang.jpg" alt="zhang" style="float: right; width: 100px;">
-<p style="margin-right: 120px;">
-    #NBA赛事回顾# 【@洛杉矶快船 117-106@多伦多猛龙 】快船队路威替补出战砍下26分7助攻，其中末节18分，哈里斯20分，哈雷尔19分5篮板，特奥15分，小乔丹9分14篮板；猛龙队七人上双，瓦兰丘纳斯16分10篮板，范弗里特16分，西亚卡姆15分6篮板，双枪和迈尔斯各11分。更多NBA精彩视频请戳
-</p>
-<h2>
-    float使元素block化
-</h2>
-<button id="btnBlock">float: none</button>
-<h2>
-    float具有包裹性（收缩，坚挺，隔绝）
-</h2>
-<p>
-    加了float:left 的 block displya元素表现的如同inline-block一样，宽度包裹内容而不是独占一行
-</p>
-<p>
-    专业术语是 BFC （Block formatting context 块级格式化上下文）
-</p>
-<div style="float:left; background-color: pink; margin: 20px; width: 100px; height:20px;">float: left;</div>
-
+<div>
+    <h2>
+        浮动元素会尽量向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。
+        浮动元素之后的元素将围绕它。
+        浮动元素之前的元素将不会受到影响。
+    </h2>
+    <img class="avatar" src="../img/NBA.jpg" alt="NBA" style="float: left; width: 100px;">
+    <img class="avatar" src="../img/zhang.jpg" alt="zhang" style="float: left; width: 100px;">
+    <p>
+        #NBA赛事回顾# 【@洛杉矶快船 117-106@多伦多猛龙
+        】快船队路威替补出战砍下26分7助攻，快船队路威替补出战砍下26分7助攻，快船队路威替补出战砍下26分7助攻，快船队路威替补出战砍下26分7助攻，
+    </p>
+</div>
+<hr>
+<div>
+    <h2>
+        原理1：float使元素block化，并形成BFC（Block Formatting Context）
+    </h2>
+    <p id="btnDisplay"></p>
+    <button id="btnBlock">float: none</button>
+    <button >btn2</button><!----><button >btn3</button>
+    <button>btn3</button>
+    <button>btn4</button>
+    <p>
+        利用float的（1）BFC块状化和（2）破坏性这两个特性可以实现“砌砖头”:原本是display:inline-block 的button添加float: left 之后，变成了display:block的BFC，
+        并且button与button之间紧紧挨着，没有了空格（原理：文字环绕效果，空格&nbsp 跑到后面去了）
+    </p>
+    <p>
+        display:inline-block的多个button中间有间隙其实是空格，在代码中去掉button之间的空格即可紧紧挨着
+    </p>
+</div>
+<hr>
+<!--<div style="overflow:hidden;">-->
+<div class="clearfix">
+    <h2>
+        BFC具有包裹性（收缩，坚挺，隔绝）
+    </h2>
+    <div  style="float:left; background-color: pink; margin: 20px; width: 100px; height:20px;">float: left;</div>
+</div>
+<hr>
+<div>
+    <h2>
+        原理2：浮动元素元素具有破坏性，会使得父元素高度塌陷，当然正因为float的破坏性才造就它的文字环绕特性。
+    </h2>
+    <p>
+        清除浮动的方法：在浮动元素的父元素设置clearfix样式类:
+    </p>
+    <p>
+        .clearfix:after {content:''; display:table; clear:both;}
+        .clearfix {*zoom:1;}
+    </p>
+</div>
+<hr>
 <script>
-    var btnBlock = document.getElementById('btnBlock')
+    let btnBlock = document.getElementById('btnBlock')
+    let btnDisplay = document.getElementById('btnDisplay')
+    btnDisplay.innerText = 'display: ' + getComputedStyle(btnBlock)['display']
     btnBlock.isFloated = false
     btnBlock.onclick = function (ev) {
-        this.innerHTML = 'float:' + (this.style.float = this.isFloated? 'none':'left')
+        this.innerHTML = 'float:' + (this.style.float = this.isFloated ? 'none' : 'left')
         this.isFloated = !this.isFloated
-        console.log('display: ' + getComputedStyle(this)['display'])
+        btnDisplay.innerText = 'display: ' + getComputedStyle(this)['display']
     }
 </script>
 </body>

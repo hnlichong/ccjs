@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <title>margin</title>
     <style>
-        body {
+        html {
             margin: 50px 20px;
         }
+
         .outer-box {
             width: 300px;
             height: 300px;
             margin: 0 auto;
             border: 1px solid black;
         }
+
         .inner-box {
             width: 100px;
             height: 100px;
             margin: 10px;
             padding: 10px;
-            border: 1px solid black;
+            border: 10px solid rgba(0, 0, 0, 0.1);
             background: lightgreen url("../img/NBA.jpg") center no-repeat;
         }
+
         .input > input {
             display: inline;
             margin: 50px;
         }
+
         #ul1 > li {
             display: inline;
             margin: 50px;
@@ -38,51 +42,87 @@
     </style>
 </head>
 <body>
-<h2>
-    宽高2：1的自适应矩形
-</h2>
-<div id="adaptiveRect" style="height: 300px; width: 400px; background-color: lightblue; resize:both; overflow:hidden;">
-    <div style="overflow:hidden; background-color: olive;">
-        <div style="margin: 50%"></div>
+<div>
+
+    <h2>
+        宽高2：1的自适应矩形
+    </h2>
+    <div id="adaptiveRect"
+         style="height: 300px; width: 400px; background-color: lightblue; resize:both; overflow:hidden;">
+        <div style="overflow:hidden; background-color: olive;">
+            <div style="margin: 50%"></div>
+        </div>
     </div>
 </div>
-<h2>
-    margin是透明的，background-color background-image 是填充在border内部的
-</h2>
-<div class="outer-box">
-    <div class="inner-box">
-        inner-box
+<hr>
+
+<div>
+    <h2>
+        margin是透明的，background-color background-image 是填充在border内部的,如果border透明，则可以看到背景色
+    </h2>
+    <div class="outer-box">
+        <div class="inner-box">
+            inner-box
+        </div>
     </div>
 </div>
-<h2>
-    行内元素 内容填充宽高，margin 左右有效，上下无效, input 除外
-</h2>
-<div class="input">
-    <label for="username">用户名：</label>
-    <input type="text" id="username">
+<hr>
+
+<div>
+    <h2>
+        行内元素 内容填充宽高，margin 左右有效，上下无效, input 除外
+    </h2>
+    <div class="input">
+        <label for="username">用户名：</label>
+        <input type="text" id="username">
+    </div>
+    <div class="input">
+        <label for="password">密码：</label>
+        <input type="password" id="password">
+    </div>
+    <ul id="ul1">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <ul id="ul2">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
 </div>
-<div class="input">
-    <label for="password">密码：</label>
-    <input type="password" id="password">
+<hr>
+
+<div>
+    <h2>
+        margin 百分比是相对于其父元素的<strong>宽度</strong>
+    </h2>
+    <div id="percent" style="width: 600px; height: 200px; background-color: lightblue;">
+        <img src="../img/zhang.jpg" alt="zhang" width="200" style="margin: 10%;">
+    </div>
+    <p>
+        应用：正方形
+    </p>
+    <div class="square-wrapper" style="position: relative; border: 5px solid red;">
+        <div class="square-holder" style="margin-top:100%;"></div>
+        <div class="square" style="position: absolute; left: 0;right: 0;top:0;bottom:0;
+    border: 10px solid green;">
+            real content
+        </div>
+    </div>
 </div>
-<ul id="ul1">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-</ul>
-<ul id="ul2">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-</ul>
-<h2>
-    margin 百分比是相对于其父元素的<strong>宽度</strong>
-</h2>
-<div id="percent" style="width: 600px; height: 200px; background-color: lightblue;">
-    <img src="../img/zhang.jpg" alt="zhang" width="200" style="margin: 10%;">
+<hr>
+
+<div>
+    <h2>
+        图片居中需要设置图片display:block;
+    </h2>
+    <img src="../img/zhang.jpg" alt="zhang" style="display: block; margin: 0 auto; width: 200px;">
 </div>
+
+
 <h2>
-    衬底
+    页面边距可以这样设置： html {margin:20px;}
 </h2>
 </body>
 </html>

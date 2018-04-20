@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//WC//DTD XHTML . Transitional//EN" "http://www.w.org/TR/xhtml/DTD/xhtml-transitional.dtd">
+<html xmlns="http://www.w.org//xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-" />
+    <title>无标题文档</title>
+    <style>
+        header{display:block; margin: auto; width:%; text-align:center;}
+        header h{font-size:px; font-family:Arial, Helvetica, sans-serif; font-weight:bold;}
+        header #newgamebutton{display:block; margin:px auto; width:px; padding:px px; background-color:#fa; font-family:Arial; color:white; border-radius:px; text-decoration:none;}
+        header #newgamebutton:hover{background-color:#fb;}
+        header p{font-family:Arial; font-size:px; margin:px auto;}
+        #grid-container{width:px; height:px; padding:px; margin:px auto; background-color:#bbada; border-radius:px; position:relative;}
+        .grid-cell{width:px; height:px; border-radius:px; color:white; background-color:#cccb; position:absolute; font-family:Arial; font-weight:bold; font-size:px; line-height:px; text-align:center;}
+        .gameover{display:block; margin: auto; width:px; text-align:center; vertical-align:middle; position:absolute;}
+        .gameover p {
+            font-family: Arial;
+            font-size: px;
+            color: white;
+            margin: px auto;
+            margin-top: px;
+        }
+        .gameover span {
+            font-family: Arial;
+            font-size: px;
+            color: white;
+            margin: px auto;
+        }
+        #restartgamebutton {
+            display: block;
+            margin: px auto;
+            width: px;
+            padding: px px;
+            background-color: #fa;
+            font-family: Arial;
+            font-size: px;
+            color: white;
+            border-radius: px;
+            text-decoration: none;
+        }
+        #restartgamebutton:hover {
+            background-color: #fb;
+        }
+        #showGameover{width:px; padding:px px; background-color:#fa; font-family:Arial; color:white; border-radius:px; text-decoration:none; font-size:px; position:absolute;}
+    </style>
+    <script>
+        window.onload = function (){
+//newgame();
+            var showScore = document.getElementById('score');
+            score = ;
+            init();
+            generateOneNumber();
+            generateOneNumber();
+            window.onkeydown = function (e){
+                var e = e || window.event;
+                switch(e.keyCode){
+                    case :
+                        if(canMoveLeft(board)){
+                            moveLeft();
+                            generateOneNumber();
+                            isgameover();
+                        }
+                        break;
+                    case :
+                        if(canMoveUp(board)){
+                            moveUp();
+                            generateOneNumber();
+                            isgameover();
+                        }
+                        break;
+                    case :
+                        if(canMoveRight(board)){
+                            moveRight();
+                            generateOneNumber();
+                            isgameover();
+                        }
+                        break;
+                    case :
+                        if(canMoveDown(board)){
+                            moveDown();
+                            generateOneNumber();
+                            isgameover();
+                        }
+                        break;
+                    default :
+                        break;
+                }
+            };
+        };
+        function generateOneNumber() {
+            if(!nospace(board)){
+                var randx = parseInt(Math.floor(Math.random() * ));
+                var randy = parseInt(Math.floor(Math.random() * ));
+                while (true) {
+                    if (board[randx][randy] == ) {
+                        break;
+                    }
+                    var randx = parseInt(Math.floor(Math.random() * ));
+                    var randy = parseInt(Math.floor(Math.random() * ));
+                }
+                var randNumber = Math.random() < . ? : ;
+                board[randx][randy] = randNumber;
+                var gridCell = document.getElementById('grid-cell-'+randx+'-'+randy);
+                gridCell.innerHTML = randNumber;
+//
+            }
+            else {
+                gameover();
+            }
+        }
+        function newgame() {
+            window.location.reload();
+        }
+        var board = new Array();
+        function init(){
+            for(var i=;i<;i++){
+                board[i] = new Array();
+                for(var j=;j<;j++){
+                    board[i][j] = ;
+                    var gridCell = document.getElementById('grid-cell-'+i+'-'+j);
+                    gridCell.style.top = (+i*)+'px';
+                    gridCell.style.left = (+j*)+'px';
+                }
+            }
+        }
+        function getNumberBackgroundColor(number) {
+            switch (number) {
+                case :return "#eeeda";break;
+                case :return "#edec";break;
+                case :return "#fb";break;
+                case :return "#f";break;
+                case :return "#fcf";break;
+                case :return "#feb";break;
+                case :return "#edcf";break;
+                case :return "#edcc";break;
+                case :return "#c";break;
+                case :return "#be";break;
+                case :return "#c";break;
+                case :return "#ac";break;
+                case :return "#c";break;
+            }
+        }
+        function getNumberColor(number) {
+            if (number <= ) {
+                return "#e"
+            }
+            return "white";
+        }
+        function nospace(board) {
+            for (var i = ; i < ; i++) {
+                for (var j = ; j < ; j++) {
+                    if (board[i][j] == ) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        function canMoveLeft(board) {
+            for (var i = ; i < ; i++) {
+                for (var j = ; j < ; j++) {
+                    if (board[i][j] != ) {
+                        if (board[i][j - ] == || board[i][j - ] == board[i][j]) {return true; }
+                    }
+                }
+            }
+            return false;
+        }
+        function moveLeft() {
+            for (var i = ; i < ; i++) {
+                for (var j = ; j < ; j++) {
+                    if (board[i][j] != ) {
+                        for (var k = j-; k > -; k--) {
+                            if(board[i][k] == || board[i][k] == board[i][j]){
+                                board[i][k] = board[i][k] + board[i][j];
+                                board[i][j] = ;
+                                var gridCell = document.getElementById('grid-cell-'+i+'-'+j);
+                                gridCell.innerHTML = '';
+                                var gridCellk = document.getElementById('grid-cell-'+i+'-'+k);
+                                gridCellk.innerHTML = board[i][k];
+                                gridCellk.style.backgroundColor = getNumberBackgroundColor(board[i][k]);
+                                gridCell.style.backgroundColor = '#cccb';
+                                gridCellk.style.color = getNumberColor(board[i][k]);
+                                gridCell.style.color = 'white';
+                                score += board[i][k];
+                                var showScore = document.getElementById('score');
+                                showScore.innerHTML = score;
+                                j = k;
+//
+                            }
+                            else {
+                                break; //跳出 var k 的for循环
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        function canMoveUp(board) {
+            for (var j = ; j < ; j++) {
+                for (var i = ; i < ; i++) {
+                    if (board[i][j] != ) {
+                        if (board[i - ][j] == || board[i - ][j] == board[i][j]) {return true; }
+                    }
+                }
+            }
+            return false;
+        }
+        function moveUp() {
+            for (var j = ; j < ; j++) {
+                for (var i = ; i < ; i++) {
+                    if (board[i][j] != ) {
+                        for (var k = i-; k > -; k--) {
+                            if(board[k][j] == || board[k][j] == board[i][j]){
+                                board[k][j] = board[k][j] + board[i][j];
+                                board[i][j] = ;
+                                var gridCell = document.getElementById('grid-cell-'+i+'-'+j);
+                                gridCell.innerHTML = '';
+                                var gridCellk = document.getElementById('grid-cell-'+k+'-'+j);
+                                gridCellk.innerHTML = board[k][j];
+                                gridCellk.style.backgroundColor = getNumberBackgroundColor(board[k][j]);
+                                gridCell.style.backgroundColor = '#cccb';
+                                gridCellk.style.color = getNumberColor(board[i][k]);
+                                gridCell.style.color = 'white';
+                                score += board[k][j];
+                                var showScore = document.getElementById('score');
+                                showScore.innerHTML = score;
+                                i = k;
+//
+                            }
+                            else {
+                                break; //跳出 var k 的for循环
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        function canMoveRight(board) {
+            for (var i = ; i < ; i++) {
+                for (var j = ; j > -; j--) {
+                    if (board[i][j] != ) {
+                        if (board[i][j + ] == || board[i][j + ] == board[i][j]) {return true; }
+                    }
+                }
+            }
+            return false;
+        }
+        function moveRight() {
+            for (var i = ; i < ; i++) {
+                for (var j = ; j > -; j--) {
+                    if (board[i][j] != ) {
+                        for (var k = j+; k < ; k++) {
+                            if(board[i][k] == || board[i][k] == board[i][j]){
+                                board[i][k] = board[i][k] + board[i][j];
+                                board[i][j] = ;
+                                var gridCell = document.getElementById('grid-cell-'+i+'-'+j);
+                                gridCell.innerHTML = '';
+                                var gridCellk = document.getElementById('grid-cell-'+i+'-'+k);
+                                gridCellk.innerHTML = board[i][k];
+                                gridCellk.style.backgroundColor = getNumberBackgroundColor(board[i][k]);
+                                gridCell.style.backgroundColor = '#cccb';
+                                gridCellk.style.color = getNumberColor(board[i][k]);
+                                gridCell.style.color = 'white';
+                                score += board[i][k];
+                                var showScore = document.getElementById('score');
+                                showScore.innerHTML = score;
+                                j = k;
+//
+                            }
+                            else {
+                                break; //跳出 var k 的for循环
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        function canMoveDown(board) {
+            for (var j = ; j < ; j++) {
+                for (var i = ; i > -; i--) {
+                    if (board[i][j] != ) {
+                        if (board[i + ][j] == || board[i + ][j] == board[i][j]) {return true; }
+                    }
+                }
+            }
+            return false;
+        }
+        function moveDown() {
+            for (var j = ; j < ; j++) {
+                for (var i = ; i > -; i--) {
+                    if (board[i][j] != ) {
+                        for (var k = i+; k < ; k++) {
+                            if(board[k][j] == || board[k][j] == board[i][j]){
+                                board[k][j] = board[k][j] + board[i][j];
+                                board[i][j] = ;
+                                var gridCell = document.getElementById('grid-cell-'+i+'-'+j);
+                                gridCell.innerHTML = '';
+                                var gridCellk = document.getElementById('grid-cell-'+k+'-'+j);
+                                gridCellk.innerHTML = board[k][j];
+                                gridCellk.style.backgroundColor = getNumberBackgroundColor(board[k][j]);
+                                gridCell.style.backgroundColor = '#cccb';
+                                gridCellk.style.color = getNumberColor(board[i][k]);
+                                gridCell.style.color = 'white';
+                                score += board[k][j];
+                                var showScore = document.getElementById('score');
+                                showScore.innerHTML = score;
+                                i = k;
+//
+                            }
+                            else {
+                                break; //跳出 var k 的for循环
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        function isgameover() {
+            if (nospace(board) && nomove(board)) {
+                gameover();
+            }
+        }
+        function nomove(board) {
+            if (canMoveDown(board) ||
+                canMoveLeft(board) ||
+                canMoveRight(board) ||
+                canMoveUp(board)) {
+                return false;
+            }
+            return true;
+        }
+        function bounce(obj,top){
+            clearInterval(obj.timer);
+            var nSpeed = ;
+            var acceleration = ;
+            var Flag = ;
+            obj.timer = setInterval(function (){
+                nSpeed += acceleration;
+                nSpeed *= .;
+                if(obj.offsetTop + nSpeed >= top){
+                    obj.style.top = top + 'px';
+                    nSpeed *= -;
+                }else{
+                    if(Math.abs(nSpeed) < && Math.abs(top-obj.offsetTop)<){
+                        clearInterval(obj.timer);
+                    }
+                    else{
+                        obj.style.top = obj.offsetTop + nSpeed + 'px';
+                    }
+                }
+            },);
+        }
+        function gameover() {
+//alert("gameover!");
+            var gameover = document.createElement('div');
+            gameover.id = 'showGameover';
+            gameover.innerHTML = 'GAME OVER';
+            var gridContainer = document.getElementById('grid-container');
+            gridContainer.appendChild(gameover);
+            var showGameover = document.getElementById('showGameover');
+            showGameover.style.left = (gridContainer.offsetWidth - showGameover.offsetWidth ) / + 'px';
+            bounce(showGameover,);
+        }
+    </script>
+</head>
+<body>
+<header>
+    <!--<h> </h>-->
+    <a href="javascript:newgame();" id="newgamebutton"> New Game </a>
+    <p> score: <span id="score"></span></p>
+    <div id="grid-container">
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+        <div class="grid-cell" id="grid-cell--"></div>
+    </div>
+</header>
+</body>
+</html>

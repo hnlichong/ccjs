@@ -37,7 +37,6 @@
             height: 300px;
         }
 
-
         .bc-lightgrey {
             background-color: #F3F5FA;
         }
@@ -175,19 +174,24 @@
 
 <body>
 
-<h2>
-    应用1：[双飞翼] 三栏自适应布局
-</h2>
-<p>
-    中间为主要部分，采用宽度100%自适应布局，左右两边侧边栏（双飞翼）采用固定宽度。
-</p>
-<div id="box0">
-    <div class="main">
-        <div class="content"></div>
+<div>
+
+    <h2>
+        应用1：[双飞翼] 三栏自适应布局
+    </h2>
+    <p>
+        中间为主要部分，采用宽度100%自适应布局，左右两边侧边栏（双飞翼）采用固定宽度。
+    </p>
+    <div id="box0">
+        <div class="main">
+            <div class="content"></div>
+        </div>
+        <div class="left"></div>
+        <div class="right"></div>
     </div>
-    <div class="left"></div>
-    <div class="right"></div>
 </div>
+<hr>
+
 
 <h2>
     图文混排
@@ -198,7 +202,7 @@
     </h3>
     <div class="resizable">
         <img src="../img/zhang.jpg" width="150" style="float: left;">
-        <p style="">
+        <p style="background-color: lightblue;">
             原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
             1.图片左浮动，文字自然环绕。 2.给文字增加margin-left 可视尺寸减小，实现宽度自适应效果。
             3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。 4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层，使用margin负值定位。
@@ -227,7 +231,7 @@
         </p>
     </div>
     <h3>
-        4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层宽度100%的div，img使用margin负值改变元素占据空间的大小，从而改变浮动位置。
+        4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层宽度100%的div，img使用margin负值改变元素占据空间的大小，从而拉动元素发生位移。
     </h3>
     <div class="resizable">
         <div style="float:left; width: 100%;">
@@ -252,7 +256,7 @@
     场景：从后台拿到数据后，自动生成横向列表(数量未知)，列表之间保持一定间距(margin-right相同)，但是最后一项不能看到右边距，即实现两端对齐。
 </p>
 <p>
-    原理：当子宽度不设置宽度时(width: auto)，边距越大，宽度越小；边距越小，宽度越大。
+    原理：当子元素不设置宽度时(width: auto)，边距越大，宽度越小；边距越小，宽度越大。
 </p>
 <div id="box2">
     <ul>
@@ -317,7 +321,7 @@
 
 <h2>特点3：元素加宽</h2>
 <p>
-    如果元素的宽度没有设置（width: auto, 由浏览器自动计算出实际宽度），左右负边距会把元素向两个方向拉以增加宽度。与正边距的效果一样：当宽度自动时，边距越大，宽度越小；边距越小，宽度越大。应用：两端对齐
+    如果元素的宽度没有设置（width: auto, 即由浏览器自动计算出实际宽度），左右负边距会把元素向两个方向拉以增加宽度。与正边距的效果一样：当宽度自动时，边距越大，宽度越小；边距越小，宽度越大。应用：两端对齐
 </p>
 <p> 公式：父元素width = 子元素width + padding + border + margin </p>
 <p> 在这里，父元素width = 300，子元素margin = -10, border = 2, padding = 0 => 子元素width = 308px, 从而实现了元素加宽 </p>

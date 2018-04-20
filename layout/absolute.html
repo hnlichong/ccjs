@@ -3,8 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <title>absolute</title>
+    <style>
+        html {
+            background-color: #EDEFF0;
+            margin: 20px;
+        }
+
+        body {
+            width: 80%;
+            min-height: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+
+        nav > a {
+            margin: 0 10px;
+        }
+
+        .dropdown {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            border: 1px solid black;
+            border-bottom: none;
+            overflow: hidden;
+            position: absolute;
+            margin-left: 2px;
+            margin-top: 2px;
+            display: none;
+            background: #fff;
+        }
+
+        .dropdown > li {
+            border-bottom: 1px solid black;
+            /*border-top: 1px solid black;*/
+            /*border-bottom: 1px solid black;*/
+        }
+
+        .goto {
+            display: block;
+            width: 48px;
+            height: 48px;
+            margin-top: 10px;
+            background: url("../img/icons/goto.png") no-repeat;
+
+        }
+
+        .goto-top {
+            background-position: 0 0;
+        }
+
+        .goto-top:hover {
+            background-position: 0 -50px;
+        }
+
+        .goto-feedback {
+            background-position: -48px 0;
+        }
+
+        .goto-feedback:hover {
+            background-position: -48px -50px;
+        }
+
+        .goto-app-download {
+            background-position: -96px 0;
+        }
+
+        .goto-app-download:hover {
+            background-position: -96px -50px;
+        }
+
+        .goto-survey {
+            background-position: -144px 0;
+        }
+
+        .goto-survey:hover {
+            background-position: -144px -50px;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div>
+    <h2>
+        absolute的位置跟随性实现图标定位
+    </h2>
+    <nav>
+        <a href="javascript:void(0);">HTML</a>
+        <a href="javascript:void(0);">CSS</a>
+        <a href="javascript:void(0);">
+            JavaScript<i
+                style="background: url('../img/icons/new.png'); position: absolute; width:16px;height: 16px;margin-left:2px; margin-top:-6px;"></i>
+        </a>
+        <a href="javascript:void(0);">Vue.js</a>
+    </nav>
+    <img src="../img/zhang.jpg" alt="zhang" style="width: 200px;"><!--
+    --><i
+        style="background: url('../img/icons/new.png'); position: absolute;width:16px;height:16px;margin-left:-16px;"></i>
+</div>
+<hr>
+
+<div class="search-container">
+    <h2>
+        下拉框定位，组件开发推荐用absolute位置跟随性
+    </h2>
+    <input type="text" class="search-box" autofocus>
+    <ul class="dropdown">
+        <!--这个ul将作为一个dropdown插件，使用absolute和margin实现精确定位，独立无依赖，通用性强-->
+        <li>aa</li>
+        <li>bb</li>
+        <li>cc</li>
+        <li>dd</li>
+        <li>ee</li>
+    </ul>
+</div>
+<div>
+    这里的东西应该正好在search-box的下方，下拉框弹出时应该将他们覆盖，所以下拉框的布局应该是完全不占据空间，位于文档顶层，平时display:none;
+</div>
+<hr>
+
+<div class="goto-container">
+    <h2>
+        边缘定位
+    </h2>
+    <div class="goto-wrapper" style="text-align: right; height:0;overflow:hidden;">
+        &nbsp;<nav style="position: fixed;margin-left: 10px; bottom: 80px; display: inline-block;">
+        <a href="javascript:void(0);" class="goto goto-app-download"></a>
+        <a href="javascript:void(0);" class="goto goto-survey"></a>
+        <a href="javascript:void(0);" class="goto goto-feedback"></a>
+        <a href="javascript:void(0);" class="goto goto-top"></a>
+    </nav>
+
+    </div>
+
+</div>
+<hr>
+
+<div>
+    <h2>
+        拉伸特性
+    </h2>
+    <p>
+        absolute的对立方向定位值具有拉伸特性（left/right, top/bottom），能自动计算元素宽高
+        应用：全屏覆盖层，图片覆盖层（局部覆盖层）
+    </p>
+    <p>全屏覆盖层</p>
+    <div style="position: fixed;left: 0;right:0;top:0;bottom:0; background-color: #fff; opacity: 0.5; display: none;"></div>
+    <p>局部覆盖层</p>
+    <div>
+        <div style="display: inline-block; position: relative;">
+            <div style="position: absolute;left: 0;right:0;top:0;bottom:0; background-color: #fff; opacity:0.5;"></div>
+            <img src="../img/beauty1.jpg" alt="beauty1">
+        </div>
+    </div>
+</div>
+<hr>
+
+<div>
+    <h2>
+        正方形
+    </h2>
+    <div class="square-wrapper" style="position: relative; border: 5px solid red;">
+        <div class="square-holder" style="margin-top:100%;"></div>
+        <div class="square" style="position: absolute; left: 0;right: 0;top:0;bottom:0;
+    border: 10px solid green;">
+            real content
+        </div>
+    </div>
+</div>
+<hr>
+
+
+<div>
+    <h2>
+        宽高自适应的九宫格效果
+    </h2>
+</div>
+<script>
+    const searchBox = document.querySelector('.search-box')
+    const dropdown = document.querySelector('.dropdown')
+    // searchBox.onfocus = function (ev) {
+    //     searchBox.onkeyup = function (ev) {
+    //         ev = ev || event
+    //         if (searchBox.value !== '') {
+    //             dropdown.style.display = 'block'
+    //         } else {
+    //             dropdown.style.display = 'none'
+    //         }
+    //
+    //     }
+    // }
+    searchBox.oninput = function (ev) {
+        ev = ev || event
+        if (this.value !== '') {
+            dropdown.style.display = 'block'
+        } else {
+            dropdown.style.display = 'none'
+        }
+    }
+    searchBox.onblur = function (ev) {
+        dropdown.style.display = 'none'
+    }
+</script>
 </body>
 </html>
