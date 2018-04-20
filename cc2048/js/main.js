@@ -1,4 +1,6 @@
+import '../css/main.styl'
 import Util from './util.js'
+
 'use strict'
 
 const TEMPLATES = {
@@ -11,6 +13,11 @@ const TEMPLATES = {
         </div>
     </div>
     `
+    },
+    tile(rowIndex, colIndex, value) {
+        return `
+        <div class="tile tile-${rowIndex}-${colIndex}">${value}</div>
+        `
     }
 }
 
@@ -28,26 +35,9 @@ class Grid {
         this.colLen = this.size[1]
         // occupied status
         this.status = []
-        this.drawGrid()
+        this.renderGrid()
     }
-
-    init() {
-        // create grid table
-        const tab = document.createElement('table')
-        const tbd = tab.createTBody()
-        for (let ri = 0, rl = this.size[0]; ri < rl; ri++) {
-            let row = tbd.insertRow(ri)
-            for (let ci = 0, cl = this.size[1]; ci < cl; ci++) {
-                let cell = row.insertCell(ci)
-                cell.innerText = ri + ', ' + ci
-                // init occupied status
-                this.status[ri][ci] = 0
-            }
-        }
-        this.gridWrapper.appendChild(tab)
-    }
-
-    drawGrid() {
+    renderGrid() {
         let gridHTML = `
             <table>
                 <tbody>
@@ -89,8 +79,9 @@ class Tile extends Grid {
         super()
         this.tiles = []
         this.initVals = [2, 4]
+        this.container = SETTINGS.container.querySelector('.game-wrapper')
     }
-
+    // renderInitTiles()
     genNewTile(val = -1) {
         if (val === -1) {
             val = Util.getRandomItem(this.initVals)
@@ -106,7 +97,14 @@ class Tile extends Grid {
         }
         this.tiles.push(tile)
         this.status[rowIndex][colIndex] = 1
+        this.renderTile(rowIndex, colIndex, val)
         return tile
+    }
+    renderTile(rowIndex, colIndex, value) {
+        let div = document.createElement('div')
+        div.className = `tile tile-${rowIndex}-${colIndex}`
+        div.innerText = value
+        this.container.appendChild(div)
     }
 
 }

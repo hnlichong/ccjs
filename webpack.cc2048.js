@@ -14,12 +14,32 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: [
-                    path.resolve(__dirname, 'app')
+                    path.resolve(ROOT, 'js')
                 ],
                 loader: "babel-loader",
                 options: {
                     presets: ["es2015"]
                 }
+            },
+            {
+                test: /\.styl$/,
+                include: [
+                    path.resolve(ROOT, 'css')
+                    ],
+                // Chain the less-loader with the css-loader and the style-loader
+                use: [{
+                    loader: 'style-loader', // creates style nodes from JS strings
+                    options: {
+                        sourceMap: true
+                    }
+                }, {
+                    loader: 'css-loader', // translates CSS into CommonJS
+                    options: {
+                        sourceMap: true
+                    }
+                }, {
+                    loader: 'stylus-loader' // compiles Stylus to CSS
+                }]
             }
         ]
     },
