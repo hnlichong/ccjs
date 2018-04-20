@@ -18,21 +18,41 @@ function getTypeOf(obj) {
     return pat.exec(s)[1].toLowerCase()
 }
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
+
+/**
+ * min <= random < max
+ * @param min
+ * @param max
+ * @returns {*}
+ */
+function getRandom(min, max) {
+    return Math.random() * (max - min) + min
 }
 
+/**
+ * min <= randomInt < max
+ * @param min
+ * @param max
+ * @returns {*}
+ */
 function getRandomInt(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min)) + min //The maximum is exclusive and the minimum is inclusive
 }
 
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min
+/**
+ * min <= randomInt <= max
+ * @param min
+ * @param max
+ * @returns {*}
+ */
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
 }
+
 
 function getFnRunningTime(fn, args) {
     var t1 = Date.now()
