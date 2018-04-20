@@ -1,45 +1,51 @@
-gridWidth = 150px;
-gridBorder = 10px;
-rowLen = 4;
-colLen = 4;
+gridWidth = 150px
+gridBorder = 10px
+rowLen = 4
+colLen = 4
+tileFontSize = 56px
 
 
 .game-container
-  text-align:center;
+  text-align:center
   .game-wrapper
-    display: inline-block;
-    position: relative;
+    display: inline-block
+    position: relative
     table
-      background-color: #CBC1B5;
-      border-collapse: collapse;
+      background-color: #CBC1B5
+      border-collapse: collapse
       tr
-        margin: 0;
-        padding: 0;
+        margin: 0
+        padding: 0
 
       td
-        text-align: center;
-        vertical-align: middle;
-        width: gridWidth;
-        height: gridWidth;
-        box-sizing: border-box;
-        border: gridBorder ridge #B9ADA1;
-        margin: 0;
-        padding: 0;
+        text-align: center
+        vertical-align: middle
+        width: gridWidth
+        height: gridWidth
+        box-sizing: border-box
+        border: gridBorder ridge #B9ADA1
+        margin: 0
+        padding: 0
 
 
     .tile
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 1;
-      width: gridWidth - gridBorder;
-      height: gridWidth - gridBorder;
-      background-color: #ECE4DA;
+      position: absolute
+      left: 0
+      top: 0
+      z-index: 1
+      width: gridWidth - gridBorder
+      height: gridWidth - gridBorder
+      background-color: #ECE4DA
+      text-align center
+      line-height: gridWidth - gridBorder
+      font-size: tileFontSize
+      font-weight: bold
+      font-family: "Helvetica Neue", Arial, sans-serif
 
     for ri in range(0, rowLen - 1)
       for ci in range(0, colLen - 1)
         .tile-{ri}-{ci}
-          transform: translate(gridBorder + ri * gridWidth, gridBorder + ci * gridWidth);
+          transform: translate(gridBorder + ci * gridWidth, gridBorder + ri * gridWidth)
 
 
 

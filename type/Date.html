@@ -13,7 +13,7 @@
     // 获取毫秒数
     console.log(new Date().getTime())
     console.log(Date.now())
-    console.log(+new Date())
+    console.log(+new Date()) // 这是一元加操作符，这里相当于new Date().valueOf()
 
     // 创建本地时区的特定时间的日期对象, 月份从0开始
     var date = new Date(1993, 6, 1, 23, 43, 0)

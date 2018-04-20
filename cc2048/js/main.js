@@ -93,11 +93,11 @@ class Tile extends Grid {
         const tile = {
             value: val,
             rowIndex,
-            colIndex
+            colIndex,
+            element: this.renderTile(rowIndex, colIndex, val)
         }
         this.tiles.push(tile)
         this.status[rowIndex][colIndex] = 1
-        this.renderTile(rowIndex, colIndex, val)
         return tile
     }
     renderTile(rowIndex, colIndex, value) {
@@ -105,6 +105,36 @@ class Tile extends Grid {
         div.className = `tile tile-${rowIndex}-${colIndex}`
         div.innerText = value
         this.container.appendChild(div)
+        return div
+    }
+    moveTiles(direction='left') {
+        // left, right -> ri-, ri+
+        // up, down -> ci-, ci+
+        this.tiles.forEach((tile)=>{
+            // update tile position
+            switch (direction) {
+                case 'left': {
+                    tile.colIndex--
+                    break
+                }
+                case 'right': {
+                    tile.colIndex++
+                    break
+                }
+                case 'up': {
+                    tile.rowIndex--
+                    break
+                }
+                case 'down': {
+                    tile.rowIndex++
+                    break
+                }
+            }
+            // update tile className
+            tile.element.className = tile.element.className.replace(/tile-\d+-\d+/, `tile-${tile.rowIndex}-${tile.colIndex}`)
+            // update grid status todo
+        })
+
     }
 
 }
@@ -117,7 +147,27 @@ class Game {
 
     init() {
         this.tile.genNewTile()
+        document.addEventListener('keyup', this.gameEvents.bind(this))
     }
+    gameEvents(ev) {
+        ev = ev || event
+        switch (ev.type) {
+            case 'keyup': {
+                const keyMap = {
+                    '37': 'left',
+                    '38': 'up',
+                    '39': 'right',
+                    '40': 'down'
+                }
+                let direction = keyMap[ev.keyCode+'']
+                this.tile.moveTiles(direction)
+            }
+        }
+    }
+    f1() {
+
+    }
+
 
 }
 
