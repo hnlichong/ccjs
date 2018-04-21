@@ -19,19 +19,16 @@ const TEMPLATES = {
 
 const SETTINGS = {
     gameContainer: document.querySelector('#gameApp'),
-    size: [4, 4]
+    rowLen: 4,
+    colLen: 4
 }
 
 
-class Grid {
+class Grids {
     constructor() {
         this.gridsContainer = SETTINGS.gameContainer.querySelector('.grids-container')
-        this.size = SETTINGS.size
-        this.rowLen = this.size[0]
-        this.colLen = this.size[1]
-
-        // occupied status
-        this.status = []
+        this.rowLen = SETTINGS.rowLen
+        this.colLen = SETTINGS.colLen
         // grid content
         this.contents = []
 
@@ -43,14 +40,10 @@ class Grid {
         let s = ''
         for (let ri = 0; ri < this.rowLen; ri++) {
             s += `<tr>`
-            // init 2d array stants for position [ri][ci] occupy
-            this.status[ri] = []
-            // init 2d array grid content
+            // init 2d array grids contents
             this.contents[ri] = []
             for (let ci = 0; ci < this.colLen; ci++) {
                 s += `<td>${ri}, ${ci}</td>`
-                // init occupied status
-                this.status[ri][ci] = 0
                 this.contents[ri][ci] = null
             }
             s += `</tr>`
@@ -58,118 +51,73 @@ class Grid {
         this.gridsContainer.innerHTML = s
 
     }
-
-    getEmptyGridsPosArr() {
+    getEmptyGridsPos() {
         const arr = []
-        this.status.forEach((row, ri) => {
-            row.forEach((col, ci) => {
-                if (col === 0) arr.push([ri, ci])
-            })
-        })
+        for (let ri=0;ri < this.rowLen; ri++) {
+            for (let ci=0;ci<this.colLen;ci++) {
+                if (this.contents[ri][ci] === null) {
+                    arr.push([ri, ci])
+                }
+            }
+        }
         return arr
     }
 }
 
-class Tile extends Grid {
-    constructor() {
-        super()
-        this.tiles = []
-        this.initVals = [2, 4]
+class Tile {
+    constructor(value=2, rowIndex=0, colIndex=0) {
+        // todo
         this.tilesContainer = SETTINGS.gameContainer.querySelector('.tiles-container')
+        this.element = this.render(rowIndex, colIndex, value)
+        this.value = value
+        this.rowIndex = rowIndex
+        this.colIndex = colIndex
+    }
+    set value(value) {
+        this.element.innerText = value
+        this._value = value
+    }
+    get value() {
+        return this._value
+    }
+    set rowIndex(rowIndex) {
+        this.element.className = this.element.className.replace(/tile-(\d+)-(\d+)/,
+            `tile-${rowIndex}-$2`)
+        this._rowIndex = rowIndex
+    }
+    get rowIndex() {
+        return this._rowIndex
+    }
+    set colIndex(colIndex) {
+        this.element.className = this.element.className.replace(/tile-(\d+)-(\d+)/,
+            `tile-$1-${colIndex}`)
+        this._colIndex = colIndex
+    }
+    get colIndex() {
+        return this._colIndex
     }
 
-    // renderInitTiles()
-    genNewTile(val = -1) {
-        if (val === -1) {
-            val = Util.getRandomItem(this.initVals)
-        }
-        const emptyGridsPosArr = this.getEmptyGridsPosArr()
-        let emptyGrid = Util.getRandomItem(emptyGridsPosArr)
-        let rowIndex = emptyGrid[0]
-        let colIndex = emptyGrid[1]
-        const tile = {
-            value: val,
-            rowIndex,
-            colIndex,
-            element: this.renderTile(rowIndex, colIndex, val)
-        }
-        this.tiles.push(tile)
-        this.status[rowIndex][colIndex] = 1
-        this.contents[rowIndex][colIndex] = tile
-        return tile
-    }
-
-    renderTile(rowIndex, colIndex, value) {
+    render(rowIndex, colIndex, value) {
         let div = document.createElement('div')
         div.className = `tile tile-${rowIndex}-${colIndex}`
         div.innerText = value
         this.tilesContainer.appendChild(div)
         return div
     }
-    updateTile(tile, rowIndex, colIndex) {
 
-        element.className = element.className.replace(/tile-\d+-\d+/, `tile-${rowIndex}-${colIndex}`)
-    }
-    moveTiles(direction) {
-        // left, right -> ri-, ri+
-        // up, down -> ci-, ci+
-
-        // update tiles
-        switch (direction) {
-            case 'left': {
-                // colIndex--
-                for (let ri = 1, len = this.rowLen; ri < len; ri++) {
-                    for (let ci = 1, len = this.colLen; ci < len; ci++) {
-                        let tile = this.contents[ri][ci]
-                        if (tile !== null) {
-                            tile.colIndex--
-                            this.updateClassName(tile)
-                            this.contents[ri][ci-1] = tile
-
-                        }
-                    }
-                }
-                break
-            }
-            case 'right': {
-                tile.colIndex++
-                break
-            }
-            case 'up': {
-                tile.rowIndex--
-                break
-            }
-            case 'down': {
-                tile.rowIndex++
-                break
-            }
-            default:
-                break
-        }
-        // update tile className
-        tile.element.className = tile.element.className.replace(/tile-\d+-\d+/, `tile-${tile.rowIndex}-${tile.colIndex}`)
-        // update grid status todo
-
-
-    }
 }
 
 class Game {
     constructor() {
         // render template
         SETTINGS.gameContainer.innerHTML = TEMPLATES.game
-        this.tile = new Tile()
-        this.init()
-    }
+        this.grids = new Grids()
 
-    init() {
-        this.tile.genNewTile()
         document.addEventListener('keydown', this.gameEvents.bind(this))
+        this.initTiles()
     }
-
     gameEvents(ev) {
         ev = ev || event
-        ev.preventDefault()
         switch (ev.type) {
             case 'keydown': {
                 const keyMap = {
@@ -179,14 +127,125 @@ class Game {
                     '40': 'down'
                 }
                 let direction = keyMap[ev.keyCode + '']
-                if (direction === undefined) break
-                this.tile.moveTiles(direction)
+                if (direction !== undefined) {
+                    ev.preventDefault()
+                    this.moveTiles(direction)
+                }
                 break
             }
         }
     }
+    initTiles(n=2, randomValue=[2,4]) {
+        for (let i=0;i<n;i++) {
+            let [rowIndex, colIndex] = Util.getRandomItem(
+                this.grids.getEmptyGridsPos())
+            let value = Util.getRandomItem(randomValue)
+            this.grids.contents[rowIndex][colIndex] = new Tile(value, rowIndex, colIndex)
+        }
+    }
+    moveTiles(direction) {
+        // update tiles
+        switch (direction) {
+            case 'left': {
+                // colIndex--
+                for (let ri = 0, len = this.grids.contents.length; ri < len; ri++) {
+                    let rowContents = this.grids.contents[ri]
+                    let updatedRow = []
+                    for (let ci = 0, len = rowContents.length; ci < len; ci++) {
+                        let tile = rowContents[ci]
+                        if (tile === null) continue
+                        // get the lastTile in the updatedRow to compare with the coming tile
+                        let lastTile = updatedRow[updatedRow.length-1]
+                        if (lastTile === undefined || lastTile.value !== tile.value) {
+                            let len = updatedRow.push(tile)
+                            // update tile position
+                            tile.colIndex = len-1
+                        } else {
+                            // value equals, then merge the tile into lastTile
+                            // update value
+                            lastTile.value += tile.value
+                            // remove the merged tile
+                            tile.element.parentNode.removeChild(tile.element)
+                        }
+                    }
+                    // fiil the rest positions of updatedRow with null
+                    while(updatedRow.length<rowContents.length) {
+                        updatedRow.push(null)
+                    }
+                    // update the grid contents
+                    this.grids.contents[ri] = updatedRow
+                }
 
-    f1() {
+                break
+            }
+            case 'right': {
+                // colIndex++
+                for (let ri = 0, len = this.grids.contents.length; ri < len; ri++) {
+                    let rowContents = this.grids.contents[ri]
+                    let updatedRow = []
+                    for (let ci = rowContents.length-1; ci >= 0; ci--) {
+                        let tile = rowContents[ci]
+                        if (tile === null) continue
+                        // get the lastTile in the updatedRow to compare with the coming tile
+                        let lastTile = updatedRow[0]
+                        if (lastTile === undefined || lastTile.value !== tile.value) {
+                            let len = updatedRow.unshift(tile)
+                            // update tile position
+                            tile.colIndex = rowContents.length - len
+                        } else {
+                            // value equals, then merge the tile into lastTile
+                            lastTile.value += tile.value
+                            tile.element.parentNode.removeChild(tile.element)
+                        }
+                    }
+                    // fiil the rest positions of updatedRow with null
+                    while(updatedRow.length<rowContents.length) {
+                        updatedRow.unshift(null)
+                    }
+                    // update the grid contents
+                    this.grids.contents[ri] = updatedRow
+                }
+
+                break
+            }
+            case 'up': {
+                // rowIndex--
+                for (let ri = 0, len = this.grids.contents.length; ri < len; ri++) {
+                    let rowContents = this.grids.contents[ri]
+                    let updatedRow = []
+                    for (let ci = 0, len = rowContents.length; ci < len; ci++) {
+                        let tile = rowContents[ci]
+                        if (tile === null) continue
+                        // get the lastTile in the updatedRow to compare with the coming tile
+                        let lastTile = updatedRow[updatedRow.length-1]
+                        if (lastTile === undefined || lastTile.value !== tile.value) {
+                            let len = updatedRow.push(tile)
+                            // update tile position
+                            tile.colIndex = len-1
+                        } else {
+                            // value equals, then merge the tile into lastTile
+                            // update value
+                            lastTile.value += tile.value
+                            // remove the merged tile
+                            tile.element.parentNode.removeChild(tile.element)
+                        }
+                    }
+                    // fiil the rest positions of updatedRow with null
+                    while(updatedRow.length<rowContents.length) {
+                        updatedRow.push(null)
+                    }
+                    // update the grid contents
+                    this.grids.contents[ri] = updatedRow
+                }
+                break
+            }
+            case 'down': {
+                // rowIndex++
+                break
+            }
+            default:
+                break
+        }
 
     }
 
