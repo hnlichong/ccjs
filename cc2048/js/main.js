@@ -4,32 +4,28 @@ import Util from './util.js'
 'use strict'
 
 const TEMPLATES = {
-    game(gridHTML='', tileHTML='') {
-        return `
+    game: `
     <div class="game-container">
         <div class="game-wrapper">
-        ${gridHTML}
-        ${tileHTML}
+        <table>
+            <tbody class="grids-container">
+            </tbody>
+        </table>
+        <div class="tiles-container"></div>
         </div>
     </div>
-    `
-    },
-    tile(rowIndex, colIndex, value) {
-        return `
-        <div class="tile tile-${rowIndex}-${colIndex}">${value}</div>
-        `
-    }
+    `,
 }
 
 const SETTINGS = {
-    container: document.querySelector('.game'),
+    gameContainer: document.querySelector('#gameApp'),
     size: [4, 4]
 }
 
 
 class Grid {
     constructor() {
-        this.container = SETTINGS.container
+        this.gridsContainer = SETTINGS.gameContainer.querySelector('.grids-container')
         this.size = SETTINGS.size
         this.rowLen = this.size[0]
         this.colLen = this.size[1]
@@ -58,20 +54,9 @@ class Grid {
             }
             s += `</tr>`
         }
-        this.renderGrids(s)
+        this.gridsContainer.innerHTML = s
 
     }
-    renderGrids(tbodyHTML) {
-        let gridHTML = `
-            <table>
-                <tbody>
-                ${tbodyHTML}
-                </tbody>
-            </table>
-        `
-        this.container.innerHTML = TEMPLATES.game(gridHTML)
-    }
-
     getEmptyGridsPosArr() {
         const arr = []
         this.status.forEach((row, ri) => {
@@ -88,7 +73,7 @@ class Tile extends Grid {
         super()
         this.tiles = []
         this.initVals = [2, 4]
-        this.tilesContainer = SETTINGS.container.querySelector('.game-wrapper')
+        this.tilesContainer = SETTINGS.gameContainer.querySelector('.tiles-container')
     }
     // renderInitTiles()
     genNewTile(val = -1) {
@@ -110,7 +95,7 @@ class Tile extends Grid {
         super.status =''
         return tile
     }
-    renderTiles(rowIndex, colIndex, value) {
+    renderTile(rowIndex, colIndex, value) {
         let div = document.createElement('div')
         div.className = `tile tile-${rowIndex}-${colIndex}`
         div.innerText = value
@@ -152,6 +137,8 @@ class Tile extends Grid {
 
 class Game {
     constructor() {
+        // render template
+        SETTINGS.gameContainer.innerHTML = TEMPLATES.game
         this.tile = new Tile()
         this.init()
     }

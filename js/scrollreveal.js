@@ -90,7 +90,7 @@
         // Accepts any valid CSS easing, e.g. 'ease', 'ease-in-out', 'linear', etc.
         easing: 'cubic-bezier(0.6, 0.2, 0.1, 1)',
 
-        // `<html>` is the default reveal container. You can pass either:
+        // `<html>` is the default reveal gameContainer. You can pass either:
         // DOM Node, e.g. document.querySelector('.fooContainer')
         // Selector, e.g. '.fooContainer'
         container: window.document.documentElement,
@@ -111,7 +111,7 @@
         // of 0.20 means 20% of an element must be visible for its reveal to occur.
         viewFactor: 0.2,
 
-        // Pixel values that alter the container boundaries.
+        // Pixel values that alter the gameContainer boundaries.
         // e.g. Set `{ top: 48 }`, if you have a 48px tall fixed toolbar.
         // --
         // Visual Aid: https://scrollrevealjs.org/assets/viewoffset.png
@@ -285,8 +285,8 @@
             } else if (sr.tools.isNode(config.container)) {
                 return config.container
             } else {
-                console.log('ScrollReveal: invalid container "' + config.container + '" provided.')
-                console.log('ScrollReveal: falling back to default container.')
+                console.log('ScrollReveal: invalid gameContainer "' + config.container + '" provided.')
+                console.log('ScrollReveal: falling back to default gameContainer.')
             }
         }
         return sr.defaults.container
@@ -294,7 +294,7 @@
 
     /**
      * check to see if a node or node list was passed in as the target,
-     * otherwise query the container using target as a selector.
+     * otherwise query the gameContainer using target as a selector.
      *
      * @param {Node|NodeList|string} [target]    client input for reveal target.
      * @param {Node}                 [container] parent element for selector queries.
@@ -321,8 +321,8 @@
     }
 
     function _configure (elem, config, container) {
-        // If a container was passed as a part of the config object,
-        // let’s overwrite it with the resolved container passed in.
+        // If a gameContainer was passed as a part of the config object,
+        // let’s overwrite it with the resolved gameContainer passed in.
         if (config.container) config.container = container
         // If the element hasn’t already been configured, let’s use a clone of the
         // defaults extended by the configuration passed as the second argument.
@@ -447,7 +447,7 @@
     function _updateStore (elem) {
         var container = elem.config.container
 
-        // If this element’s container isn’t already in the store, let’s add it.
+        // If this element’s gameContainer isn’t already in the store, let’s add it.
         if (container && sr.store.containers.indexOf(container) === -1) {
             sr.store.containers.push(elem.config.container)
         }
@@ -473,7 +473,7 @@
             // Subsequent animate calls are made inside the event handler.
             _animate()
 
-            // Then we loop through all container nodes in the store and bind event
+            // Then we loop through all gameContainer nodes in the store and bind event
             // listeners to each.
             for (var i = 0; i < sr.store.containers.length; i++) {
                 sr.store.containers[i].addEventListener('scroll', _handler)
@@ -682,7 +682,7 @@
     }
 
     function _getScrolled (container) {
-        // Return the container scroll values, plus the its offset.
+        // Return the gameContainer scroll values, plus the its offset.
         if (container && container !== window.document.documentElement) {
             var offset = _getOffset(container)
             return {
@@ -750,7 +750,7 @@
             var bottom = elemBottom - elemHeight * vF
             var right = elemRight - elemWidth * vF
 
-            // Define the container functional boundaries using its view offset.
+            // Define the gameContainer functional boundaries using its view offset.
             var viewTop = scrolled.y + elem.config.viewOffset.top
             var viewLeft = scrolled.x + elem.config.viewOffset.left
             var viewBottom = scrolled.y - elem.config.viewOffset.bottom + container.height
