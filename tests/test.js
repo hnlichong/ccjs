@@ -1,5 +1,2 @@
-for (let i = 0; i < 10; i++) {
-    setTimeout(function () {
-        console.log(i);
-    }, 1000)    
-}
+let a = 'aa' === 1
+console.log(a)

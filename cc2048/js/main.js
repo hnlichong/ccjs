@@ -33,10 +33,11 @@ class Grid {
         // occupied status
         this.status = []
         // grid content
-        this.content = []
+        this.contents = []
 
         this.init()
     }
+
     init() {
         // iterate to generate tbody content
         let s = ''
@@ -45,18 +46,19 @@ class Grid {
             // init 2d array stants for position [ri][ci] occupy
             this.status[ri] = []
             // init 2d array grid content
-            this.content[ri] = []
+            this.contents[ri] = []
             for (let ci = 0; ci < this.colLen; ci++) {
                 s += `<td>${ri}, ${ci}</td>`
                 // init occupied status
                 this.status[ri][ci] = 0
-                this.content[ri][ci] = null
+                this.contents[ri][ci] = null
             }
             s += `</tr>`
         }
         this.gridsContainer.innerHTML = s
 
     }
+
     getEmptyGridsPosArr() {
         const arr = []
         this.status.forEach((row, ri) => {
@@ -75,6 +77,7 @@ class Tile extends Grid {
         this.initVals = [2, 4]
         this.tilesContainer = SETTINGS.gameContainer.querySelector('.tiles-container')
     }
+
     // renderInitTiles()
     genNewTile(val = -1) {
         if (val === -1) {
@@ -92,9 +95,10 @@ class Tile extends Grid {
         }
         this.tiles.push(tile)
         this.status[rowIndex][colIndex] = 1
-        super.status =''
+        this.contents[rowIndex][colIndex] = tile
         return tile
     }
+
     renderTile(rowIndex, colIndex, value) {
         let div = document.createElement('div')
         div.className = `tile tile-${rowIndex}-${colIndex}`
@@ -102,37 +106,52 @@ class Tile extends Grid {
         this.tilesContainer.appendChild(div)
         return div
     }
+    updateTile(tile, rowIndex, colIndex) {
+
+        element.className = element.className.replace(/tile-\d+-\d+/, `tile-${rowIndex}-${colIndex}`)
+    }
     moveTiles(direction) {
         // left, right -> ri-, ri+
         // up, down -> ci-, ci+
-        this.tiles.forEach((tile)=>{
-            // update tile position
-            switch (direction) {
-                case 'left': {
-                    tile.colIndex--
-                    break
+
+        // update tiles
+        switch (direction) {
+            case 'left': {
+                // colIndex--
+                for (let ri = 1, len = this.rowLen; ri < len; ri++) {
+                    for (let ci = 1, len = this.colLen; ci < len; ci++) {
+                        let tile = this.contents[ri][ci]
+                        if (tile !== null) {
+                            tile.colIndex--
+                            this.updateClassName(tile)
+                            this.contents[ri][ci-1] = tile
+
+                        }
+                    }
                 }
-                case 'right': {
-                    tile.colIndex++
-                    break
-                }
-                case 'up': {
-                    tile.rowIndex--
-                    break
-                }
-                case 'down': {
-                    tile.rowIndex++
-                    break
-                }
-                default: break
+                break
             }
-            // update tile className
-            tile.element.className = tile.element.className.replace(/tile-\d+-\d+/, `tile-${tile.rowIndex}-${tile.colIndex}`)
-            // update grid status todo
-        })
+            case 'right': {
+                tile.colIndex++
+                break
+            }
+            case 'up': {
+                tile.rowIndex--
+                break
+            }
+            case 'down': {
+                tile.rowIndex++
+                break
+            }
+            default:
+                break
+        }
+        // update tile className
+        tile.element.className = tile.element.className.replace(/tile-\d+-\d+/, `tile-${tile.rowIndex}-${tile.colIndex}`)
+        // update grid status todo
+
 
     }
-
 }
 
 class Game {
@@ -147,6 +166,7 @@ class Game {
         this.tile.genNewTile()
         document.addEventListener('keydown', this.gameEvents.bind(this))
     }
+
     gameEvents(ev) {
         ev = ev || event
         ev.preventDefault()
@@ -158,13 +178,14 @@ class Game {
                     '39': 'right',
                     '40': 'down'
                 }
-                let direction = keyMap[ev.keyCode+'']
+                let direction = keyMap[ev.keyCode + '']
                 if (direction === undefined) break
                 this.tile.moveTiles(direction)
                 break
             }
         }
     }
+
     f1() {
 
     }
