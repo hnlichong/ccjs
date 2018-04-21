@@ -210,32 +210,36 @@ class Game {
             }
             case 'up': {
                 // rowIndex--
-                for (let ri = 0, len = this.grids.contents.length; ri < len; ri++) {
-                    let rowContents = this.grids.contents[ri]
-                    let updatedRow = []
-                    for (let ci = 0, len = rowContents.length; ci < len; ci++) {
-                        let tile = rowContents[ci]
+                for (let ri=1,len=this.grids.contents.length;ri<len;ri++) {
+                    for (let ci=0, len=this.grids.contents[ri].length;ci<len;ci++) {
+                        let tile = this.grids.contents[ri][ci]
                         if (tile === null) continue
-                        // get the lastTile in the updatedRow to compare with the coming tile
-                        let lastTile = updatedRow[updatedRow.length-1]
-                        if (lastTile === undefined || lastTile.value !== tile.value) {
-                            let len = updatedRow.push(tile)
-                            // update tile position
-                            tile.colIndex = len-1
-                        } else {
-                            // value equals, then merge the tile into lastTile
-                            // update value
-                            lastTile.value += tile.value
-                            // remove the merged tile
-                            tile.element.parentNode.removeChild(tile.element)
+                        let tri = tile.rowIndex
+                        while(tri>0) {
+                            tri--
+                            let preTile = this.grids.contents[tri][ci]
+                            if(preTile !== null) {
+                                if(preTile.value === tile.value) {
+                                    // merged tile into the preTile with the same value
+                                    // update preTile value
+                                    preTile.value += tile.value
+                                    // remove this tile
+                                    tile.element.parentNode.removeChild(tile.element)
+                                    this.grids.contents[ri][ci] = null
+                                    break
+                                } else {
+                                    tile.rowIndex = tri+1
+                                    this.grids.contents[tri+1][ci] = tile
+                                    this.grids.contents[ri][ci] = null
+                                    break
+                                }
+                            } else if(tri===0){
+                                tile.rowIndex = tri
+                                this.grids.contents[tri][ci] = tile
+                                this.grids.contents[ri][ci] = null
+                            }
                         }
                     }
-                    // fiil the rest positions of updatedRow with null
-                    while(updatedRow.length<rowContents.length) {
-                        updatedRow.push(null)
-                    }
-                    // update the grid contents
-                    this.grids.contents[ri] = updatedRow
                 }
                 break
             }
