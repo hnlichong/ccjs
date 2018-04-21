@@ -33,30 +33,39 @@ class Grid {
         this.size = SETTINGS.size
         this.rowLen = this.size[0]
         this.colLen = this.size[1]
+
         // occupied status
         this.status = []
-        this.renderGrid()
+        // grid content
+        this.content = []
+
+        this.init()
     }
-    renderGrid() {
+    init() {
+        // iterate to generate tbody content
+        let s = ''
+        for (let ri = 0; ri < this.rowLen; ri++) {
+            s += `<tr>`
+            // init 2d array stants for position [ri][ci] occupy
+            this.status[ri] = []
+            // init 2d array grid content
+            this.content[ri] = []
+            for (let ci = 0; ci < this.colLen; ci++) {
+                s += `<td>${ri}, ${ci}</td>`
+                // init occupied status
+                this.status[ri][ci] = 0
+                this.content[ri][ci] = null
+            }
+            s += `</tr>`
+        }
+        this.renderGrids(s)
+
+    }
+    renderGrids(tbodyHTML) {
         let gridHTML = `
             <table>
                 <tbody>
-                ${(function () {
-                    let s = ''
-                    for (let ri = 0; ri < this.rowLen; ri++) {
-                        s += `<tr>`
-                        // init 2d array stants for position [ri][ci] occupy
-                        this.status[ri] = []
-                        for (let ci = 0; ci < this.colLen; ci++) {
-                            s += `<td>${ri}, ${ci}</td>`
-                            // init occupied status
-                            this.status[ri][ci] = 0
-                        }
-                        s += `</tr>`
-                    }
-                    return s
-
-                }).bind(this)()}
+                ${tbodyHTML}
                 </tbody>
             </table>
         `
@@ -79,7 +88,7 @@ class Tile extends Grid {
         super()
         this.tiles = []
         this.initVals = [2, 4]
-        this.container = SETTINGS.container.querySelector('.game-wrapper')
+        this.tilesContainer = SETTINGS.container.querySelector('.game-wrapper')
     }
     // renderInitTiles()
     genNewTile(val = -1) {
@@ -98,16 +107,17 @@ class Tile extends Grid {
         }
         this.tiles.push(tile)
         this.status[rowIndex][colIndex] = 1
+        super.status =''
         return tile
     }
-    renderTile(rowIndex, colIndex, value) {
+    renderTiles(rowIndex, colIndex, value) {
         let div = document.createElement('div')
         div.className = `tile tile-${rowIndex}-${colIndex}`
         div.innerText = value
-        this.container.appendChild(div)
+        this.tilesContainer.appendChild(div)
         return div
     }
-    moveTiles(direction='left') {
+    moveTiles(direction) {
         // left, right -> ri-, ri+
         // up, down -> ci-, ci+
         this.tiles.forEach((tile)=>{
@@ -129,6 +139,7 @@ class Tile extends Grid {
                     tile.rowIndex++
                     break
                 }
+                default: break
             }
             // update tile className
             tile.element.className = tile.element.className.replace(/tile-\d+-\d+/, `tile-${tile.rowIndex}-${tile.colIndex}`)
@@ -147,12 +158,13 @@ class Game {
 
     init() {
         this.tile.genNewTile()
-        document.addEventListener('keyup', this.gameEvents.bind(this))
+        document.addEventListener('keydown', this.gameEvents.bind(this))
     }
     gameEvents(ev) {
         ev = ev || event
+        ev.preventDefault()
         switch (ev.type) {
-            case 'keyup': {
+            case 'keydown': {
                 const keyMap = {
                     '37': 'left',
                     '38': 'up',
@@ -160,7 +172,9 @@ class Game {
                     '40': 'down'
                 }
                 let direction = keyMap[ev.keyCode+'']
+                if (direction === undefined) break
                 this.tile.moveTiles(direction)
+                break
             }
         }
     }
@@ -177,4 +191,4 @@ main
  */
 
 const game = new Game()
-console.log(game.tile.tiles)
+
