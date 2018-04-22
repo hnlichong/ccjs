@@ -5,28 +5,31 @@ import Util from './util.js'
 
 const TEMPLATES = {
     game: `
-    <div class="game-container">
-        <div class="game-wrapper">
-        <table>
-            <tbody class="grids-container">
-            </tbody>
-        </table>
-        <div class="tiles-container"></div>
-        </div>
-    </div>
-    `,
+        <div class="game-container">
+            <header class="game-header">
+                <div class="game-score-box"><span class="game-score">0</span></div>
+                <button class="new-game"></button>
+            </header>
+            <div class="game-wrapper">
+                <table>
+                    <tbody class="grids-container">
+                    </tbody>
+                </table>
+                <div class="tiles-container"></div>
+            </div>
+        </div>`,
+
 }
 
 const SETTINGS = {
-    gameContainer: document.querySelector('#gameApp'),
     rowLen: 4,
     colLen: 4
 }
 
 
 class Grids {
-    constructor() {
-        this.gridsContainer = SETTINGS.gameContainer.querySelector('.grids-container')
+    constructor(el) {
+        this.container = el
         this.rowLen = SETTINGS.rowLen
         this.colLen = SETTINGS.colLen
         // grid content
@@ -36,7 +39,7 @@ class Grids {
     }
 
     init() {
-        // iterate to generate tbody content
+        // render HTML, iterate to generate tbody content
         let s = ''
         for (let ri = 0; ri < this.rowLen; ri++) {
             s += `<tr>`
@@ -48,7 +51,7 @@ class Grids {
             }
             s += `</tr>`
         }
-        this.gridsContainer.innerHTML = s
+        this.container.innerHTML = s
 
     }
 
@@ -67,8 +70,10 @@ class Grids {
 
 class Tile {
     constructor(value = 2, rowIndex = 0, colIndex = 0) {
-        // todo
-        this.tilesContainer = SETTINGS.gameContainer.querySelector('.tiles-container')
+        if (Tile.tilesContainer === undefined) {
+            throw new Error('Tile must be assigned a container in Tils.tilesContainer')
+        }
+        this.container = Tile.tilesContainer
         this.element = this.render(rowIndex, colIndex, value)
         this.value = value
         this.rowIndex = rowIndex
@@ -108,24 +113,35 @@ class Tile {
         let div = document.createElement('div')
         div.className = `tile tile-${rowIndex}-${colIndex}`
         div.innerText = value
-        this.tilesContainer.appendChild(div)
+        this.container.appendChild(div)
         return div
     }
-
 }
 
 class Game {
-    constructor() {
+    get score() {
+        return this._score
+    }
+
+    set score(value) {
+        this._score = value
+        this.scoreEl.innerText = value
+    }
+
+    constructor(el) {
         // render template
-        SETTINGS.gameContainer.innerHTML = TEMPLATES.game
-        this.grids = new Grids()
-        this.score = 0
-        this.randomTileValues = [2,4]
+        el.innerHTML = TEMPLATES.game
+        this.container = el.querySelector('.game-container')
+        this.grids = new Grids(el.querySelector('.grids-container'))
+        Tile.tilesContainer = el.querySelector('.tiles-container')
+        this.scoreEl = el.querySelector('.game-score')
+        this._score = 0
 
         document.addEventListener('keydown', this.gameEvents.bind(this))
         // init 2 tiles
         this.newRandomTiles(2)
     }
+
     gameEvents(ev) {
         ev = ev || event
         switch (ev.type) {
@@ -146,6 +162,7 @@ class Game {
             }
         }
     }
+
     moveTiles(direction) {
         // update tiles
         switch (direction) {
@@ -256,7 +273,7 @@ class Game {
                         let tile = this.grids.contents[ri][ci]
                         if (tile === null) continue
                         let tri = tile.rowIndex
-                        while (tri < this.grids.contents.length - 1){
+                        while (tri < this.grids.contents.length - 1) {
                             tri++
                             let preTile = this.grids.contents[tri][ci]
                             if (preTile !== null) {
@@ -289,10 +306,11 @@ class Game {
                 break
         }
     }
-    newRandomTiles(n=1){
+
+    newRandomTiles(n = 1, randomValues = [2, 4]) {
         for (let i = 0; i < n; i++) {
             let [rowIndex, colIndex] = Util.getRandomItem(this.grids.getEmptyGridsPos())
-            let value = Util.getRandomItem(this.randomTileValues)
+            let value = Util.getRandomItem(randomValues)
             this.grids.contents[rowIndex][colIndex] = new Tile(value, rowIndex, colIndex)
         }
     }
@@ -305,5 +323,5 @@ class Game {
 main
  */
 
-const game = new Game()
+const game = new Game(document.querySelector('#gameApp'))
 

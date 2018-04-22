@@ -12,5 +12,8 @@ export default {
     },
     getRandomItem(arr) {
         return arr[this.getRandomInt(0, arr.length)]
+    },
+    mandatoryArg() {
+        throw new Error('mandatory argument missing!')
     }
 }
