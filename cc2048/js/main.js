@@ -1,23 +1,22 @@
-import '../css/normalize.css'
 import '../css/main.styl'
 import Util from './util.js'
 
 'use strict'
 
 const TEMPLATES = {
-    game: `<header class="game-header">
-    <h2 class="game-title">2048</h2>
-    <ul class="game-best-score-box">
-        <li>BEST</li>
-        <li class="game-best-score">0</li>
-    </ul>
-    <ul class="game-score-box">
-        <li>SCORE</li>
-        <li class="game-score">0</li>
-    </ul>
-    <button class="new-game">NEW GAME</button>
-</header>
-<div class="game-container">
+    game: `<div class="game-container">
+    <header class="game-header clearfix">
+        <h2 class="game-title">2048</h2>
+        <button class="new-game">NEW GAME</button>
+        <ul class="game-best-score-box">
+            <li>BEST</li>
+            <li class="game-best-score">0</li>
+        </ul>
+        <ul class="game-score-box">
+            <li>SCORE</li>
+            <li class="game-score">0</li>
+        </ul>
+    </header>
     <div class="game-wrapper">
         <table>
             <tbody class="grids-container">
@@ -169,13 +168,13 @@ class Game {
                     ev.preventDefault()
                     let someMoved = this.moveTiles(direction)
                     // todo: 移动不了不能newTile
-                    if (someMoved) {
+                    // if (someMoved) {
                         let newTiles = this.newRandomTiles(1)
                         if (newTiles.length === 0) {
                             //todo
                             alert('Game over!')
                         }
-                    }
+                    // }
                 }
                 break
             }
