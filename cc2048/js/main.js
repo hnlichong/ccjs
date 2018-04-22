@@ -120,11 +120,12 @@ class Game {
         SETTINGS.gameContainer.innerHTML = TEMPLATES.game
         this.grids = new Grids()
         this.score = 0
+        this.randomTileValues = [2,4]
 
         document.addEventListener('keydown', this.gameEvents.bind(this))
-        this.initTiles()
+        // init 2 tiles
+        this.newRandomTiles(2)
     }
-
     gameEvents(ev) {
         ev = ev || event
         switch (ev.type) {
@@ -139,21 +140,12 @@ class Game {
                 if (direction !== undefined) {
                     ev.preventDefault()
                     this.moveTiles(direction)
+                    this.newRandomTiles(1)
                 }
                 break
             }
         }
     }
-
-    initTiles(n = 2, randomValue = [2, 4]) {
-        for (let i = 0; i < n; i++) {
-            let [rowIndex, colIndex] = Util.getRandomItem(
-                this.grids.getEmptyGridsPos())
-            let value = Util.getRandomItem(randomValue)
-            this.grids.contents[rowIndex][colIndex] = new Tile(value, rowIndex, colIndex)
-        }
-    }
-
     moveTiles(direction) {
         // update tiles
         switch (direction) {
@@ -243,14 +235,14 @@ class Game {
                                     break
                                 } else {
                                     tile.rowIndex = tri + 1
-                                    this.grids.contents[tile.rowIndex][ci] = tile
                                     this.grids.contents[ri][ci] = null
+                                    this.grids.contents[tile.rowIndex][ci] = tile
                                     break
                                 }
                             } else if (tri === 0) {
                                 tile.rowIndex = tri
-                                this.grids.contents[tri][ci] = tile
                                 this.grids.contents[ri][ci] = null
+                                this.grids.contents[tri][ci] = tile
                             }
                         }
                     }
@@ -279,14 +271,14 @@ class Game {
                                     break
                                 } else {
                                     tile.rowIndex = tri - 1
-                                    this.grids.contents[tile.rowIndex][ci] = tile
                                     this.grids.contents[ri][ci] = null
+                                    this.grids.contents[tile.rowIndex][ci] = tile
                                     break
                                 }
                             } else if (tri === this.grids.contents.length - 1) {
                                 tile.rowIndex = tri
-                                this.grids.contents[tile.rowIndex][ci] = tile
                                 this.grids.contents[ri][ci] = null
+                                this.grids.contents[tile.rowIndex][ci] = tile
                             }
                         }
                     }
@@ -296,7 +288,13 @@ class Game {
             default:
                 break
         }
-
+    }
+    newRandomTiles(n=1){
+        for (let i = 0; i < n; i++) {
+            let [rowIndex, colIndex] = Util.getRandomItem(this.grids.getEmptyGridsPos())
+            let value = Util.getRandomItem(this.randomTileValues)
+            this.grids.contents[rowIndex][colIndex] = new Tile(value, rowIndex, colIndex)
+        }
     }
 
 
