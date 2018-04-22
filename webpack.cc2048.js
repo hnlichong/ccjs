@@ -22,6 +22,14 @@ module.exports = {
                 }
             },
             {
+                test: /\.css$/,
+                include: [
+                    path.resolve(ROOT, 'css')
+                    ],
+                use: ['style-loader', 'css-loader']
+
+            },
+            {
                 test: /\.styl$/,
                 include: [
                     path.resolve(ROOT, 'css')

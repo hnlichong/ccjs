@@ -1,29 +1,39 @@
+import '../css/normalize.css'
 import '../css/main.styl'
 import Util from './util.js'
 
 'use strict'
 
 const TEMPLATES = {
-    game: `
-        <div class="game-container">
-            <header class="game-header">
-                <div class="game-score-box"><span class="game-score">0</span></div>
-                <button class="new-game"></button>
-            </header>
-            <div class="game-wrapper">
-                <table>
-                    <tbody class="grids-container">
-                    </tbody>
-                </table>
-                <div class="tiles-container"></div>
-            </div>
-        </div>`,
+    game: `<header class="game-header">
+    <h2 class="game-title">2048</h2>
+    <ul class="game-best-score-box">
+        <li>BEST</li>
+        <li class="game-best-score">0</li>
+    </ul>
+    <ul class="game-score-box">
+        <li>SCORE</li>
+        <li class="game-score">0</li>
+    </ul>
+    <button class="new-game">NEW GAME</button>
+</header>
+<div class="game-container">
+    <div class="game-wrapper">
+        <table>
+            <tbody class="grids-container">
+            </tbody>
+        </table>
+        <div class="tiles-container"></div>
+    </div>
+</div>`,
 
 }
 
 const SETTINGS = {
     rowLen: 4,
-    colLen: 4
+    colLen: 4,
+    target: 2048,
+    // todo
 }
 
 
@@ -81,8 +91,10 @@ class Tile {
     }
 
     set value(value) {
-        this.element.innerText = value
         this._value = value
+        this.element.innerText = value
+        this.element.className = this.element.className.replace(
+            /tile-value-(\d+)/, `tile-value-${value}`)
     }
 
     get value() {
@@ -90,8 +102,8 @@ class Tile {
     }
 
     set rowIndex(rowIndex) {
-        this.element.className = this.element.className.replace(/tile-(\d+)-(\d+)/,
-            `tile-${rowIndex}-$2`)
+        this.element.className = this.element.className.replace(
+            /tile-(\d+)-(\d+)/, `tile-${rowIndex}-$2`)
         this._rowIndex = rowIndex
     }
 
@@ -111,7 +123,7 @@ class Tile {
 
     render(rowIndex, colIndex, value) {
         let div = document.createElement('div')
-        div.className = `tile tile-${rowIndex}-${colIndex}`
+        div.className = `tile tile-${rowIndex}-${colIndex} tile-value-${value}`
         div.innerText = value
         this.container.appendChild(div)
         return div

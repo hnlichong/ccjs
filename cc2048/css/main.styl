@@ -10,43 +10,110 @@ tileFontSize = 56px
   .game-wrapper
     display: inline-block
     position: relative
-    table
-      background-color: #CBC1B5
-      border-collapse: collapse
-      tr
-        margin: 0
-        padding: 0
+  table
+    background-color: #CBC1B5
+    border-collapse: collapse
+    tr
+      margin: 0
+      padding: 0
 
-      td
-        text-align: center
-        vertical-align: middle
-        width: gridWidth
-        height: gridWidth
-        box-sizing: border-box
-        border: gridBorder ridge #B9ADA1
-        margin: 0
-        padding: 0
+    td
+      text-align: center
+      vertical-align: middle
+      width: gridWidth
+      height: gridWidth
+      box-sizing: border-box
+      border: gridBorder ridge #B9ADA1
+      margin: 0
+      padding: 0
 
 
-    .tile
-      position: absolute
-      left: 0
-      top: 0
-      z-index: 1
-      width: gridWidth - gridBorder
-      height: gridWidth - gridBorder
-      background-color: #ECE4DA
-      text-align center
-      line-height: gridWidth - gridBorder
-      font-size: tileFontSize
-      font-weight: bold
-      font-family: "Helvetica Neue", Arial, sans-serif
-      transition: transform 0.1s ease-in-out
+  .tile
+    position: absolute
+    left: 0
+    top: 0
+    z-index: 1
+    width: gridWidth - gridBorder
+    height: gridWidth - gridBorder
+    background-color: #ECE4DA
+    text-align center
+    line-height: gridWidth - gridBorder
+    font-size: tileFontSize
+    font-weight: bold
+    font-family: "Helvetica Neue", Arial, sans-serif
+    transition: transform 0.1s ease-in-out
+  // tile position: tile-{rowIndex}-{colIndex}
+  for ri in range(0, rowLen - 1)
+    for ci in range(0, colLen - 1)
+      .tile-{ri}-{ci}
+        transform: translate(gridBorder + ci * gridWidth, gridBorder + ri * gridWidth)
+  // tile color
+  .tile-value-2
+    color:#766E66
+    background-color: #EDE4DB
+  .tile-value-4
+    color:#766E66
+    background-color: #EBE0CB
+  .tile-value-8
+    color:#F9F6F2
+    background-color: #E9B381
+  .tile-value-16
+    color:#F9F6F2
+    background-color: #E99C6C
+  .tile-value-32
+    color:#F9F6F2
+    background-color: #E88267
+  .tile-value-64
+    color:#F9F6F2
+    background-color: #E66747
+  .tile-value-128
+    color:#F9F6F2
+    background-color: #E9CF7F
+  .tile-value-256
+    color:#F9F6F2
+    background-color: #E9CC72
+  .tile-value-512
+    color:#F9F6F2
+    background-color: #EDC850
+  .tile-value-1024
+    color: #F9F6F2
+    background-color: #EDC53F
+  .tile-value-2048
+    color: #F9F6F2
+    background-color: #EDC22E
 
-    for ri in range(0, rowLen - 1)
-      for ci in range(0, colLen - 1)
-        .tile-{ri}-{ci}
-          transform: translate(gridBorder + ci * gridWidth, gridBorder + ri * gridWidth)
+
+
+.game-header
+  height:80px;
+  color: white
+  font:24px/30px Arial
+
+  .game-title
+    float: left
+    color: #776e65
+    font: bold 80px/80px Arial
+
+  .game-score-box, .game-best-score-box
+    float:right
+    width: 100px
+    height: 60px
+    list-style:none
+    margin:0
+    padding:0
+    text-align:center
+    border-radius: 3px
+    background-color: #B9ADA1
+
+  .new-game
+    float:right
+    width:130px
+    height:60px
+    text-align:center
+    color: white
+    border-radius: 3px
+    background-color: #8f7a66
+
 
 
 
