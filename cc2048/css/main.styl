@@ -8,6 +8,9 @@ containerWidth = gridWidth * colLen + gridBorder
 @import "normalize.css"
 @import "base.styl"
 
+body
+  margin: 10px 0
+
 .game-container
   width: containerWidth
   margin: 0 auto
@@ -16,6 +19,7 @@ containerWidth = gridWidth * colLen + gridBorder
   height:80px;
   color: white
   font:24px/30px Arial
+  clearboth()
 
   .game-title
     float: left
@@ -48,7 +52,7 @@ containerWidth = gridWidth * colLen + gridBorder
 .game-wrapper
   position: relative
   table
-    background-color: #CBC1B5
+    background-color: #CDC0B4
     border-collapse: collapse
   tr
     margin: 0
@@ -59,7 +63,7 @@ containerWidth = gridWidth * colLen + gridBorder
     width: gridWidth
     height: gridWidth
     box-sizing: border-box
-    border: gridBorder ridge #B9ADA1
+    border: gridBorder solid #BBADA0
     margin: 0
     padding: 0
 
