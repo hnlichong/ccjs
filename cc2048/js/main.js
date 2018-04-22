@@ -23,6 +23,10 @@ const TEMPLATES = {
             </tbody>
         </table>
         <div class="tiles-container"></div>
+        <div class="overlay">
+            <p class="game-result lose">Game Over!</p>
+            <button class="game-retry">Play again</button>
+        </div>
     </div>
 </div>`,
 
@@ -31,8 +35,7 @@ const TEMPLATES = {
 const SETTINGS = {
     rowLen: 4,
     colLen: 4,
-    target: 16,
-    // todo: You win!
+    target: 2048,
 }
 
 
@@ -43,24 +46,46 @@ class Grids {
         this.colLen = SETTINGS.colLen
         // grid content
         this.contents = []
-
-        this.init()
+        // init contents
+        this.clearContents()
+        this.render()
     }
 
-    init() {
+    render() {
         // render HTML, iterate to generate tbody content
         let s = ''
         for (let ri = 0; ri < this.rowLen; ri++) {
             s += `<tr>`
-            // init 2d array grids contents
-            this.contents[ri] = []
             for (let ci = 0; ci < this.colLen; ci++) {
                 s += `<td></td>`
-                this.contents[ri][ci] = null
             }
             s += `</tr>`
         }
         this.container.innerHTML = s
+    }
+
+    clearContents() {
+        for (let ri = 0; ri < this.rowLen; ri++) {
+            this.contents[ri] = []
+            for (let ci = 0; ci < this.colLen; ci++) {
+                this.contents[ri][ci] = null
+            }
+        }
+    }
+
+    eachContent(rowCallback, colCallback) {
+        for (let ri = 0; ri < this.rowLen; ri++) {
+            if (typeof rowCallback === 'function') {
+                // cb(item, index, array)
+                rowCallback(this.contents[ri], ri, this.contents)
+            }
+            for (let ci = 0; ci < this.colLen; ci++) {
+                if (typeof colCallback === 'function') {
+                    // cb(item, index, array)
+                    colCallback(this.contents[ri][ci], ci, this.contents)
+                }
+            }
+        }
 
     }
 
@@ -87,16 +112,26 @@ class Tile {
         this.value = value
         this.rowIndex = rowIndex
         this.colIndex = colIndex
+        this.events = []
     }
 
     set value(value) {
+        let oldValue = this._value
         this._value = value
         this.element.innerText = value
         this.element.className = this.element.className.replace(
             /tile-value-(\d+)/, `tile-value-${value}`)
-        // check if win
-        if (value === SETTINGS.target) {
-            alert('You win!')
+        // emit events
+        let cbs = Tile.events['tileValueChanged']
+        if (cbs !== undefined) {
+            cbs.forEach((cb)=>{
+                cb({
+                    type: 'tileValueChanged',
+                    tile: this,
+                    newValue: value,
+                    oldValue: oldValue
+                })
+            })
         }
     }
 
@@ -131,7 +166,17 @@ class Tile {
         this.container.appendChild(div)
         return div
     }
+
+    static addEventHandler(type, cb) {
+        let event = Tile.events[type]
+        if (Tile.events[type] === undefined) {
+            Tile.events[type]= []
+        }
+        Tile.events[type].push(cb)
+    }
 }
+
+Tile.events = {}
 
 class Game {
     get score() {
@@ -151,15 +196,39 @@ class Game {
         Tile.tilesContainer = el.querySelector('.tiles-container')
         this.scoreEl = el.querySelector('.game-score')
         this._score = 0
+        this.btnNewGame = el.querySelector('.new-game')
+        this.gameResultEl = el.querySelector('.game-result')
+        this.btnRetry = el.querySelector('.game-retry')
+        this.overlay = el.querySelector('.overlay')
 
-        document.addEventListener('keydown', this.gameEvents.bind(this))
-        // init 2 tiles
+        // fix events context
+        this.gameEvents = this.gameEvents.bind(this)
+        document.addEventListener('click', this.gameEvents)
+        // self defined events
+        Tile.addEventHandler('tileValueChanged', this.gameEvents)
+        this.newGame()
+    }
+
+    newGame() {
+        this.grids.clearContents()
+        Tile.tilesContainer.innerHTML = ''
+        this.overlay.style.display = 'none'
+        this.score = 0
+        document.addEventListener('keydown', this.gameEvents)
+        // create 2 initial tiles
         this.newRandomTiles(2)
     }
 
     gameEvents(ev) {
         ev = ev || event
         switch (ev.type) {
+            case 'click': {
+                if (ev.target === this.btnNewGame ||
+                    ev.target === this.btnRetry) {
+                    this.newGame()
+                }
+                break
+            }
             case 'keydown': {
                 const keyMap = {
                     '37': 'left',
@@ -177,30 +246,44 @@ class Game {
                     } else {
                         // check if game over
                         let emptyPos = this.grids.getEmptyGridsPos()
-                        if (emptyPos.length === 0 && !this.hasValueEqualedAdjTiles()){
-                            alert('Game over!')
+                        if (emptyPos.length === 0 && !this.hasValueEqualedAdjTiles()) {
+                            // alert('Game over!')
+                            this.setGameResult('lose')
                         }
                     }
                 }
                 break
             }
+            case 'tileValueChanged': {
+                // check if win
+                if (ev.newValue === SETTINGS.target) {
+                    this.setGameResult('win')
+                }
+            }
         }
     }
+    setGameResult(result='lose') {
+        this.gameResultEl.className = `game-result ${result}`
+        this.gameResultEl.innerHTML = result==='win'? 'You win!':'Game over!'
+        this.overlay.style.display = 'block'
+        document.removeEventListener('keydown', this.gameEvents)
+    }
+
     hasValueEqualedAdjTiles() {
         // check right, down of every tile
-        for (let ri=0,rlen=this.grids.contents.length;ri<rlen;ri++) {
-            for (let ci=0,clen=this.grids.contents[ri].length;ci<clen;ci++) {
+        for (let ri = 0, rlen = this.grids.contents.length; ri < rlen; ri++) {
+            for (let ci = 0, clen = this.grids.contents[ri].length; ci < clen; ci++) {
                 let tile = this.grids.contents[ri][ci]
                 if (tile === null) continue
-                if (ci<clen-1) {
-                    let rTile = this.grids.contents[ri][ci+1]
-                    if (rTile !==null && rTile.value === tile.value) {
+                if (ci < clen - 1) {
+                    let rTile = this.grids.contents[ri][ci + 1]
+                    if (rTile !== null && rTile.value === tile.value) {
                         return true
                     }
                 }
-                if (ri<rlen-1) {
-                    let dTile = this.grids.contents[ri+1][ci]
-                    if(dTile !== null && dTile.value === tile.value) {
+                if (ri < rlen - 1) {
+                    let dTile = this.grids.contents[ri + 1][ci]
+                    if (dTile !== null && dTile.value === tile.value) {
                         return true
                     }
                 }
@@ -374,7 +457,7 @@ class Game {
                                     this.grids.contents[tile.rowIndex][ci] = tile
                                     someMoved = true
                                     break
-                                } else{
+                                } else {
                                     break
                                 }
                             } else if (tri === this.grids.contents.length - 1) {

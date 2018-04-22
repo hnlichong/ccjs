@@ -47,10 +47,36 @@ body
     color: white
     border-radius: 3px
     background-color: #8f7a66
+    cursor: pointer
 
 
 .game-wrapper
   position: relative
+  .overlay
+    position: absolute
+    left:0
+    right:0
+    top:0
+    bottom:0
+    z-index: 2
+    background-color: rgba(255,255,255,0.4)
+    display: none
+    text-align:center
+    .game-result
+      margin-top: 30%
+      font: bold 60px/60px Arial
+      &.lose
+        color:#766E66
+      &.win
+        color:#E7C24F
+    .game-retry
+      width:230px
+      height:48px
+      font: 24px/48px Arial
+      color:#F9F6F2
+      background-color: #8C7A68
+      cursor: pointer
+
   table
     background-color: #CDC0B4
     border-collapse: collapse
@@ -66,7 +92,6 @@ body
     border: gridBorder solid #BBADA0
     margin: 0
     padding: 0
-
 
   .tile
     position: absolute
