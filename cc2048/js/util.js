@@ -11,6 +11,9 @@ export default {
         return Math.floor(Math.random() * (max - min)) + min //The maximum is exclusive and the minimum is inclusive
     },
     getRandomItem(arr) {
+        if (arr.length===0) {
+            return null
+        }
         return arr[this.getRandomInt(0, arr.length)]
     },
     mandatoryArg() {

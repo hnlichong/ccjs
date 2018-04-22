@@ -33,7 +33,7 @@ const SETTINGS = {
     rowLen: 4,
     colLen: 4,
     target: 2048,
-    // todo
+    // todo: You win!
 }
 
 
@@ -167,8 +167,15 @@ class Game {
                 let direction = keyMap[ev.keyCode + '']
                 if (direction !== undefined) {
                     ev.preventDefault()
-                    this.moveTiles(direction)
-                    this.newRandomTiles(1)
+                    let someMoved = this.moveTiles(direction)
+                    // todo: 移动不了不能newTile
+                    if (someMoved) {
+                        let newTiles = this.newRandomTiles(1)
+                        if (newTiles.length === 0) {
+                            //todo
+                            alert('Game over!')
+                        }
+                    }
                 }
                 break
             }
@@ -176,7 +183,7 @@ class Game {
     }
 
     moveTiles(direction) {
-        // update tiles
+        let someMoved = false
         switch (direction) {
             case 'left': {
                 // colIndex--
@@ -320,11 +327,19 @@ class Game {
     }
 
     newRandomTiles(n = 1, randomValues = [2, 4]) {
+        let newTiles = []
         for (let i = 0; i < n; i++) {
-            let [rowIndex, colIndex] = Util.getRandomItem(this.grids.getEmptyGridsPos())
+            let emptyGridsPos = this.grids.getEmptyGridsPos()
+            if (emptyGridsPos.length === 0) {
+                break
+            }
+            let [rowIndex, colIndex] = Util.getRandomItem(emptyGridsPos)
             let value = Util.getRandomItem(randomValues)
-            this.grids.contents[rowIndex][colIndex] = new Tile(value, rowIndex, colIndex)
+            let tile = new Tile(value, rowIndex, colIndex)
+            this.grids.contents[rowIndex][colIndex] = tile
+            newTiles.push(tile)
         }
+        return newTiles
     }
 
 
