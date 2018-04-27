@@ -74,7 +74,7 @@
     }
 
     {
-        console.log('扩展对象，浅拷贝对象 Object.assign()')
+        console.log('对象扩展，对象浅拷贝 Object.assign(targetObj, srcObj1, srcObj2...)')
         const o1 = {a:1}
         const o2 = {b: 2}
         const o3 = {arr: [3,4]}
@@ -92,6 +92,24 @@
         copy.arr.push(5)
         console.log(o3)
         console.log(copy)
+    }
+
+    {
+        console.log('Object.create()使用已有的对象作为原型创建新对象,第一个参数是充当新对象的原型的对象，第二个是对象属性描述符（与Object.defineProperties()相同）')
+        console.log('可用在寄生组合式继承')
+        const person1 = {
+            name: 'lichong',
+            age: 25
+        }
+        console.log(person1)
+        const person2 = Object.create(person1, {
+            name: {
+                value: 'congcong'
+            }
+        })
+        console.log(person2)
+        const person3 = Object.create(person1)
+        console.log(person3)
     }
 </script>
 </body>

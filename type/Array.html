@@ -51,6 +51,14 @@
         console.log(['a b', 'b c'].indexOf('c d')) // -1
     }
     {
+        console.log('删除数组的某个元素，会改变数组本身，一般先拷贝再操作')
+        const arr = ['aa','3', 3, 'aa', 'ca']
+        console.log(arr)
+        const aa = [...arr]
+        aa.splice(aa.indexOf(3), 1)
+        console.log(aa)
+    }
+    {
         console.log('迭代方法，均不改变数组本身')
         let arr = [1, 2, 3, 4, 5, 4, 3, 2, 1]
         console.log('arr: ' + arr)
@@ -102,16 +110,17 @@
     }
 
     {
-        console.log('数组重排序方法reverse(), sort(), 改变数组本身')
+        console.log('数组重排序方法reverse(), sort(), 会改变数组本身，因此一般先拷贝再对备份进行排序')
         let a1 = [1, 7, 8, 3, 0, 1, 8, 6]
         console.log(a1 + '')
-        a1.reverse()
-        console.log(a1 + '')
+        let aa = [...a1].reverse()
+        console.log(aa + '')
         // 升序
-        a1.sort(function (a, b) {
-            return a - b
-        })
-        console.log(a1 + '')
+        let bb = [...a1].sort((a,b)=> a- b)
+        // 降序
+        let cc = [...a1].sort((a,b)=> b-a)
+        console.log(bb + '')
+        console.log(cc + '')
     }
 
     {
