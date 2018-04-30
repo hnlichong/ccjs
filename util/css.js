@@ -2,7 +2,7 @@
  * Created by congcong on 2016/11/19.
  */
 import _ from '../js/underscore'
-import Util from './util'
+import Util from './index'
 
 //内部API，外部不可调用
 function getStyleDom() {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>size</title>
+</head>
+<body>
+<div id="box1" style="position: relative; left: 100px; top:200px; width: 200px; height:200px; background-color: lightgreen;">
+    <div id="box2" style="position: absolute; left: 10px; top: 20px; width: 100px; height: 100px; background-color: red;"></div>
+</div>
+<script>
+    const box1 = document.getElementById('box1')
+    const box2 = document.getElementById('box2')
+    function getElementLeft(el) {
+        let left = el.offsetLeft
+        let current = el.offsetParent
+        while(current !== null) {
+            left += current.offsetLeft
+            current = current.offsetParent
+        }
+        return left
+    }
+    function getElementTop(el) {
+        let top = el.offsetTop
+        let current = el.offsetParent
+        while(current !== null) {
+            top += current.offsetTop
+            current = current.offsetParent
+        }
+        return top
+    }
+    {
+        console.log('页面可视区域大小')
+        let winWidth = document.documentElement.clientWidth || document.body.clientWidth
+        let winHeight = document.documentElement.clientHeight || document.body.clientHeight
+        console.log(winWidth, winHeight)
+    }
+    {
+        console.log('获取元素位置,相对于页面可视区的left, top')
+        let rect = box2.getBoundingClientRect()
+        console.log(JSON.stringify(rect))
+    }
+    {
+        console.log('获取元素位置，相对于定位父元素offsetParent的left,top')
+        console.log('left: ' + box2.offsetLeft)
+        console.log('top: ' + box2.offsetTop)
+    }
+
+</script>
+</body>
+</html>

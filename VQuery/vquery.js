@@ -1,5 +1,5 @@
 function addEvent(node, event, fn) {
-    if(node.addEventListener()) {
+    if(node.addEventListener) {
         node.addEventListener(event, fn)
     } else {
         // IE

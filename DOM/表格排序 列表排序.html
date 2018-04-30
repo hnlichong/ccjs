@@ -34,7 +34,7 @@
         //以上不会改变lis， 因为HTMLCollection是动态变化的，时刻监视DOM的状态，DOM没变，它就不变
         //需要先将 类数组的HTMLCollection 转化成数组, 再进行数组排序操作
 
-        // 转成数组
+        // 转为数组
         var lisArr = Array.prototype.slice.call(lis, 0)
 
         // 数组排序

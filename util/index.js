@@ -53,6 +53,16 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
 }
 
+function getRandomItem(arr) {
+    if (arr.length===0) {
+        return null
+    }
+    return arr[getRandomInt(0, arr.length)]
+}
+
+function mandatoryArg() {
+    throw new Error('mandatory argument missing!')
+}
 
 function getFnRunningTime(fn, args) {
     var t1 = Date.now()
@@ -85,3 +95,4 @@ function throttle(method, delay = 100, context = window) {
     }
 }
 
+export {getRandomItem}

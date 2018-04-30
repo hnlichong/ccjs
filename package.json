@@ -10,9 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "build": "webpack",
-    "start": "webpack-dev-server --open",
-    "cc2048build": "webpack --config webpack.cc2048.js",
-    "cc2048": "webpack-dev-server --hot --config webpack.cc2048.js"
+    "start": "webpack-dev-server --hot"
   },
   "repository": {
     "type": "git",
