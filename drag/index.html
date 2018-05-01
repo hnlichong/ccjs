@@ -6,9 +6,17 @@
 </head>
 <body>
 <div id="box1" class="draggable" style="width:100px;height: 100px; background-color: red;position: absolute;"></div>
+<div id="box2" class="draggable" style="width:100px;height: 100px; background-color: lightgreen;position: absolute;"></div>
 </body>
-<script src="../dist/bundle.js"></script>
+<script src="index.js"></script>
 <script>
-    const drag = new Drag()
+    const box1 = document.querySelector('#box1')
+    const box2 = document.querySelector('#box2')
+    const box1Drag = drag(box1)
+    const box2Drag = drag(box2)
+    box1Drag.enable()
+    box1Drag.disable()
+    box2Drag.enable()
+
 </script>
 </html>
