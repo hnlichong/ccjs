@@ -12,8 +12,8 @@
 <script>
     const box1 = document.querySelector('#box1')
     const box2 = document.querySelector('#box2')
-    const box1Drag = drag(box1)
-    const box2Drag = drag(box2)
+    const box1Drag = new Drag(box1)
+    const box2Drag = new Drag(box2)
     box1Drag.enable()
     box1Drag.disable()
     box2Drag.enable()
