@@ -1,6 +1,6 @@
 /*
 EventManager is a single instance class
-supported IE9+
+add dom events
  */
 class EventManager {
     constructor() {

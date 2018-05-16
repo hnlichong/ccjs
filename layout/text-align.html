@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-align</title>
+    <style>
+        nav {
+            text-align: justify;
+            text-align-last: justify;
+            background-color: #dcc;
+        }
+
+        nav > a {
+            padding: 0 10px;
+            line-height: 3;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Product</a>
+    <a href="#">Contact</a>
+    <a href="#">Help</a>
+</nav>
+<p>
+    text-align: justify对最后一行文字无效，
+    nav中只有一行（是第一行也是最后一行），所以想让text-align: justify;生效，则还要设置text-align-last: justify;
+</p>
+</body>
+</html>

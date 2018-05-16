@@ -34,7 +34,7 @@ Promise 也有一些缺点。首先，无法取消 Promise，一旦新建它就�
         .then((str) => `${str}!!!`)
         .then((str) => console.log(str)) // Hello World!!!
 
-    console.log('如果resolve传入promise对象，则原promise会等待新promise状态变化后在再执行then')
+    console.log('如果resolved的传入值是promise对象，则原promise会等待新promise状态变化后在再执行then')
     const p1 = new Promise((resolve, reject) => {
         setTimeout(()=>{
             resolve()

@@ -8,6 +8,11 @@
             margin: 20px 20px 100px;
             /* 文档留白，利用margin改变占位空间的特点 */
         }
+        #box0::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
 
         #box0 > .main {
             float: left;
@@ -37,8 +42,17 @@
             height: 300px;
         }
 
-        .bc-lightgrey {
-            background-color: #F3F5FA;
+        #box1::after {
+            content: '';
+            display: table;
+            clear: both;
+
+        }
+
+        .resizable::after {
+            content: '';
+            display: table;
+            clear: both;
         }
 
         #box2 {
@@ -175,7 +189,6 @@
 <body>
 
 <div>
-
     <h2>
         应用1：[双飞翼] 三栏自适应布局
     </h2>
@@ -191,6 +204,18 @@
     </div>
 </div>
 <hr>
+<div>
+    <h2>
+        双飞翼实现2
+    </h2>
+    <div id="box1">
+        <div class="main" style="height: 400px; float: left; margin: 0 210px; background-color: lightgreen;">
+            this is main content
+        </div>
+        <div class="left" style="width: 200px; height: 300px; float: left; margin-left:-100%; background-color: orange;"></div>
+        <div class="right" style="width:200px; height: 300px; float: left; margin-left: -200px; background-color: blue;"></div>
+    </div>
+</div>
 
 
 <h2>
@@ -246,6 +271,38 @@
     <p>
         此时img的占据空间大小为margin-left + width = -150 + 150 = 0, 因此左浮动后紧跟在宽度100%的div之后
     </p>
+    <h3>
+        右边栏实现2
+    </h3>
+    <div class="resizable" style="width: 100%;">
+        <div style="float:left; margin-right: 170px;">
+                原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+                1.图片左浮动，文字自然环绕。 2.给文字增加margin-left 可视尺寸减小，实现宽度自适应效果。
+                3.如果希望右侧固定，左侧自适应，直接让图片右浮动，文字右margin即可。 4.如果希望DOM前后顺序（渲染顺序）符合最终元素的展现效果，需要给文字再套一层，使用margin负值定位。
+        </div>
+        <img src="../img/zhang.jpg" alt="zhang" width="150" style="float:left; margin-left: -150px;">
+    </div>
+    <h3>
+        5.左浮动实现1
+    </h3>
+    <div class="resizable" style="width:100%;">
+        <div style="float:left; margin-left:170px; background-color: lightgreen;">
+            原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+        </div>
+        <img src="../img/zhang.jpg" alt="zhang" width="150" style="float:left; margin-left: -100%;">
+    </div>
+
+    <h3>
+        6.左浮动实现2
+    </h3>
+    <div class="resizable">
+        <div style="float:left; width: 100%; background-color: pink;">
+            <div style="margin-left:170px; background-color: lightgreen;">
+                原理：没有定宽的block元素设置水平margin可以改变元素可视区大小，实现宽度自适应效果。
+            </div>
+        </div>
+        <img src="../img/zhang.jpg" alt="zhang" width="150" style="float:left; margin-left: -100%;">
+    </div>
 </div>
 
 

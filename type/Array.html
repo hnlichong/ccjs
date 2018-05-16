@@ -7,6 +7,19 @@
 <body>
 <script>
     {
+        console.log('新建数组')
+        new Array(52).fill(undefined)
+        Array.from({length:52})
+
+        new Array(52).keys()
+        Object.keys(new Array(52))
+
+        Array.of(10)
+        Array.of(10, 9, 8)
+
+
+    }
+    {
         console.log('检测数组Array.isArray(), IE9+')
         let arr = [3, 4, 2, 'a']
         console.log(Array.isArray(arr))
@@ -46,7 +59,7 @@
         console.log(a3)
     }
     {
-        console.log('数组查找方法indexOf(), 严格等于，返回位置，IE9+')
+        console.log('数组查找方法indexOf(), 严格等于，传入目标元素，返回元素位置，IE9+')
         console.log(['a b', 'b c'].indexOf('a b')) // 0
         console.log(['a b', 'b c'].indexOf('c d')) // -1
     }
@@ -135,6 +148,22 @@
         let res = arr2.reduce((accumulator, currentValue) => accumulator + currentValue)
         console.log(res)
     }
+    /*
+    ES6新增的数组方法
+     */
+    {
+        console.log('查找方法find，传入回调函数，返回找到的元素')
+        var array1 = [5, 12, 8, 130, 44];
+
+        var found = array1.find(function(element) {
+            return element > 10;
+        });
+
+        console.log(found);
+        // Array.some() 返回true or false
+        // Array.findIndex() 返回元素位置
+    }
+
 
 
 </script>

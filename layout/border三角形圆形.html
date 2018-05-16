@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>border</title>
+    <style>
+        .borders4 {
+            width: 10px;
+            height: 10px;
+            border: 10px solid;
+            border-color: red green blue purple;
+        }
+        .border1 {
+            width: 10px;
+            height: 10px;
+            border-top: 10px solid red;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+        .w0h0b4 {
+            width: 0;
+            height: 0;
+            border: 10px solid;
+            border-color: red green blue purple;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-top: 10px solid red;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+
+        .triangle-1 {
+            width: 0;
+            height: 0;
+            border-top: 10px solid red;
+            border-left: 10px solid transparent;
+        }
+        .triangle-2 {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid red;
+        }
+        .triangle-3 {
+            width: 0;
+            height: 0;
+            border-top: 100px solid red;
+            border-left: 58px solid transparent;
+            border-right: 58px solid transparent;
+        }
+        .demo1{width:300px; padding:30px 20px; border:5px solid #beceeb; position:relative;}
+        .demo1 span{width:0; height:0; font-size:0; overflow:hidden; position:absolute;}
+        .demo1 span.bot{
+            border-width:20px;
+            border-style:solid dashed dashed;
+            border-color:#beceeb transparent transparent;
+            left:80px;
+            bottom:-40px;
+        }
+        .demo1 span.top{
+            border-width:20px;
+            border-style:solid;
+            border-color:#ffffff transparent transparent;
+            left:80px;
+            bottom:-33px;
+        }
+        .circle {
+            width: 100px;
+            height:100px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .circle-2 {
+            width:0;
+            height:0;
+            border: 50px solid red;
+            border-radius:50px;
+        }
+        .circle-quarter {
+            width:0;
+            height:0;
+            border: 50px solid;
+            border-radius:50px;
+            /*border-right-color:transparent;*/
+            border-color: red green blue purple;
+        }
+        .circle-50percent {
+            width: 200px;
+            height: 200px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            overflow:hidden;
+        }
+        .circle-50percent > .bg{
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 173.2px solid yellow;
+            border-bottom: 173.2px solid black;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            top: -73.2px;
+            left: 0;
+        }
+        .circle-50percent > .bg:nth-child(1) {
+            transform: rotate(0);
+        }
+        .circle-50percent > .bg:nth-child(2) {
+            transform: rotate(120deg);
+        }
+        .circle-50percent > .bg:nth-child(3) {
+            transform: rotate(240deg);
+        }
+
+    </style>
+</head>
+<body>
+<h2>4边border是四个等腰梯形</h2>
+<div class="borders4"> </div>
+<h2>把其他3边颜色改为transparent后变成等腰梯形</h2>
+<div class="border1 trapezoid"></div>
+<h2>width:0; height:0;4边border是四个三角形</h2>
+<div class="w0h0b4"></div>
+<h2>上三角</h2>
+<div class="triangle"></div>
+<h2>右三角</h2>
+<div class="triangle-2"></div>
+<h2>右上三角</h2>
+<div class="triangle-1"></div>
+<h2>等边三角形</h2>
+<div class="triangle-3"></div>
+<div class="demo1">
+    <span class="bot"></span>
+    <span class="top"></span>
+    覆盖法实现气泡对话框效果
+</div>
+<h2>圆形，用border-radius实现</h2>
+<div class="circle"></div>
+<div class="circle-2"></div>
+<div class="circle-quarter"></div>
+<div class="circle-50percent">
+    <div class="bg"></div>
+    <div class="bg"></div>
+    <div class="bg"></div>
+</div>
+
+</body>
+</html>

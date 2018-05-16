@@ -66,10 +66,22 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./drag/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./drag/index-1.js");
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./drag/index-1.js":
+/*!*************************!*\
+  !*** ./drag/index-1.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nvar _event = __webpack_require__(/*! ../event */ \"./event/index.js\");\n\nvar _event2 = _interopRequireDefault(_event);\n\nvar _index = __webpack_require__(/*! ./index.js */ \"./drag/index.js\");\n\nvar _index2 = _interopRequireDefault(_index);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\n// 碰不上的情况只有4种\nvar box1 = document.querySelector('.box1');\nvar box2 = document.querySelector('.box2');\nvar box2Drag = new _index2.default(box2);\nbox2Drag.enable();\nfunction checkCollide() {\n    var w2 = box2.offsetWidth,\n        h2 = box2.offsetHeight;\n\n    var _box1$getBoundingClie = box1.getBoundingClientRect(),\n        t1 = _box1$getBoundingClie.t1,\n        r1 = _box1$getBoundingClie.r1,\n        b1 = _box1$getBoundingClie.b1,\n        l1 = _box1$getBoundingClie.l1;\n\n    _event2.default.addHandler('dragMove', function (ev) {\n        var l2 = ev.left,\n            t2 = ev.top;\n\n        var r2 = l2 + w2,\n            b2 = t2 + h2;\n        console.log({ t2: t2, r2: r2, b2: b2, l2: l2 });\n        if (b2 < t1 || l2 > r1 || t2 > b1 || r2 < l1) {\n            console.log('没碰上');\n        } else {\n            console.log('碰上了');\n        }\n    });\n}\ncheckCollide();//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9kcmFnL2luZGV4LTEuanM/Y2MzOCJdLCJuYW1lcyI6WyJib3gxIiwiZG9jdW1lbnQiLCJxdWVyeVNlbGVjdG9yIiwiYm94MiIsImJveDJEcmFnIiwiZW5hYmxlIiwiY2hlY2tDb2xsaWRlIiwidzIiLCJvZmZzZXRXaWR0aCIsImgyIiwib2Zmc2V0SGVpZ2h0IiwiZ2V0Qm91bmRpbmdDbGllbnRSZWN0IiwidDEiLCJyMSIsImIxIiwibDEiLCJhZGRIYW5kbGVyIiwiZXYiLCJsMiIsImxlZnQiLCJ0MiIsInRvcCIsInIyIiwiYjIiLCJjb25zb2xlIiwibG9nIl0sIm1hcHBpbmdzIjoiQUFBQTs7QUFDQTs7OztBQUNBOzs7Ozs7QUFFQTtBQUNBLElBQU1BLE9BQU9DLFNBQVNDLGFBQVQsQ0FBdUIsT0FBdkIsQ0FBYjtBQUNBLElBQU1DLE9BQU9GLFNBQVNDLGFBQVQsQ0FBdUIsT0FBdkIsQ0FBYjtBQUNBLElBQU1FLFdBQVcsb0JBQVNELElBQVQsQ0FBakI7QUFDQUMsU0FBU0MsTUFBVDtBQUNBLFNBQVNDLFlBQVQsR0FBd0I7QUFDcEIsUUFBSUMsS0FBS0osS0FBS0ssV0FBZDtBQUFBLFFBQ0lDLEtBQUtOLEtBQUtPLFlBRGQ7O0FBRG9CLGdDQUdHVixLQUFLVyxxQkFBTCxFQUhIO0FBQUEsUUFHZkMsRUFIZSx5QkFHZkEsRUFIZTtBQUFBLFFBR1hDLEVBSFcseUJBR1hBLEVBSFc7QUFBQSxRQUdQQyxFQUhPLHlCQUdQQSxFQUhPO0FBQUEsUUFHSEMsRUFIRyx5QkFHSEEsRUFIRzs7QUFJcEIsb0JBQWFDLFVBQWIsQ0FBd0IsVUFBeEIsRUFBb0MsVUFBQ0MsRUFBRCxFQUFNO0FBQUEsWUFDM0JDLEVBRDJCLEdBQ1pELEVBRFksQ0FDakNFLElBRGlDO0FBQUEsWUFDbEJDLEVBRGtCLEdBQ1pILEVBRFksQ0FDdkJJLEdBRHVCOztBQUV0QyxZQUFJQyxLQUFLSixLQUFLWCxFQUFkO0FBQUEsWUFDSWdCLEtBQUtILEtBQUtYLEVBRGQ7QUFFQWUsZ0JBQVFDLEdBQVIsQ0FBWSxFQUFDTCxNQUFELEVBQUtFLE1BQUwsRUFBU0MsTUFBVCxFQUFhTCxNQUFiLEVBQVo7QUFDQSxZQUFJSyxLQUFLWCxFQUFMLElBQVdNLEtBQUtMLEVBQWhCLElBQXNCTyxLQUFLTixFQUEzQixJQUFpQ1EsS0FBS1AsRUFBMUMsRUFBOEM7QUFDMUNTLG9CQUFRQyxHQUFSLENBQVksS0FBWjtBQUNILFNBRkQsTUFFTztBQUNIRCxvQkFBUUMsR0FBUixDQUFZLEtBQVo7QUFDSDtBQUNKLEtBVkQ7QUFXSDtBQUNEbkIiLCJmaWxlIjoiLi9kcmFnL2luZGV4LTEuanMuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCdcbmltcG9ydCBldmVudE1hbmFnZXIgZnJvbSAnLi4vZXZlbnQnXG5pbXBvcnQgRHJhZyBmcm9tICcuL2luZGV4LmpzJ1xuXG4vLyDnorDkuI3kuIrnmoTmg4XlhrXlj6rmnIk056eNXG5jb25zdCBib3gxID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignLmJveDEnKVxuY29uc3QgYm94MiA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJy5ib3gyJylcbmNvbnN0IGJveDJEcmFnID0gbmV3IERyYWcoYm94MilcbmJveDJEcmFnLmVuYWJsZSgpXG5mdW5jdGlvbiBjaGVja0NvbGxpZGUoKSB7XG4gICAgbGV0IHcyID0gYm94Mi5vZmZzZXRXaWR0aCxcbiAgICAgICAgaDIgPSBib3gyLm9mZnNldEhlaWdodFxuICAgIGxldCB7dDEsIHIxLCBiMSwgbDF9ID0gYm94MS5nZXRCb3VuZGluZ0NsaWVudFJlY3QoKVxuICAgIGV2ZW50TWFuYWdlci5hZGRIYW5kbGVyKCdkcmFnTW92ZScsIChldik9PntcbiAgICAgICAgbGV0IHtsZWZ0OiBsMiwgdG9wOiB0Mn0gPSBldlxuICAgICAgICBsZXQgcjIgPSBsMiArIHcyLFxuICAgICAgICAgICAgYjIgPSB0MiArIGgyXG4gICAgICAgIGNvbnNvbGUubG9nKHt0MiwgcjIsIGIyLCBsMn0pXG4gICAgICAgIGlmIChiMiA8IHQxIHx8IGwyID4gcjEgfHwgdDIgPiBiMSB8fCByMiA8IGwxKSB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZygn5rKh56Kw5LiKJylcbiAgICAgICAgfSBlbHNlIHtcbiAgICAgICAgICAgIGNvbnNvbGUubG9nKCfnorDkuIrkuoYnKVxuICAgICAgICB9XG4gICAgfSlcbn1cbmNoZWNrQ29sbGlkZSgpXG4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./drag/index-1.js\n");
+
+/***/ }),
 
 /***/ "./drag/index.js":
 /*!***********************!*\

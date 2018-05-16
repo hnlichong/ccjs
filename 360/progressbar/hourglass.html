@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>triangle</title>
+    <style>
+        .triangle-up, .triangle-down {
+            width: 0;
+            height:0;
+            transform-origin: center bottom;
+        }
+        .triangle-up {
+            border-top: 100px solid red;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            transform: scale(1);
+            animation: drop 5s linear infinite;
+        }
+        .triangle-down {
+            border-bottom: 100px solid blue;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            transform: scale(0);
+            animation: fill 5s linear infinite;
+        }
+        @keyframes drop {
+            to {
+                transform: scale(0);
+            }
+        }
+        @keyframes fill {
+            to {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="hourglass">
+    <div class="triangle-up"></div>
+    <div class="triangle-down"></div>
+</div>
+</body>
+</html>

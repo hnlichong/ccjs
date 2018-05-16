@@ -30,11 +30,12 @@ console.log(`Spread/Reset Operator ..., 具体是Spread or Rest需要看上下�
 
     console.log('Spread操作符扩展对象')
     let obj3 = {
-        ...obj,
         d: 'dd',
         e: 'ee',
-        a: 'aaa'
+        a: 'aaa',
+        ...obj
     }
+    console.log('新值会覆盖旧值')
     console.log(obj3)
 }
 

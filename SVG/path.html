@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>path</title>
+    <style>
+        .warning {
+            width: 300px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        .warning circle {
+            fill: none;
+            stroke: yellow;
+            stroke-width: 32px;
+            stroke-dasharray: 26%;
+        }
+    </style>
+</head>
+<body>
+<svg
+        version="1.1"
+        baseProfile="full"
+        xmlns="http://www.w3.org/2000/svg"
+        width="400"
+        height="400"
+        viewBox="0 0 400 400">
+    <path
+            d="M 50 50 L 100 100"
+            stroke="black" fill="none"></path>
+</svg>
+
+<svg version="1.1"
+viewBox="0 0 64 64"
+class="warning">
+    <circle r="25%" cx="50%" cy="50%"></circle>
+</svg>
+
+</body>
+</html>

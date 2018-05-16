@@ -1,9 +1,12 @@
+/*
+多输入多输出的配置，multi entries
+*/
 const path = require('path')
 const glob = require('glob')
-const entryFiles = glob.sync('./*/index.js')
+const entryFiles = glob.sync('./*/index*.js', {ignore: './node_modules'})
 const entryObj = entryFiles.reduce((accumulator, f)=>{
     let bundle = f
-    bundle = bundle.replace('index.js', 'bundle.js')
+    bundle = bundle.replace(/index(\S*).js/, 'bundle$1.js')
     bundle = bundle.replace('./', '')
     accumulator[bundle] = f
     return accumulator
