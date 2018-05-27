@@ -1,15 +1,33 @@
 
 {
-    console.log('新建数组')
-    new Array(52).fill(undefined)
+    console.log('创建数组')
+    /*
+    * new Array()
+    * new Array().fill()
+    * Array.from(arrayLike[, mapFn[, thisArg]])
+    * Array.of()
+    * */
+
+    // new Array()不太好：无法创建一个元素的数组; 无法初始化
+    new Array(52) // 创建长度为52的数组[empty × 52]，每个元素都是空元素
+    new Array(52, 53) // 创建元素为52, 53的数组
+
+    // new Array().fill() 初始化数组
+    new Array(52).fill(undefined) // 创建包含52个undefined元素的数组
+
+/*    Array.from(arrayLike[, mapFn[, thisArg]]) 优点：
+    1.can create an array from an array-like object (objects with a length property and indexed elements, such as NodeList and function arguments) or iterable objects (objects where you can get its elements, such as Map and Set).
+    2.map function
+    */
     Array.from({length:52})
+    Array.from({length:52}, (item,index)=>index+1) // [1,2,...,51,52]
 
-    new Array(52).keys()
-    Object.keys(new Array(52))
 
+    // Array.of(element0[, element1[, ...[, elementN]]])相对于new Array()的好处是可以创建一个元素的数组
+    // Elements of which to create the array.
+    // 由什么组成的数组
     Array.of(10)
     Array.of(10, 9, 8)
-
 
 }
 {
