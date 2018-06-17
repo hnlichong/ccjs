@@ -1,0 +1,105 @@
+
+// 'use strict'
+{
+    console.log('Object.freeze()可以把一个Object或Array对象变成不可变类型')
+    const obj3 = Object.freeze({a: 1, b: 2})
+    obj3.a = 3 // 没有报错，但写入无效
+    obj3.cc = 44 // 没有报错，但写入无效
+    console.log(obj3)
+    const arr3 = Object.freeze([1, 2])
+    arr3[0] = 33// 没有报错，但写入无效
+    console.log(arr3)
+}
+{
+    console.log('但只能防止顶层属性被修改，而无法限制对于嵌套属性的修改')
+    const me = Object.freeze({
+        name: 'Jacopo',
+        pet: {
+            type: 'dog',
+            name: 'Spock'
+        }
+    })
+    me.pet.name = 'Rocky'
+    me.pet.breed = 'German Shepherd'
+    console.log(me.pet.name) // print Rocky
+    console.log(me.pet.breed) // print German Shepherd
+}
+
+{
+    console.log('Object.defineProperties()定义属性(property)的特征(attribute)')
+    const book = {}
+    Object.defineProperties(book, {
+        _year: {
+            writable: true,
+            value: 2004
+        },
+        edition: {
+            writable: true,
+            value: 1
+        },
+        year: {
+            get: function () {
+                return this._year
+            },
+            set: function (newValue) {
+                if (newValue > 2004) {
+                    this._year = newValue
+                    this.edition +=newValue - 2004
+                }
+            }
+        }
+    })
+
+    console.log(book.year, book.edition)
+    book.year = 2006
+    console.log(book.year, book.edition)
+
+    let descriptor = Object.getOwnPropertyDescriptor(book, '_year')
+    console.log(descriptor.value)
+    console.log(descriptor.configurable)
+    console.log(typeof descriptor.get)
+
+    descriptor = Object.getOwnPropertyDescriptor(book, 'year')
+    console.log(descriptor.value)
+    console.log(descriptor.configurable)
+    console.log(typeof descriptor.get)
+}
+
+{
+    console.log('对象扩展，对象浅拷贝 Object.assign(targetObj, srcObj1, srcObj2...)')
+    const o1 = {a:1}
+    const o2 = {b: 2}
+    const o3 = {arr: [3,4]}
+    const o4 = {
+        title: {
+            text: 'hello world',
+            subtext: 'great js'
+        }
+    }
+    const copy = Object.assign({}, o1, o2, o3, o4, {
+        title: {
+            subtext: 'I love js'
+        }
+    })
+    copy.arr.push(5)
+    console.log(o3)
+    console.log(copy)
+}
+
+{
+    console.log('Object.create()使用已有的对象作为原型创建新对象,第一个参数是充当新对象的原型的对象，第二个是对象属性描述符（与Object.defineProperties()相同）')
+    console.log('可用在寄生组合式继承')
+    const person1 = {
+        name: 'lichong',
+        age: 25
+    }
+    console.log(person1)
+    const person2 = Object.create(person1, {
+        name: {
+            value: 'congcong'
+        }
+    })
+    console.log(person2)
+    const person3 = Object.create(person1)
+    console.log(person3)
+}
