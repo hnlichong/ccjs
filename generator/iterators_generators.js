@@ -23,7 +23,7 @@ ES6 中可以通过 Symbol.iterator 给对象设置默认的遍历器，无论�
     for (let item of arr) {
         console.log(item)
     }
-    console.log('对象不可迭代')
+    console.log('Object不可迭代')
     let obj = {a: 'aa', b: 'bb'}
     // for (let value of obj) { //TypeError: obj is not iterable
     //     console.log(value)
@@ -34,8 +34,10 @@ ES6 中可以通过 Symbol.iterator 给对象设置默认的遍历器，无论�
         console.log(c)
     }
 
-    console.log(`for..in用于遍历属性，包含继承属性`)
-    console.log(`for..of遍历属性值，自身可枚举属性`)
+    console.log(`for..in遍历原型链上所有属性`)
+    console.log(`for..of遍历自身可枚举属性`)
+    // Object.entries(obj) 返回对象自身可枚举属性及属性值 [[key, value], [key, value], ...]
+    // 类似的有Object.keys(obj), Object.values(obj)
     for (let [key, value] of Object.entries(obj)) {
         console.log(`key: ${key}, value: ${value}`)
     }

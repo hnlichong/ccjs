@@ -33,12 +33,19 @@
     console.log('遍历对象')
     // 向Object对象中插入一个属性，该属性会被所有由Object实例化的对象所继承。
     Object.prototype.specifiedObjectAttr = 'ccObject'
-    console.log('Object.keys(obj) 【推荐】先返回对象自身属性的一个数组，再对数组进行遍历操作')
+    console.log('Object.keys(obj) 【推荐】先返回对象的自身可枚举属性数组，再对数组进行遍历操作')
     Object.keys(vertexes).forEach(function (item, index, array) {
         console.log('key: ' + item + ' value: ' + vertexes[item] )
     })
 
-    console.log('for in 遍历对象，包含自身属性和继承属性，需要用obj.hasOwnProperty过滤出自身属性')
+    console.log('for (let [key, value] of Object.entries(obj))【推荐】遍历可迭代对象（迭代器/数组/Set/Map），注意Object不是可迭代对象，但是可通过Object.entries(obj)获取键值对数组')
+    // Object.entries(obj) 返回对象自身可枚举属性及属性值 [[key, value], [key, value], ...]
+    // 类似的有Object.keys(obj), Object.values(obj)
+    for (let [key, value] of Object.entries(vertexes)) {
+        console.log(`key: ${key}, value: ${value}`)
+    }
+
+    console.log('for in 【不推荐】遍历原型链上所有属性，既有自身属性也有继承属性，需要用obj.hasOwnProperty过滤出自身属性')
     for (var key in vertexes) {
         if (vertexes.hasOwnProperty(key)) {
             console.log('key: ' + key + ' value: ' + vertexes[key])
@@ -58,17 +65,17 @@
         console.log('index: ' + i + ', value: ' + value)
     }
 
-    console.log('arr.forEach【推荐】它是数组的原生迭代方法，注意：1. IE9+ 2.不支持continue, break操作符，普通的循环语句中才能使用')
+    console.log('arr.forEach【不推荐】优点：简单，是数组的原生迭代方法，缺点：效率低，不支持continue, break操作符')
     edges.forEach(function (item, index, array) {
         console.log('item: ' + item + ', index: ' + index)
     })
 
-    console.log('for key in obj 遍历数组与遍历对象是一样的，既包含自身属性（key就是数组的下标index），也包含对象的继承属性')
+    console.log('for key in obj【不推荐】遍历数组与遍历对象是一样的，既包含自身属性（key就是数组的下标index），也包含对象的继承属性')
     for (let key in edges) {
         console.log('key: ' + key + ', value: ' + edges[key])
     }
 
-    console.log('for value of arr【不推荐】IE不支持。遍历数组的每一个值')
+    console.log('for value of arr【推荐】遍历可迭代对象（迭代器/数组/Set/Map），注意Object不是可迭代对象，但是可通过Object.entries(obj)获取键值对数组')
     for (let value of edges) {
         console.log('value: ' + value)
     }
