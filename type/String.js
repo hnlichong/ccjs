@@ -3,6 +3,7 @@ console.log('字符串拼接concat() | 加号操作符')
 console.log('字符串切片slice(), substr(), substring()')
 console.log('字符串分割 split()')
 var s = 'red, green, blue, alpha'
+//string.split(separator str|reg, limit)
 console.log(s.split(','))
 
 console.log('字符串访问charAt(0) | str[0]')
@@ -51,14 +52,14 @@ console.log(s.search(4500)) // 2
 console.log('查找到了则返回位置索引，否则-1，类似于indexOf方法')
 console.log(s.search(3600)) // -1
 
-console.log('对应的正则表达式方法是pat.test(), 返回值true of flase, 常用于if语句，验证字符串格式')
+console.log('对应的正则表达式方法是pat.test(), 返回值true of false, 常用于if语句，验证字符串格式')
 var s = '188-1783-01861'
 var pat = /^\d{3}-\d{4}-\d{4}$/
 if (!pat.test(s)) {
     console.log('cellphone format wrong!')
 }
 
-console.log('查找位置 indexOf, 支持指定起始位置')
+console.log('查找位置 indexOf, 支持指定起始位置，不支持正则')
 console.log('Hello World!'.indexOf('o', 5))
 
 console.log('修剪空格 trim(), IE9+')
