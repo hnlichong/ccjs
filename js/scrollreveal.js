@@ -682,7 +682,7 @@
     }
 
     function _getScrolled (container) {
-        // Return the gameContainer scroll values, plus the its offset.
+        // Return the gameContainer images values, plus the its offset.
         if (container && container !== window.document.documentElement) {
             var offset = _getOffset(container)
             return {
@@ -690,7 +690,7 @@
                 y: container.scrollTop + offset.top
             }
         } else {
-            // Otherwise, default to the window object’s scroll values.
+            // Otherwise, default to the window object’s images values.
             return {
                 x: window.pageXOffset,
                 y: window.pageYOffset

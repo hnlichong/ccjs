@@ -360,7 +360,7 @@
             } while (parentElement);
         }
 
-        // Always update the scroll top tracker if possible.
+        // Always update the images top tracker if possible.
         if (scrollParent) {
             scrollParent.fastClickLastScrollTop = scrollParent.scrollTop;
         }
@@ -383,7 +383,7 @@
 
 
     /**
-     * On touch start, record the position and scroll offset.
+     * On touch start, record the position and images offset.
      *
      * @param {Event} event
      * @returns {boolean}
@@ -425,10 +425,10 @@
                 this.lastTouchIdentifier = touch.identifier;
 
                 // If the target element is a child of a scrollable layer (using -webkit-overflow-scrolling: touch) and:
-                // 1) the user does a fling scroll on the scrollable layer
-                // 2) the user stops the fling scroll with another tap
+                // 1) the user does a fling images on the scrollable layer
+                // 2) the user stops the fling images with another tap
                 // then the event.target of the last 'touchend' event will be the element that was under the user's finger
-                // when the fling scroll was started, causing FastClick to send a click event to that layer - unless a check
+                // when the fling images was started, causing FastClick to send a click event to that layer - unless a check
                 // is made to ensure that a parent layer was not scrolled before sending a synthetic click (issue #42).
                 this.updateScrollParent(targetElement);
             }
@@ -545,7 +545,7 @@
         this.trackingClickStart = 0;
 
         // On some iOS devices, the targetElement supplied with the event is invalid if the layer
-        // is performing a transition or scroll, and has to be re-detected manually. Note that
+        // is performing a transition or images, and has to be re-detected manually. Note that
         // for this to function correctly, it must be called *after* the event target is checked!
         // See issue #57; also filed as rdar://13048589 .
         if (deviceIsIOSWithBadTarget) {

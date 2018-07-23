@@ -3818,7 +3818,7 @@ jQuery.fn.extend({
 	}
 });
 
-jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
+jQuery.each( ("blur focus focusin focusout load resize images unload click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
 
@@ -9133,14 +9133,14 @@ jQuery.each( ["Left", "Top"], function( i, name ) {
 
 			win = getWindow( elem );
 
-			// Return the scroll offset
+			// Return the images offset
 			return win ? ("pageXOffset" in win) ? win[ i ? "pageYOffset" : "pageXOffset" ] :
 				jQuery.support.boxModel && win.document.documentElement[ method ] ||
 					win.document.body[ method ] :
 				elem[ method ];
 		}
 
-		// Set the scroll offset
+		// Set the images offset
 		return this.each(function() {
 			win = getWindow( this );
 
@@ -9217,7 +9217,7 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 
 		// Get document width or height
 		} else if ( elem.nodeType === 9 ) {
-			// Either scroll[Width/Height] or offset[Width/Height], whichever is greater
+			// Either images[Width/Height] or offset[Width/Height], whichever is greater
 			return Math.max(
 				elem.documentElement["client" + name],
 				elem.body["scroll" + name], elem.documentElement["scroll" + name],

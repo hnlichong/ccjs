@@ -40,7 +40,7 @@ Drag.prototype.enable = function () {
         eventManager.emit('dragStart', {dX, dY})
 
         function moveHandler(ev, cb) {
-            // prevent default scroll page behaviour
+            // prevent default images page behaviour
             ev.preventDefault()
             let sl = de.scrollLeft || bd.scrollLeft,
                 st = de.scrollTop || bd.scrollTop,

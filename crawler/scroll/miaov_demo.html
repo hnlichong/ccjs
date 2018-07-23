@@ -35,6 +35,32 @@
     </div>
 </div>
 </body>
+<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+<script src="https://cdn.webrtc-experiment.com/screenshot.js"></script>
+<script>
+  var elementToRecord = document.getElementById('roll');
+  var recorder = RecordRTC(elementToRecord, {
+    type: 'canvas',
+    showMousePointer: true,
+    useWhammyRecorder: true
+  });
+  recorder.startRecording();
+  setTimeout(()=>{
+    recorder.stopRecording(function(url) {
+      console.log('record over, url:' +url)
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "test.webm";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 100);
+    });
+  }, 5000)
+</script>
 <script>
     window.onload = function () {
         var oDivRoll = document.getElementById('roll'),

@@ -1,4 +1,4 @@
-const download = require('./download')
+const download = require('../util/download')
 const imgs = require('../assets/vip/vip_imgs.json').urls.slice(0, 10)
 const path = require('path')
 let p = path.resolve(__dirname, '../assets/vip/img')
