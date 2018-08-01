@@ -95,7 +95,7 @@ const fs = require('fs');
     await pro.then(()=>{
       arrayBuffer = event.target.result;
       let bufString = arrayBufferToString(arrayBuffer)
-      return window.writeABString(bufString, 'test12.webm');
+      return window.writeABString(bufString, 'test.webm');
     })
 
     console.log(`blob size = ${blob.size}`)
