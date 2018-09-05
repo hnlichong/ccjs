@@ -1,4 +1,5 @@
 /*
+* 洗牌算法介绍
 * https://gaohaoyang.github.io/2016/10/16/shuffle-algorithm/
 * */
 function *shuffle(arr) {

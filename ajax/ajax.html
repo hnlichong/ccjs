@@ -55,15 +55,16 @@
 
     {
         const ajax = (url, settings = {
-            async: true,
             method: 'GET',
-            data: null
+            data: null,
+            async: true,
+            withCredentials: false,
         }) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
-                    if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-                        resolve(xhr.responseText)
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve(xhr.responseText, xhr.status)
                     } else {
                         reject(xhr.status, xhr.responseText)
                     }
@@ -71,7 +72,7 @@
             }
 
             xhr.open(settings.method, url, settings.async)
-            xhr.withCredentials = true
+            xhr.withCredentials = settings.withCredentials
             xhr.setRequestHeader('header1', 'header1Content')
             xhr.send(settings.data)
         })
@@ -79,7 +80,7 @@
         // let url = 'http://api.wunderground.com/api/dcfae7a1de117e98/conditions/q/上海市/Guangfulin.json'
         let url = 'http://127.0.0.1:3000/api/hostname'
         ajax(url)
-            .then(value => console.log(value))
+            .then(resp => console.log(resp))
             .catch((status, res) => console.log(status, res))
 
     }
