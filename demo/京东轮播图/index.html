@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <style>
+        .slider {
+            width: 790px;
+            height: 340px;
+            /*overflow: hidden;*/
+        }
+        .slider-img-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .slider-img-item, .slider-img-item--active {
+            opacity: 0;
+            transition: opacity 1s;
+            position: absolute;
+        }
+        .slider-img-item--active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="slider">
+        <ul class="slider-img-list">
+            <li class="slider-img-item--active">
+                <img src="./img/1.png" alt="">
+            </li>
+            <li class="slider-img-item">
+                <img src="./img/2.jpg" alt="">
+            </li>
+            <li class="slider-img-item">
+                <img src="./img/3.jpg" alt="">
+            </li>
+            <li class="slider-img-item">
+                <img src="./img/4.jpg" alt="">
+            </li>
+        </ul>
+        <ul class="slider-control">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+<script>
+    class Slider {
+        constructor(id) {
+            this.container = document.getElementById(id)
+            this.imgItems = this.container.querySelectorAll('.slider-img-list>li')
+            this.imgTotal = this.imgItems.length
+            this.updateImgItemIndex()
+        }
+        updateImgItemIndex() {
+            let i = 0
+            for (let item of this.imgItems) {
+                item._index = i
+                i++
+            }
+        }
+        getActiveImgItem() {
+            return this.container.querySelector('.slider-img-item--active')
+        }
+        slideTo(index) {
+            // remove old active
+            let activeImg = this.getActiveImgItem()
+            if (activeImg) {
+                activeImg.className = 'slider-img-item'
+            }
+            // set new active
+            activeImg = this.imgItems[index]
+            if (activeImg) {
+                activeImg.className = 'slider-img-item--active'
+            }
+        }
+        slideNext() {
+            let activeImg = this.getActiveImgItem()
+            this.slideTo((activeImg._index+1)%this.imgTotal)
+        }
+        slidePrevious() {
+            let activeImg = this.getActiveImgItem()
+            this.slideTo((activeImg._index-1)%this.imgTotal)
+        }
+    }
+    window.onload = function () {
+        const slider = new Slider('slider')
+        setInterval(()=>{
+            slider.slideNext()
+        }, 2000)
+
+    }
+</script>
+</body>
+</html>
