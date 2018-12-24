@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>index</title>
     <style>
-        .slider {
+        #slider {
             width: 790px;
-            height: 340px;
-            /*overflow: hidden;*/
+            height: 345px;
+            position: relative;
+            margin: 0 auto;
         }
         .slider-img-list {
             list-style: none;
@@ -22,6 +23,49 @@
         }
         .slider-img-item--active {
             opacity: 1;
+        }
+        .slider-control {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            bottom: 10px;
+        }
+        .slider-control-switch-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 24px;
+            width: 24px;
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+        }
+        .slider-control:hover .slider-control-switch-btn {
+            opacity: 1;
+        }
+        .slider-control-page-btn-box {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 24px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            padding-right: 12px;
+        }
+        .slider-control-page-btn, .slider-control-page-btn--active {
+            width: 15px;
+            height: 15px;
+            border-radius: 15px;
+            background-color: white;
+            margin: 2px 0 2px 12px;
+            cursor: pointer;
+        }
+        .slider-control-page-btn--active {
+            background-color: red;
         }
     </style>
 </head>
@@ -41,21 +85,85 @@
                 <img src="./img/4.jpg" alt="">
             </li>
         </ul>
-        <ul class="slider-control">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+        <div class="slider-control">
+            <div class="slider-control-switch-btn slider-control-previous-btn">
+               &lt;
+            </div>
+            <ul class="slider-control-page-btn-box">
+                <li class="slider-control-page-btn--active"></li>
+                <li class="slider-control-page-btn"></li>
+                <li class="slider-control-page-btn"></li>
+                <li class="slider-control-page-btn"></li>
+            </ul>
+            <div class="slider-control-switch-btn slider-control-next-btn">
+               &gt;
+            </div>
+        </div>
     </div>
 <script>
     class Slider {
-        constructor(id) {
+        constructor(id, speed=2000) {
+            this.speed = speed
             this.container = document.getElementById(id)
             this.imgItems = this.container.querySelectorAll('.slider-img-list>li')
             this.imgTotal = this.imgItems.length
+            // 给每个slide添加index属性
             this.updateImgItemIndex()
+
+            this.control = this.container.querySelector('.slider-control')
+            if (this.control) {
+                this.initControl()
+            }
         }
+
+        start() {
+            this.stop()
+            this._timer = setInterval(()=>this.slideNext(), this.speed)
+        }
+
+        stop() {
+            clearInterval(this._timer)
+        }
+
+        initControl() {
+            const pageBtnBox = this.control.querySelector('.slider-control-page-btn-box')
+            const pageBtns = Array.from(pageBtnBox.children)
+            pageBtnBox.addEventListener('mouseover', ev => {
+                let i = pageBtns.indexOf(ev.target)
+                if (i === -1) return
+                this.slideTo(i)
+                this.stop()
+            })
+            pageBtnBox.addEventListener('mouseout', ev=> {
+                this.start()
+
+            })
+            this.container.addEventListener('slide', ev=>{
+                let i = ev.detail.index
+                // deactivate the old
+                let active = pageBtnBox.querySelector('.slider-control-page-btn--active')
+                if (active) active.className = 'slider-control-page-btn'
+                // activate the new
+                active = pageBtns[i]
+                if(active)  active.className = 'slider-control-page-btn--active'
+            })
+            this.control.addEventListener('click', ev=> {
+                const {className} = ev.target
+                if (className.indexOf('slider-control-previous-btn') > -1) {
+                    this.stop()
+                    this.slidePrevious()
+                    this.start()
+                    return
+                }
+                if (className.indexOf('slider-control-next-btn') > -1) {
+                    this.stop()
+                    this.slideNext()
+                    this.start()
+                    return
+                }
+            })
+        }
+
         updateImgItemIndex() {
             let i = 0
             for (let item of this.imgItems) {
@@ -63,36 +171,46 @@
                 i++
             }
         }
+
         getActiveImgItem() {
             return this.container.querySelector('.slider-img-item--active')
         }
+
+        /**
+         * 最底层的移动函数
+         * @param index
+         */
         slideTo(index) {
-            // remove old active
+            // deactivate the old
             let activeImg = this.getActiveImgItem()
             if (activeImg) {
                 activeImg.className = 'slider-img-item'
             }
-            // set new active
+            // activate the new
             activeImg = this.imgItems[index]
             if (activeImg) {
                 activeImg.className = 'slider-img-item--active'
             }
+            this.container.dispatchEvent(new CustomEvent('slide', {
+                bubbles: true,
+                detail: { index } // 警告: 兼容性
+            }))
         }
+
         slideNext() {
             let activeImg = this.getActiveImgItem()
             this.slideTo((activeImg._index+1)%this.imgTotal)
         }
+
         slidePrevious() {
             let activeImg = this.getActiveImgItem()
-            this.slideTo((activeImg._index-1)%this.imgTotal)
+            this.slideTo((activeImg._index-1+this.imgTotal)%this.imgTotal)
         }
     }
+
     window.onload = function () {
         const slider = new Slider('slider')
-        setInterval(()=>{
-            slider.slideNext()
-        }, 2000)
-
+        slider.start()
     }
 </script>
 </body>
