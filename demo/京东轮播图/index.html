@@ -23,6 +23,7 @@
         }
         .cc-slider__image-item--active {
             opacity: 1;
+            z-index: 1;
         }
         .cc-slider__control {
             position: absolute;
@@ -31,6 +32,7 @@
             justify-content: center;
             align-items: center;
             bottom: 10px;
+            z-index:2;
         }
         .cc-slider__control-switch-btn {
             display: flex;
@@ -87,7 +89,7 @@
             }
 
             this.container = document.getElementById(id)
-            this.container.className += ' cc-slider'
+            this.container.classList.add('cc-slider')
             this.render()
             this.initImageList()
             if (this.enableControl) {
@@ -109,7 +111,9 @@
             ${this.images.reduce((acc, item)=>{
                 return acc + `
                     <li class="cc-slider__image-item">
-                        <img src="${item}">
+                        <a href="${item}" target="_blank">
+                            <img src="${item}">
+                        </a>
                     </li>
                 `
             }, '')}
@@ -148,7 +152,9 @@
             this.imgItems = this.container.querySelectorAll('.cc-slider__image-list>li')
             this.imgTotal = this.imgItems.length
             // 给每个slide添加index属性
-            this.updateImgItemIndex()
+            Array.from(this.imgItems).forEach((item,index)=>{
+                item._index = index
+            })
             this.slideTo(this.initPage)
         }
 
@@ -156,6 +162,10 @@
             this.control = this.container.querySelector('.cc-slider__control')
             const pageBtnBox = this.control.querySelector('.cc-slider__control-page-btn-box')
             const pageBtns = Array.from(pageBtnBox.children)
+            // inject index
+            pageBtns.forEach((item, index)=>{
+                item._index = index
+            })
             pageBtnBox.addEventListener('mouseover', ev => {
                 let i = pageBtns.indexOf(ev.target)
                 if (i === -1) return
@@ -176,7 +186,8 @@
                 if(active)  active.className = 'cc-slider__control-page-btn--active'
             })
             this.control.addEventListener('click', ev=> {
-                const {className} = ev.target
+                const pageBtn = ev.target
+                const {className, _index} = pageBtn
                 if (className.indexOf('cc-slider__control-previous-btn') > -1) {
                     this.stop()
                     this.slidePrevious()
@@ -189,15 +200,11 @@
                     this.start()
                     return
                 }
+                if (className.indexOf('cc-slider__control-page-btn') > -1 && !isNaN(_index)) {
+                    const a = this.imgItems[_index].querySelector('a')
+                    if (a) a.click()
+                }
             })
-        }
-
-        updateImgItemIndex() {
-            let i = 0
-            for (let item of this.imgItems) {
-                item._index = i
-                i++
-            }
         }
 
         getActiveImgItem() {
