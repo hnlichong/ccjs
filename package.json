@@ -40,6 +40,7 @@
     "webpack-entry-plus": "^1.0.12"
   },
   "dependencies": {
+    "bcloud": "^0.10.9",
     "request": "^2.87.0"
   }
 }
