@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>瀑布流-图片懒加载</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .waterfall {
+            position: relative;
+        }
+        .box {
+            position: absolute;
+            float: left;
+            padding: 15px 0 0 15px;
+        }
+        .pic {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            box-shadow: 0 0 3px #CCC;
+        }
+
+    </style>
+</head>
+<body>
+<div class="waterfall clearfix">
+    <div class="box">
+        <div class="pic">
+            <img src="../img/0.jpg" alt="0">
+        </div>
+    </div>
+    <div class="box">
+        <div class="pic">
+            <img src="../img/1.jpg" alt="1">
+        </div>
+    </div>
+</div>
+
+<script>
+    const waterfallEl = document.querySelector('.waterfall')
+
+
+    function genItemHtml(num=0) {
+        return `
+    <div class="box">
+        <div class="pic">
+            <img src="../img/${num}.jpg" alt="${num}" width="100%">
+        </div>
+    </div>
+        `
+    }
+
+    function addItems(container, length=1) {
+        let s = ''
+        for (let i=0;i<length; i++) {
+            s += genItemHtml(i)
+        }
+        container.innerHTML = s
+    }
+
+    addItems(waterfallEl, 80)
+
+    const boxes = Array.from(document.querySelectorAll('.box'))
+    const BOX_WIDTH = boxes[0].offsetWidth
+    // 237 = 200 + 10*2+ 1*2 +15
+
+    function handlePageResize() {
+        // 重新计算盒子列数(页面宽度/box宽度)
+        let colLen = Math.floor(window.innerWidth / BOX_WIDTH)
+        // 设置容器宽度及居中对齐
+        waterfallEl.style.cssText += `width: ${colLen * BOX_WIDTH}px; margin: 0 auto;`
+        document.title = colLen
+
+        // 逐一将盒子插入到适当的位置
+        // 方法：补短, 比如第二行第一块应该塞到第一行最短的那一块底下
+        const curColHeightList = Array.from({length: colLen}, v=>0) // [0,0,0,0,0,0]
+        boxes.forEach((box,i)=>{
+            // let xi = i % colLen
+            // let yi = Math.floor(i / colLen)
+            let xi = curColHeightList.indexOf(Math.min(...curColHeightList))
+            // 插入
+            box.style.cssText += `left: ${xi * BOX_WIDTH}px; top: ${curColHeightList[xi]}px;`
+            // 更新高度
+            curColHeightList[xi] += box.offsetHeight
+        })
+    }
+
+    window.addEventListener('resize', handlePageResize)
+    handlePageResize()
+
+
+
+</script>
+</body>
+</html>
