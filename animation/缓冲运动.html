@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分享到</title>
+    <style>
+        .share {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            left: 100%;
+            bottom: 20%;
+            margin-left: -50px;
+        }
+        .toggle {
+            width: 50px;
+            height: 20px;
+            line-height: 20px;
+            background: yellow;
+        }
+
+        .main {
+            width: 200px;
+            height:200px;
+            background: grey;
+        }
+    </style>
+</head>
+<body>
+<div class="share">
+    <div class="toggle">分享到</div>
+    <div class="main">几个分享的链接</div>
+</div>
+
+<script>
+    const shareEl = document.querySelector('.share')
+    const mainEl = shareEl.querySelector('.main')
+    const length = mainEl.offsetWidth // 移动的最远距离
+    let tX = 0 // translateX
+    shareEl.style.transform = `translateX(${tX}px)`
+
+
+    let _timer = 0
+
+    function start3(target) {
+        /**
+         * 自动计算speed
+         * @type {number}
+         */
+        clearInterval(_timer)
+
+        _timer = setInterval(()=>{
+            let speed = Math.round((target - tX)/8)
+            tX += speed
+            if (Math.abs(tX - target) < Math.abs(speed) ||
+            Math.abs(speed) < 1) {
+                tX = target
+                console.log('stop')
+                console.log(tX)
+                console.log(speed)
+                shareEl.style.transform = `translateX(${tX}px)`
+                clearInterval(_timer)
+                return
+            }
+            console.log(tX)
+            console.log(speed)
+            shareEl.style.transform = `translateX(${tX}px)`
+        }, 20)
+
+    }
+    shareEl.onmouseover = function () {
+        // start(speed, -length, 0)
+        start2(-length)
+    }
+    shareEl.onmouseleave = function () {
+        // start(-speed, -length, 0)
+        start2(0)
+    }
+</script>
+</body>
+</html>
