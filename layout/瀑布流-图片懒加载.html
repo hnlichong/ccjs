@@ -50,28 +50,31 @@
 <script>
     const waterfallEl = document.querySelector('.waterfall')
 
-
-    function genItemHtml(num=0) {
-        return `
-    <div class="box">
+    function createBox(num, url) {
+        const root = document.createElement('div')
+        root.className = 'box'
+        root.innerHTML = `
         <div class="pic">
-            <img src="../img/${num}.jpg" alt="${num}" width="100%">
+            <img src="${url}" alt="${num}" width="100%">
         </div>
-    </div>
         `
+        return root
     }
 
-    function addItems(container, length=1) {
-        let s = ''
-        for (let i=0;i<length; i++) {
-            s += genItemHtml(i)
+
+    function appendBoxes(container, len=1) {
+        const arr = []
+        for (let i=0;i<len;i++) {
+            let el = createBox(i, `../img/${i}.jpg`)
+            arr.push(el)
+            container.appendChild(el)
         }
-        container.innerHTML = s
+        return arr
     }
 
-    addItems(waterfallEl, 80)
-
-    const boxes = Array.from(document.querySelectorAll('.box'))
+    // 瀑布流布局，定宽变高
+    // 添加初始盒子
+    let boxes = appendBoxes(waterfallEl, 40)
     const BOX_WIDTH = boxes[0].offsetWidth
     // 237 = 200 + 10*2+ 1*2 +15
 
@@ -96,7 +99,16 @@
         })
     }
 
+    function loadMoreBoxes() {
+        let st = document.documentElement.scrollTop || document.body.scrollTop
+        let sh = document.documentElement.scrollHeight || document.body.scrollHeight
+        if (sh - st > window.innerHeight + 200)  return
+        appendBoxes(waterfallEl, 20)
+        console.log('加20个！')
+    }
+
     window.addEventListener('resize', handlePageResize)
+    window.addEventListener('scroll', loadMoreBoxes)
     handlePageResize()
 
 
