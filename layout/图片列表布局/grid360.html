@@ -3,25 +3,118 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>图片列表grid布局</title>
+    <title>Gallery</title>
+    <!-- https://code.h5jun.com/hixe/1# -->
     <style>
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            grid-gap: 10px;
-            list-style: none;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 14px/1.5 Sans-Serif;
+            background: #f0f0f0;
+        }
+
+        header {
+            display: flex;
+            background: #EB5757;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            margin: 0 0.5em;
+        }
+
+        .logo img {
+            display: block;
+            transition: all 0.2s ease-in;
+
+        }
+
+        .logo:hover img {
+            transform-origin: 30% 50%;
+            transform: rotate(15deg)
+        }
+
+        nav {
+            display: flex;
+        }
+
+        nav a {
+            position: relative;
+            line-height: 4;
+            padding: 0 1.5em;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            transition: all 0.2s ease;
+            transform: scaleX(0);
+        }
+
+        nav a.active::after,
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .gallery {
+            display: grid;
+            grid-gap: 2em;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr) ) ;
+            margin: 2em;
         }
 
         .media {
+            display: block;
             overflow: hidden;
+            min-width: 12em;
+            max-width: 20em;
+            background: #fff;
+            border-radius: 0.2em;
+            box-shadow: 0 0 1em rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
         }
 
-        .media__img > img{
-             width: 100%;
-
+        .media:hover {
+            box-shadow: 0 0 1.5em rgba(0,0,0,0.4);
         }
+
+        .media__img {
+            padding-top: 70%;
+            position: relative;
+        }
+
+        .media__img img {
+            position: absolute;
+            width: 100%;
+            top: 0;
+        }
+        .media__body {
+            display: flex;
+            padding: 1em;
+            justify-content: space-between;
+            color: #444;
+        }
+
+        .media__title {
+            font-size: 14px;
+        }
+
+        .icon {
+            color: #EB5757;
+        }
+
     </style>
 </head>
 <body>
@@ -137,15 +230,15 @@
             <a class="icon">♥</a>
         </div>
     </li>
-    <!--<li class="media">-->
-        <!--<div class="media__img">-->
-            <!--<img src="https://picsum.photos/400/280?12" alt="12">-->
-        <!--</div>-->
-        <!--<div class="media__body">-->
-            <!--<h3 class="media__title">Image caption 12</h3>-->
-            <!--<a class="icon">♥</a>-->
-        <!--</div>-->
-    <!--</li>-->
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?12" alt="12">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 12</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
 
 </ul>
 </body>
