@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>图片列表grid布局</title>
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 10px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .media {
+            overflow: hidden;
+        }
+
+        .media__img > img{
+             width: 100%;
+
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 class="logo">
+        <img src="https://s0.ssl.qhres.com/static/bfe8389db75cd54e.svg" alt="fish galllery" width="40" height="40">
+    </h1>
+    <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#">Gallery</a>
+        <a href="#">Contact</a>
+        <a href="#">Help</a>
+    </nav>
+</header>
+
+<ul class="gallery">
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?1" alt="1">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 1</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?2" alt="2">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 2</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?3" alt="3">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 3</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?4" alt="4">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 4</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?5" alt="5">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 5</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?6" alt="6">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 6</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?7" alt="7">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 7</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?8" alt="8">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 8</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?9" alt="9">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 9</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?10" alt="10">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 10</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <li class="media">
+        <div class="media__img">
+            <img src="https://picsum.photos/400/280?11" alt="11">
+        </div>
+        <div class="media__body">
+            <h3 class="media__title">Image caption 11</h3>
+            <a class="icon">♥</a>
+        </div>
+    </li>
+    <!--<li class="media">-->
+        <!--<div class="media__img">-->
+            <!--<img src="https://picsum.photos/400/280?12" alt="12">-->
+        <!--</div>-->
+        <!--<div class="media__body">-->
+            <!--<h3 class="media__title">Image caption 12</h3>-->
+            <!--<a class="icon">♥</a>-->
+        <!--</div>-->
+    <!--</li>-->
+
+</ul>
+</body>
+</html>

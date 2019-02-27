@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>imgs</title>
+    <title>图片列表flex布局</title>
     <style>
         body {
             margin: 0;
@@ -43,7 +43,7 @@
             border-bottom: 4px solid white;
         }
 
-        main {
+        .main {
             min-height: 600px;
             background-color: #F0F0F0;
             /*text-align: center;*/
@@ -54,7 +54,12 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: space-between;
+        }
+        /*解决flex布局两端对齐时最后一行左对齐*/
+        .imgs-container:after {
+            content: '';
+            flex: auto;
         }
 
         .imgs-container > figure {
@@ -107,7 +112,7 @@
         <a>Help</a>
     </nav>
 </header>
-<main>
+<div class="main">
     <div class="imgs-container">
         <figure>
             <img width="300" height="200" src="https://picsum.photos/300/200/?random"
@@ -189,15 +194,15 @@
                 <i class="img-favourite"></i>
             </figcaption>
         </figure>
-        <figure>
-            <img width="300" height="200" src="https://picsum.photos/300/200/?random10"
-                 alt="https://picsum.photos/300/200/">
-            <figcaption>
-                aaa
-                <i class="img-favourite"></i>
-            </figcaption>
-        </figure>
+        <!--<figure>-->
+            <!--<img width="300" height="200" src="https://picsum.photos/300/200/?random10"-->
+                 <!--alt="https://picsum.photos/300/200/">-->
+            <!--<figcaption>-->
+                <!--aaa-->
+                <!--<i class="img-favourite"></i>-->
+            <!--</figcaption>-->
+        <!--</figure>-->
     </div>
-</main>
+</div>
 </body>
 </html>

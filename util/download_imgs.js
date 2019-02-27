@@ -1,3 +1,16 @@
+/*
+批量下载随机图片
+
+随机图片接口:
+https://placeimg.com/640/480/nature
+速度快，无法根据URL不同来区分图片，多次调用接口后容易取到相同的图片
+
+http://lorempixel.com/790/345/nature/4/
+速度慢，但是能根据URL区分图片，数字id唯一标识一张图片，URL不同获取的图片就不同
+
+https://picsum.photos/400/280?1
+[推荐]速度快，且能根据URL区分图片
+ */
 const download = require('./download')
 const path = require('path')
 const _ = require('lodash')
