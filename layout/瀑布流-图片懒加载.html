@@ -35,16 +35,6 @@
 </head>
 <body>
 <div class="waterfall clearfix">
-    <div class="box">
-        <div class="pic">
-            <img src="../img/0.jpg" alt="0">
-        </div>
-    </div>
-    <div class="box">
-        <div class="pic">
-            <img src="../img/1.jpg" alt="1">
-        </div>
-    </div>
 </div>
 
 <script>
@@ -78,16 +68,18 @@
     const BOX_WIDTH = boxes[0].offsetWidth
     // 237 = 200 + 10*2+ 1*2 +15
 
-    function handlePageResize() {
-        // 重新计算盒子列数(页面宽度/box宽度)
-        let colLen = Math.floor(window.innerWidth / BOX_WIDTH)
-        // 设置容器宽度及居中对齐
-        waterfallEl.style.cssText += `width: ${colLen * BOX_WIDTH}px; margin: 0 auto;`
-        document.title = colLen
+    // 逐一将盒子插入到适当的位置
+    // 方法：补短, 比如第二行第一块应该塞到第一行最短的那一块底下
+    // 计算盒子列数(页面宽度/box宽度)
+    let colLen = Math.floor(window.innerWidth / BOX_WIDTH)
+    // 设置容器宽度及居中对齐
+    waterfallEl.style.cssText += `width: ${colLen * BOX_WIDTH}px; margin: 0 auto;`
+    // 当前排列的盒子的列高度
+    let curColHeightList = Array.from({length: colLen}, v=>0) // [0,0,0,0,0,0]
+    // 排列所有盒子
+    sortBoxes(Array.from(waterfallEl.querySelectorAll('.box')))
 
-        // 逐一将盒子插入到适当的位置
-        // 方法：补短, 比如第二行第一块应该塞到第一行最短的那一块底下
-        const curColHeightList = Array.from({length: colLen}, v=>0) // [0,0,0,0,0,0]
+    function sortBoxes(boxes) {
         boxes.forEach((box,i)=>{
             // let xi = i % colLen
             // let yi = Math.floor(i / colLen)
@@ -97,19 +89,32 @@
             // 更新高度
             curColHeightList[xi] += box.offsetHeight
         })
+
     }
+    function handlePageResize() {
+        // 重新计算盒子列数(页面宽度/box宽度)
+        colLen = Math.floor(window.innerWidth / BOX_WIDTH)
+        // 设置容器宽度及居中对齐
+        waterfallEl.style.cssText += `width: ${colLen * BOX_WIDTH}px; margin: 0 auto;`
+        // 重置盒子列高度，重新排列所有盒子
+        curColHeightList = Array.from({length: colLen}, v=>0) // [0,0,0,0,0,0]
+        sortBoxes(Array.from(waterfallEl.querySelectorAll('.box')))
+    }
+
 
     function loadMoreBoxes() {
         let st = document.documentElement.scrollTop || document.body.scrollTop
         let sh = document.documentElement.scrollHeight || document.body.scrollHeight
+        // 留200px余量
         if (sh - st > window.innerHeight + 200)  return
-        appendBoxes(waterfallEl, 20)
-        console.log('加20个！')
+        const boxes = appendBoxes(waterfallEl, 10)
+        // (只需)对新增的盒子进行排列
+        sortBoxes(boxes)
+        console.log('加10个！')
     }
 
     window.addEventListener('resize', handlePageResize)
     window.addEventListener('scroll', loadMoreBoxes)
-    handlePageResize()
 
 
 
