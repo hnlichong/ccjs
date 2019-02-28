@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>瀑布流-CSS多栏布局</title>
+    <style>
+        .waterfall {
+            column-width: 250px;
+        }
+        .box {
+            padding: 15px 0 0 15px;
+        }
+        .pic {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            box-shadow: 0 0 3px #CCC;
+        }
+    </style>
+</head>
+<body>
+<div class="waterfall">
+</div>
+<script>
+    const waterfallEl = document.querySelector('.waterfall')
+
+    function createBox(num, url) {
+        const root = document.createElement('div')
+        root.className = 'box'
+        root.innerHTML = `
+        <div class="pic">
+            <img src="${url}" alt="${num}" width="100%">
+        </div>
+        `
+        return root
+    }
+
+
+    function appendBoxes(container, len=1) {
+        const arr = []
+        for (let i=0;i<len;i++) {
+            let el = createBox(i, `../img/${i}.jpg`)
+            arr.push(el)
+            container.appendChild(el)
+        }
+        return arr
+    }
+
+    // 瀑布流布局，定宽变高
+    // 添加初始盒子
+    let boxes = appendBoxes(waterfallEl, 40)
+    const BOX_WIDTH = boxes[0].offsetWidth
+    // 237 = 200 + 10*2+ 1*2 +15
+</script>
+</body>
+</html>
