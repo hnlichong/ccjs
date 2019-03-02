@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹簧</title>
+    <style>
+        .container {
+            height: 500px;
+            position: relative;
+            border: 2px solid #444;
+        }
+        .seperator {
+            width: 1px;
+            height: 500px;
+            position: absolute;
+            left: 300px;
+            background: #000;
+        }
+        .box {
+            position: absolute;
+            left: 0;
+            top: 250px;
+            width: 50px;
+            height: 50px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="seperator"> </div>
+<div class="box"> </div>
+</div>
+<script src="../js/TweenMax.min.js"></script>
+<script>
+    let play = true
+    const box = document.querySelector('.box')
+    const container = document.querySelector('.container')
+    let speed = 0
+    let friction = 0.05
+
+    function animate() {
+        if (!play) return
+        speed += (300 - box.offsetLeft) / 200
+        speed *= 0.99
+        // if (speed < 0) {
+        //     speed += friction
+        // } else {
+        //     speed -= friction
+        // }
+
+        box.style.left = box.offsetLeft + speed + 'px'
+        window.requestAnimationFrame(animate)
+    }
+    animate()
+
+</script>
+</body>
+</html>

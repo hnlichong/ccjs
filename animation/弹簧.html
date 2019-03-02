@@ -2,17 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>重力</title>
+    <title>弹簧</title>
     <style>
         .container {
-            height: 600px;
+            height: 500px;
             position: relative;
             border: 2px solid #444;
         }
+        .seperator {
+            width: 1px;
+            height: 500px;
+            position: absolute;
+            left: 300px;
+            background: #000;
+        }
         .box {
             position: absolute;
-            left: 200px;
-            top: 0;
+            left: 0;
+            top: 250px;
             width: 50px;
             height: 50px;
             background: red;
@@ -21,27 +28,22 @@
 </head>
 <body>
 <div class="container">
+    <div class="seperator"> </div>
 <div class="box"> </div>
 </div>
 <script src="../js/TweenMax.min.js"></script>
 <script>
     let play = true
     const box = document.querySelector('.box')
+    const container = document.querySelector('.container')
     let speed = 0
-    const pxpm = 200 // 200px 1m
-    const fps = 60
-    const g = 9.81 // 9.81 m / s**2
-    let gg = g * pxpm //  px / s**2
-    let deltaSpeed = 1 / fps / fps * gg //  px / frame**2
-    let stime = Date.now()
+
     function animate() {
         if (!play) return
-        speed += deltaSpeed
-        box.style.top = box.offsetTop + speed + 'px'
+        speed += (300 - box.offsetLeft) / 200
+
+        box.style.left = box.offsetLeft + speed + 'px'
         window.requestAnimationFrame(animate)
-        if (box.offsetTop > 600) {
-            console.log(Date.now() - stime)
-        }
     }
     animate()
 

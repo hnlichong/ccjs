@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>重力</title>
+    <style>
+        .container {
+            height: 500px;
+            position: relative;
+            border: 2px solid #444;
+        }
+        .box {
+            position: absolute;
+            left: 200px;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="box"> </div>
+</div>
+<script src="../js/TweenMax.min.js"></script>
+<script>
+    let play = true
+    const box = document.querySelector('.box')
+    const container = document.querySelector('.container')
+    let speed = 0
+    const pxpm = 1000 // 200px 1m
+    const fps = 60
+    const g = 9.81 // 9.81 m / s**2
+    let gg = g * pxpm //  px / s**2
+    let deltaSpeed = 1 / fps / fps * gg //  px / frame**2
+    let boxWidth = box.offsetWidth
+    let boxHeight = box.offsetHeight
+    let containerHeight= container.offsetHeight
+    let containerWidth= container.offsetWidth
+
+    function collideContainer() {
+        return box.offsetTop + boxHeight >= containerHeight || box.offsetTop <= 0 ||
+            box.offsetLeft + boxWidth >= containerWidth || box.offsetLeft <= 0
+    }
+
+    /**
+     * 停止条件：距离足够近 && 速度足够小
+     */
+    function shouldStop(s, t, v) {
+        return Math.abs(s-t) < 50 && Math.abs(v) < 20
+    }
+
+    function animate() {
+        if (!play) return
+        speed += deltaSpeed
+        box.style.top = box.offsetTop + speed + 'px'
+        // 碰撞检测
+        if (collideContainer()) {
+            speed = -speed
+        }
+        // 停止检测
+        if (shouldStop(box.offsetTop + boxHeight, containerHeight, speed)) {
+            box.style.top = containerHeight - boxHeight + 'px'
+            speed = 0
+            play = false
+        }
+        // if (box.offsetTop + boxHeight > containerHeight) {debugger}
+
+        window.requestAnimationFrame(animate)
+    }
+    animate()
+
+</script>
+</body>
+</html>
