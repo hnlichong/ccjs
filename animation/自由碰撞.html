@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自由碰撞</title>
+    <style>
+        .box {
+            position: absolute;
+            left: 0;
+            top: 250px;
+            width: 50px;
+            height: 50px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"> </div>
+<script>
+    let play = true
+    const box = document.querySelector('.box')
+    const container = document.querySelector('.container')
+    let sx = 10
+    let sy = 8
+    // 使用缓存变量可累积小数
+    let {offsetWidth, offsetHeight, offsetLeft, offsetTop} = box
+
+    function animate() {
+        if (!play) return
+        // 运动, 先改变临时变量
+        offsetLeft +=sx
+        offsetTop += sy
+        // 边界条件，修正临时变量
+        if (offsetLeft + offsetWidth > window.innerWidth ) {
+            sx *= -1
+            offsetLeft = window.innerWidth - offsetWidth
+        } else if (offsetLeft < 0) {
+            sx *= -1
+            offsetLeft = 0
+        } else if (offsetTop + offsetHeight > window.innerHeight) {
+            sy *= -1
+            offsetTop = window.innerHeight - offsetHeight
+        } else if (offsetTop < 0) {
+            sy *= -1
+            offsetTop = 0
+        }
+        // 最后一次性改变DOM，reflow
+        box.style.left = offsetLeft + 'px'
+        box.style.top = offsetTop + 'px'
+        window.requestAnimationFrame(animate)
+    }
+    animate()
+
+</script>
+</body>
+</html>

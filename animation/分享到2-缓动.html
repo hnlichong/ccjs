@@ -51,20 +51,17 @@
         clearInterval(_timer)
 
         _timer = setInterval(()=>{
-            let speed = Math.round((target - tX)/8)
+            let speed = (target - tX)/8 // 减速运动
             tX += speed
             if (Math.abs(tX - target) < Math.abs(speed) ||
             Math.abs(speed) < 1) {
                 tX = target
+                speed = 0
                 console.log('stop')
-                console.log(tX)
-                console.log(speed)
                 shareEl.style.transform = `translateX(${tX}px)`
                 clearInterval(_timer)
                 return
             }
-            console.log(tX)
-            console.log(speed)
             shareEl.style.transform = `translateX(${tX}px)`
         }, 20)
 

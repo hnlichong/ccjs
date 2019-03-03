@@ -31,7 +31,6 @@
     <div class="seperator"> </div>
 <div class="box"> </div>
 </div>
-<script src="../js/TweenMax.min.js"></script>
 <script>
     let play = true
     const box = document.querySelector('.box')
@@ -41,14 +40,15 @@
 
     function animate() {
         if (!play) return
-        speed += (300 - box.offsetLeft) / 200 // 弹力
+        speed += (300 - box.offsetLeft) / 200 // 弹力 -- 变加速运动，加速度逐渐减小/增大的加速运动
         speed *= 0.98 // 摩擦力
+        left += speed
         // 停止条件: 速度足够小且距离足够近(加速度足够小)
         if (Math.abs(speed) < 1 && Math.abs(300 - box.offsetLeft) < 1) {
             speed = 0
+            left = 300
             play = false
         }
-        left += speed
         box.style.left = left + 'px'
         window.requestAnimationFrame(animate)
     }
