@@ -37,19 +37,19 @@
     const box = document.querySelector('.box')
     const container = document.querySelector('.container')
     let speed = 0
-    let friction = 0.05
+    let left = box.offsetLeft // 使用缓存变量可累积小数
 
     function animate() {
         if (!play) return
-        speed += (300 - box.offsetLeft) / 200
-        speed *= 0.99
-        // if (speed < 0) {
-        //     speed += friction
-        // } else {
-        //     speed -= friction
-        // }
-
-        box.style.left = box.offsetLeft + speed + 'px'
+        speed += (300 - box.offsetLeft) / 200 // 弹力
+        speed *= 0.98 // 摩擦力
+        // 停止条件: 速度足够小且距离足够近(加速度足够小)
+        if (Math.abs(speed) < 1 && Math.abs(300 - box.offsetLeft) < 1) {
+            speed = 0
+            play = false
+        }
+        left += speed
+        box.style.left = left + 'px'
         window.requestAnimationFrame(animate)
     }
     animate()
