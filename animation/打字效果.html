@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打字效果</title>
+    <style>
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+        }
+        @keyframes caret-blinking {
+            50% {
+                border-right-color: transparent;
+            }
+        }
+        .typing {
+            width: 15ch;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: monospace;
+            color: #444;
+            border-right: 2px solid;
+            animation: typing 3s steps(15),
+                        caret-blinking 1s steps(1) infinite;
+        }
+    </style>
+</head>
+<body>
+<h1 class="typing">CSS is Awesome!</h1>
+<script>
+    const typing = document.querySelector('.typing')
+
+    function changeText() {
+        typing.textContent = 'Hello World!'
+        let len = typing.textContent.length
+        typing.style.width = len + 'ch'
+        // restart CSS animation
+        typing.style.animation = 'none'
+        typing.offsetWidth // trigger reflow
+        typing.style.animation = null // inherit from its class
+        typing.style.animationTimingFunction = `steps(${len}), steps(1)` // overrite some attrs
+    }
+
+    setTimeout(changeText, 5000)
+
+
+
+
+
+</script>
+</body>
+</html>
