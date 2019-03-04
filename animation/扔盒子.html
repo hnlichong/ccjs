@@ -35,7 +35,7 @@
         offsetLeft +=sx
         offsetTop += sy
         // 边界条件，修正临时变量
-        if (offsetLeft + offsetWidth > window.innerWidth ) {
+        if (offsetLeft + offsetWidth > window.innerWidth) {
             sx *= -1 * friction
             offsetLeft = window.innerWidth - offsetWidth
         } else if (offsetLeft < 0) {
