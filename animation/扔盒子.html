@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>扔盒子</title>
+    <style>
+        .box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"> </div>
+<script>
+
+    let animating = false
+    const box = document.querySelector('.box')
+    const container = document.querySelector('.container')
+    let sx = 0
+    let sy = 0
+    // 使用缓存变量可累积小数
+    let {offsetWidth, offsetHeight, offsetLeft, offsetTop} = box
+    let friction = 0.8 // 摩擦系数
+    let g = 3 // 重力，px/frame / frame
+
+    function animate() {
+        if (!animating) return
+        sy += g // 重力, 匀加速运动
+        // 运动, 先改变临时变量
+        offsetLeft +=sx
+        offsetTop += sy
+        // 边界条件，修正临时变量
+        if (offsetLeft + offsetWidth > window.innerWidth ) {
+            sx *= -1 * friction
+            offsetLeft = window.innerWidth - offsetWidth
+        } else if (offsetLeft < 0) {
+            sx *= -1 * friction
+            offsetLeft = 0
+        } else if (offsetTop + offsetHeight > window.innerHeight) {
+            sy *= -1 * friction // 摩擦力
+            offsetTop = window.innerHeight - offsetHeight
+            // 停止检测
+            if (Math.abs(sy) < 1) {
+                animating = false
+                sx = 0
+            } else {
+                sx *= friction
+            }
+        } else if (offsetTop < 0) {
+            sy *= -1 * friction
+            offsetTop = 0
+            if (Math.abs(sy) < 1) {
+                animating = false
+                sx = 0
+            } else {
+                sx *= friction
+            }
+        }
+        // 最后一次性改变DOM，reflow
+        box.style.cssText += `left: ${offsetLeft}px; top: ${offsetTop}px;`
+        window.requestAnimationFrame(animate)
+    }
+
+    // 拖拽
+    const doc = document
+    const win = window
+    var div1 = doc.querySelector('.box')
+    var width = div1.offsetWidth
+    var height = div1.offsetHeight
+    var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop
+    var scrollLeft = doc.documentElement.scrollLeft || doc.body.scrollLeft
+    var clientWidth = doc.documentElement.clientWidth || doc.body.clientWidth
+    var clientHeight = doc.documentElement.clientHeight || doc.body.clientHeight
+    let isDragging = false
+    //鼠标按下 拖拽开始
+    div1.onmousedown = function (e) {
+        isDragging = true
+        animating = false
+        e = e || event
+        var dX = e.clientX + scrollLeft - div1.offsetLeft
+        var dY = e.clientY + scrollTop - div1.offsetTop
+        var lastLeft = box.offsetLeft
+        var lastTop = box.offsetTop
+        var vx = 0
+        var vy = 0
+        //鼠标移动 拖拽中
+        doc.onmousemove = function (e) {
+            e = e || event
+            var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop
+            var scrollLeft = doc.documentElement.scrollLeft || doc.body.scrollLeft
+            var left = e.clientX + scrollLeft - dX
+            var top = e.clientY + scrollTop - dY
+            //限幅
+            // 0<= left <=  clientWidth - width
+            left = Math.max(0, Math.min(left, clientWidth - width))
+            top = Math.max(0, Math.min(top, clientHeight - height))
+            div1.style.cssText += 'left:' + left + 'px; top:' + top + 'px;'
+            vx = left - lastLeft
+            vy = top - lastTop
+            lastLeft = left
+            lastTop = top
+        }
+        //鼠标抬起 拖拽结束，注销事件
+        doc.onmouseup = function (e) {
+            isDragging = false
+            animating = true
+            sx = vx
+            sy = vy
+            offsetLeft = lastLeft
+            offsetTop = lastTop
+            animate()
+            doc.onmousemove = null
+            doc.onmouseup = null
+        }
+        //取消默认行为-- 拖动出现选择文本的光标
+        return false
+    }
+
+</script>
+</body>
+</html>

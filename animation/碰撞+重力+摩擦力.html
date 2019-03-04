@@ -40,17 +40,29 @@
             offsetLeft = 0
         } else if (offsetTop + offsetHeight > window.innerHeight) {
             sy *= -0.8 // 摩擦力
-            sx = Math.abs(sy) < 1? 0: sx*0.8
             offsetTop = window.innerHeight - offsetHeight
+            // sx = Math.abs(sy) < 1? 0: sx*0.8
+            // 停止检测
+            if (Math.abs(sy) < 1) {
+                sx = 0
+                play = false
+            } else {
+                sx *= 0.8
+            }
         } else if (offsetTop < 0) {
             sy *= -0.8
-            sx = Math.abs(sy) < 1? 0: sx*0.8
             offsetTop = 0
+            // sx = Math.abs(sy) < 1? 0: sx*0.8
+            if (Math.abs(sy) < 1) {
+                sx = 0
+                play = false
+            } else {
+                sx *=0.8
+            }
         }
         console.log(sx)
         // 最后一次性改变DOM，reflow
-        box.style.left = offsetLeft + 'px'
-        box.style.top = offsetTop + 'px'
+        box.style.cssText += `left: ${offsetLeft}px; top: ${offsetTop}px;`
         window.requestAnimationFrame(animate)
     }
     animate()
