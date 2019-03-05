@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽小球</title>
+</head>
+<body>
+<div id="container"></div>
+<script src="../js/spritejs.js"></script>
+<!--<script src="//unpkg.com/spritejs@2.27.4/dist/spritejs.min.js"></script>-->
+<script>
+    let zIndex = 1
+    function draggable(sprite) {
+        if(sprite.isDraggable) return;
+
+        sprite.isDraggable = true;
+
+        let x0,
+            y0,
+            startPos;
+
+        function onMouseMove(evt) {
+            const dx = evt.x - x0,
+                dy = evt.y - y0;
+
+            sprite.attr('pos', [startPos[0] + dx, startPos[1] + dy]);
+            evt.stopDispatch();
+        }
+
+        sprite.on('mousedown', (evt) => {
+            x0 = evt.x;
+            y0 = evt.y;
+            startPos = sprite.attr('pos');
+            sprite.attr('zIndex', zIndex++);
+            sprite.off('mousemove', onMouseMove);
+            sprite.setMouseCapture();
+            sprite.on('mousemove', onMouseMove);
+            evt.stopDispatch();
+        }).on('mouseup', (evt) => {
+            sprite.off('mousemove', onMouseMove);
+            sprite.releaseMouseCapture();
+        });
+
+        return sprite;
+    }
+</script>
+<script>
+    const {Scene, Sprite} = spritejs
+    const stageWidth = 600
+    const stageHeight = 600
+    const scene = new Scene('#container', {
+        resolution: [stageWidth, stageHeight],
+        viewport: [stageWidth, stageHeight],
+    })
+    const layer = scene.layer()
+
+    const stageBorder = new Sprite({
+        size: [stageWidth-2, stageHeight-2],
+        pos: [0, 0],
+        border: [1, '#444']
+    })
+
+    const ball = new Sprite({
+        size: [50, 50],
+        borderRadius: 25,
+        bgcolor: '#f77'
+    })
+
+    layer.append(stageBorder, draggable(ball))
+    layer.on('update',ev=> {
+        console.log('layer update')
+    })
+
+    function update() {
+
+    }
+</script>
+</body>
+</html>

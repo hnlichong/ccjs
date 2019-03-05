@@ -7,7 +7,6 @@
 <body>
 
 <script>
-    // 'use strict'
     {
         console.log('Object.freeze()可以把一个Object或Array对象变成不可变类型')
         const obj3 = Object.freeze({a: 1, b: 2})
@@ -34,7 +33,7 @@
     }
 
     {
-        console.log('Object.defineProperties()定义属性(property)的特征(attribute)')
+        console.log('Object.defineProperties()定义属性(property)的特征(attribute)--即属性描述符descriptor')
         const book = {}
         Object.defineProperties(book, {
             _year: {
@@ -75,6 +74,11 @@
 
     {
         console.log('对象扩展，对象浅拷贝 Object.assign(targetObj, srcObj1, srcObj2...)')
+        /*
+        使用Object.assign()拷贝对象会触发getter和setter, 所以不适合用来将属性拷贝到prototype，取而代之的应该是
+        Object.getPropertyDescriptor()和Object.defineProperty()
+        另外，展开操作符不会触发getter和setter，var mergedObj = { ...obj1, ...obj2 };
+         */
         const o1 = {a:1}
         const o2 = {b: 2}
         const o3 = {arr: [3,4]}
@@ -96,6 +100,7 @@
 
     {
         console.log('Object.create()使用已有的对象作为原型创建新对象,第一个参数是充当新对象的原型的对象，第二个是对象属性描述符（与Object.defineProperties()相同）')
+        console.log('简化了 function Person(){}; Person.prototype = {...}; Object.defineProperties(Person.prototype, {...}) = 等一系列操作')
         console.log('可用在寄生组合式继承')
         const person1 = {
             name: 'lichong',
@@ -105,6 +110,9 @@
         const person2 = Object.create(person1, {
             name: {
                 value: 'congcong'
+            },
+            title: {
+                value: 'new-prop'
             }
         })
         console.log(person2)
