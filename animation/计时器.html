@@ -7,11 +7,12 @@
 <body>
 <script src="timer.js"></script>
 <script>
-    const timer = new Timer()
+    const timer = new Timer(5000)
     timer.start()
-    console.log(timer.running)
     setInterval(()=>{
-        console.log(timer.getElapsedTime())
+        // 测试访问器属性和函数
+        console.log(timer.elapsedTime)
+        console.log(timer.getElaspedTime())
     }, 1000)
 </script>
 </body>

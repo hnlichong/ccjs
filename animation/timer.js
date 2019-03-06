@@ -1,22 +1,31 @@
 class Timer {
     constructor (duration) {
         this.duration = duration
-        this.running = false
+        this.isRunning = false
         this.startTime = 0
-        // this.elapsedTime = 0
+        this._elapsedTime = 0
     }
     start() {
-        this.running = true
+        this.isRunning = true
         this.startTime = Date.now()
     }
     stop() {
-        this.running = false
+        this.isRunning = false
         this.elapsedTime = Date.now() - this.startTime
     }
-    // getElapsedTime() {
-    //     return this.running? Date.now() - this.startTime:this.elapsedTime
-    // }
+    reset() {
+        this.elapsedTime = 0
+    }
     get elapsedTime() {
-        return this.running? Date.now() - this.startTime:this.elapsedTime
+        return this.isRunning? Date.now() - this.startTime:this._elapsedTime
+    }
+    set elapsedTime(value) {
+        this._elapsedTime = value
+    }
+    getElaspedTime() {
+        return this.elapsedTime
+    }
+    get isOver() {
+        return this.elapsedTime >= this.duration
     }
 }
