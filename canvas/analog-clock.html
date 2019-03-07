@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>anolog-clock</title>
+</head>
+<body>
+<canvas class="analog-clock" width="600" height="400">
+<script>
+    const canvas = document.querySelector('.analog-clock')
+    const ctx = canvas.getContext('2d')
+    const {width: cw, height: ch} = canvas
+
+
+    // draw canvas border
+    // ctx.strokeRect(0, 0, cw, ch)
+
+
+    function drawGrids (ctx, stepx=10, stepy=10) {
+        ctx.save()
+        ctx.lineWidth = 0.5 // 能实现0.5像素宽效果，canvas默认“抗锯齿” -- 有点模糊的效果
+        ctx.strokeStyle = '#444'
+        const {width, height} = ctx.canvas
+        // Horizantal
+        for (let i=0.5+stepy;i<height;i+=stepy){
+            // 0.5: 因为线条是居中的，左右各0.5像素会被“抗锯齿”自动扩展为1px
+            ctx.beginPath()
+            ctx.moveTo(0, i)
+            ctx.lineTo(width, i)
+            ctx.stroke()
+        }
+        // Vertical
+        for (let i=0.5+stepx;i<width;i+=stepx){
+            ctx.beginPath()
+            ctx.moveTo(i, 0)
+            ctx.lineTo(i, height)
+            ctx.stroke()
+        }
+        ctx.restore()
+    }
+
+    // drawGrids(ctx)
+
+    function drawAxes(ctx, stepx=20, stepy=20, markw=2, showIndex=true, indexInterval=100) {
+        const {width, height} = ctx.canvas
+        ctx.save()
+        ctx.lineWidth = 1
+        ctx.strokeStyle = '#444'
+        // x, y axes
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.lineTo(width, 0)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.lineTo(0, height)
+        ctx.stroke()
+
+        // 刻度尺mark and index
+        ctx.textAlign = 'left'
+        ctx.textBaseline = 'middle'
+        // y graduation mark and index
+        for (let i=0.5+stepy;i<height;i+=stepy){
+            // 0.5: 因为线条是相对线宽中心线居中放置的，左右各0.5像素会被“抗锯齿”柔化到为1px，则最后线宽为2px。如要实现真正的1px线条，需要放置在0.5+n的轴上
+            ctx.beginPath()
+            ctx.moveTo(0, i)
+            ctx.lineTo(markw, i)
+            ctx.stroke()
+            let ii = parseInt(i)
+            if (showIndex && ii % indexInterval === 0) {
+                ctx.fillText(ii, markw, ii)
+            }
+        }
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'top'
+        // x graduation mark and index
+        for (let i=0.5+stepx;i<width;i+=stepx){
+            ctx.beginPath()
+            ctx.moveTo(i, 0)
+            ctx.lineTo(i, markw)
+            ctx.stroke()
+            let ii = parseInt(i)
+            if (showIndex && ii % indexInterval === 0) {
+                ctx.fillText(ii, ii, markw)
+            }
+        }
+        ctx.restore()
+    }
+
+    drawAxes(ctx)
+
+
+    function drawCircle(ctx, x, y, radius, fill=false) {
+        ctx.save()
+        ctx.beginPath()
+        ctx.arc(x, y, radius, 0, Math.PI * 2)
+        fill? ctx.fill():ctx.stroke()
+        ctx.restore()
+    }
+    const origin = [200, 200]
+    let radius = 100
+    const doublePI = Math.PI * 2
+    const halfPI = Math.PI / 2
+    const quarterPI = Math.PI / 4
+
+    // outer circle
+    drawCircle(ctx, origin[0], origin[1], radius)
+    // inner circle
+    drawCircle(ctx, origin[0], origin[1], radius-10)
+    // center point
+    drawCircle(ctx, origin[0], origin[1], 1, true)
+
+    function drawCircularMark(ctx, r1, r2, alpha, lineWidth=1) {
+        let x1 = r1 * Math.cos(alpha)
+        let y1 = r1 * Math.sin(alpha)
+        let x2 = r2/r1 * x1
+        let y2 = r2 * Math.sin(alpha)
+        ctx.save()
+        ctx.lineWidth = lineWidth
+        ctx.beginPath()
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke()
+        ctx.restore()
+    }
+
+    // 将canvas上下文移动到时钟中心
+    ctx.save()
+    ctx.translate(origin[0], origin[1])
+    // draw clock mark
+    let delta = 2 * Math.PI / 60  // 弧度/格
+    let r1 = radius - 25
+    let r2 = radius - 20
+    for (let i=0;i<60;i++) {
+        // 每隔5个画粗线
+        i%5? drawCircularMark(ctx, r1, r2, i*delta):
+            drawCircularMark(ctx, r1-5, r2, i*delta, 2)
+    }
+
+    function drawClockHand(length, alpha, lineWidth=1) {
+        let x1 = length * Math.cos(alpha)
+        let y1 = length * Math.sin(alpha)
+        ctx.save()
+        ctx.lineWidth = lineWidth
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.lineTo(x1, y1)
+        ctx.stroke()
+        ctx.restore()
+    }
+    function drawSecondHand(s) {
+        drawClockHand(50, s / 60 * doublePI + halfPI * 3, 1)
+    }
+    // second hand
+    //drawClockHand(50, - Math.PI / 2 + 1,)
+    // minute hand
+    //drawClockHand(40, Math.PI / 2, 2)
+    // hour hand
+    //drawClockHand(30, Math.PI * 5 / 4, 3)
+
+
+    /*
+    const drawing = (function (ctx) {
+        const {width, height} = ctx.canvas
+        debugger
+        return {
+            ctx,
+            data: [],
+            save(x=0, y=0, width=width, height=height) {
+                const d = ctx.getImageData(x, y, width, height)
+                this.data.push(d)
+                return d
+            },
+            restore(data, x=0,y=0,width=width,height=height) {
+                ctx.putImageData(data || this.data.pop(), x, y, width, height)
+            },
+            clear() {
+                ctx.clearRect(0, 0, width, height)
+            }
+        }
+    })(ctx)
+    */
+
+    // save the clock background
+    // const clockBg = drawing.save()
+    // console.log(clockBg)
+
+    let lastTime = 0
+    function update() {
+        // drawing.clear()
+        // drawing.restore(clockBg)
+        // draw clock hands
+        const d = new Date()
+        let s = d.getSeconds()
+        drawSecondHand(s)
+        if (+d - lastTime > 1000) {
+            console.log(s)
+            lastTime = +d
+        }
+        window.requestAnimationFrame(update)
+    }
+    window.requestAnimationFrame(update)
+
+
+</script>
+</body>
+</html>

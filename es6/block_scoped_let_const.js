@@ -93,6 +93,18 @@
     }
 }
 console.log(bb()) // 4
+{
+    console.log('嵌套的块级作用域')
+    let a = 10
+    let b= 20
+    {
+        b = 30
+        let a = 40
+        console.log(a, b)
+    }
+    console.log(a, b)
+}
+
 
 {
     console.log('ES5中常量的写法')
