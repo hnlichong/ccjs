@@ -5,166 +5,183 @@
     <title>anolog-clock</title>
   </head>
   <body>
-    <canvas class="analog-clock" width="600" height="400"></canvas>
-    <script>
-      /* start of utils */
-      function drawCircle(ctx, x, y, radius, fill = false) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        fill ? ctx.fill() : ctx.stroke();
-        ctx.restore();
+    <canvas class="analog-clock" width="200" height="200"></canvas>
+  <script>
+    /* start of utils */
+    function drawCircle(ctx, x, y, radius, fill = false) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      fill ? ctx.fill() : ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawRadialLine(ctx, r1, r2, alpha, lineWidth = 1) {
+      let x1 = r1 * Math.cos(alpha);
+      let y1 = r1 * Math.sin(alpha);
+      let x2 = r2 * Math.cos(alpha);
+      let y2 = r2 * Math.sin(alpha);
+      ctx.save();
+      ctx.lineWidth = lineWidth;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    const drawing = {
+      data: [],
+      save(x = 0, y = 0, width = cw, height = ch) {
+        const d = ctx.getImageData(x, y, width, height)
+        this.data.push(d)
+        return d
+      },
+      restore(data, x = 0, y = 0, width = cw, height = ch) {
+        ctx.putImageData(data || this.data.pop(), x, y)
+      },
+      clear(x = 0, y = 0, width = cw, height = ch) {
+        ctx.clearRect(x, y, width, height)
       }
+    }
 
-      function drawRadialLine(ctx, r1, r2, alpha, lineWidth = 1) {
-        let x1 = r1 * Math.cos(alpha);
-        let y1 = r1 * Math.sin(alpha);
-        let x2 = r2 * Math.cos(alpha);
-        let y2 = r2 * Math.sin(alpha);
-        ctx.save();
-        ctx.lineWidth = lineWidth;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-        ctx.restore();
+
+    function measureTextSize(fontStyle='16px sans-serif', text='M') {
+      const body = document.body
+      const div = document.createElement('span')
+      div.style.font = fontStyle
+      div.style.opacity = 0
+      div.innerText = text
+      body.appendChild(div)
+      const res = [div.offsetWidth, div.offsetHeight]
+      body.removeChild(div)
+      return res
+    }
+    /* end of utils */
+
+
+    const canvas = document.querySelector(".analog-clock");
+    const ctx = canvas.getContext("2d");
+    const {
+      width: cw,
+      height: ch
+    } = canvas;
+    const x0 = cw / 2,
+      y0 = ch / 2;
+    let radius = 100;
+    const doublePI = Math.PI * 2;
+    const halfPI = Math.PI / 2;
+    const quarterPI = Math.PI / 4;
+    const halfCw = cw / 2;
+
+    // 变更坐标原点为时钟中心点
+    ctx.translate(x0, y0);
+    // 时钟表盘
+    const clockPlate = {
+      x: 0,
+      y: 0,
+      outerRadius: halfCw -1,
+      innerRadius: halfCw - 10,
+      scaleLineR1: halfCw - 25,
+      scaleLineR2: halfCw - 20,
+      scaleTextRadius: halfCw - 40,
+      drawScaleLines() {
+        let delta = doublePI / 60; // 弧度/格
+        for (let i = 0; i < 60; i++) {
+          // 每隔5个画粗线
+          i % 5 ?
+            drawRadialLine(ctx, this.scaleLineR1, this.scaleLineR2, i * delta) :
+            drawRadialLine(ctx, this.scaleLineR1 - 5, this.scaleLineR2, i * delta, 2);
+        }
+      },
+      drawScaleText() {
+        ctx.save()
+        ctx.font = '16px sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        const textList = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2"]
+        const r = this.scaleTextRadius
+        for (let i=0;i<12;i++) {
+          let delta = i / 12 * doublePI
+          let x = r * Math.cos(delta)
+          let y = r * Math.sin(delta)
+          ctx.fillText(textList[i], x, y)
+        }
+        ctx.restore()
+      },
+      drawCenterPoint() {
+        ctx.save()
+        ctx.fillStyle = '#DCDDCF'
+        drawCircle(ctx, this.x, this.y, 2, true);
+        ctx.restore()
+
+      },
+      draw() {
+        // outer circle
+        drawCircle(ctx, this.x, this.y, this.outerRadius);
+        // inner circle
+        drawCircle(ctx, this.x, this.y, this.innerRadius);
+        // center point
+        this.drawCenterPoint()
+        // scale lines
+        this.drawScaleLines();
+        this.drawScaleText();
+      },
+    };
+
+
+    // 指针
+    const clockHand = {
+      lengthList: [60, 50, 40],
+      lineWidthList: [1, 2, 3],
+      deltaList: [0, 0, 0],
+      lastSeconds: 0,
+      update(d) {
+        d = d || new Date()
+        const s = d.getSeconds()
+        if (s - this.lastSeconds < 1) return
+        this.deltaList[0] = s / 60 * doublePI - halfPI
+        this.lastSeconds = s
+
+        const m = d.getMinutes() + s / 60
+        this.deltaList[1] = m / 60 * doublePI - halfPI
+
+        const h = d.getHours() + m / 60
+        this.deltaList[2] = h % 12 / 12 * doublePI - halfPI
+      },
+      draw() {
+        drawRadialLine(ctx, -10, this.lengthList[0], this.deltaList[0], this.lineWidthList[0])
+        drawRadialLine(ctx, -8, this.lengthList[1], this.deltaList[1], this.lineWidthList[1])
+        drawRadialLine(ctx, -6, this.lengthList[2], this.deltaList[2], this.lineWidthList[2])
+      },
+      render(d) {
+        // 先更新（属性）再绘制
+        this.update(d)
+        this.draw()
       }
+    }
 
-      const drawing = {
-        data: [],
-        save(x = 0, y = 0, width = cw, height = ch) {
-          const d = ctx.getImageData(x, y, width, height);
-          this.data.push(d);
-          return d;
-        },
-        restore(data, x = 0, y = 0, width = cw, height = ch) {
-          ctx.putImageData(data || this.data.pop(), x, y);
-        },
-        clear(x = 0, y = 0, width = cw, height = ch) {
-          ctx.clearRect(x, y, width, height);
-        }
-      };
 
-      /* end of utils */
+    //先绘制静态内容(背景)，并缓存起来，下次不必再次绘制(draw)，直接restore
+    clockPlate.draw();
+    // save the clock background
+    const bg = drawing.save()
 
-      const canvas = document.querySelector(".analog-clock");
-      const ctx = canvas.getContext("2d");
-      const { width: cw, height: ch } = canvas;
-      const x0 = cw / 2,
-        y0 = ch / 2;
-      let radius = 100;
-      const doublePI = Math.PI * 2;
-      const halfPI = Math.PI / 2;
-      const quarterPI = Math.PI / 4;
-
-      // 变更坐标原点为时钟中心点
-      ctx.translate(x0, y0);
-      // 时钟表盘
-      const clockPlate = {
-        outerRadius: cw / 2,
-        innerRadius: cw / 2 - 10,
-        x: 0,
-        y: 0,
-        drawScaleLines() {
-          let delta = doublePI / 60; // 弧度/格
-          let r1 = this.innerRadius - 15;
-          let r2 = this.innerRadius - 10;
-          for (let i = 0; i < 60; i++) {
-            // 每隔5个画粗线
-            i % 5
-              ? drawRadialLine(ctx, r1, r2, i * delta)
-              : drawRadialLine(ctx, r1 - 5, r2, i * delta, 2);
-          }
-        },
-        draw() {
-          // outer circle
-          drawCircle(ctx, this.x, this.y, this.outerRadius);
-          // inner circle
-          drawCircle(ctx, this.x, this.y, this.innerRadius);
-          // center point
-          drawCircle(ctx, this.x, this.y, 2, true);
-          // scale lines
-          this.drawScaleLines();
-        }
-      };
-
-      // 指针
-      const clockHand = {
-        lengthList: [50, 40, 30],
-        lineWidthList: [1, 2, 3],
-        deltaList: [0, 0, 0],
-        lastSeconds: 0,
-        lastMinutes: 0,
-        lastHours: 0,
-        update(d) {
-          d = d || new Date();
-          const s = d.getSeconds();
-          if (s - this.lastSeconds < 1) return;
-          else {
-            this.deltaList[0] = (s / 60) * doublePI - halfPI;
-            this.lastSeconds = s;
-          }
-
-          const m = d.getMinutes();
-          if (m - this.lastMinutes < 1) return;
-          else {
-            this.deltaList[1] = (m / 60) * doublePI - halfPI;
-            this.lastMinutes = m;
-          }
-
-          const h = d.getHours();
-          if (h - this.lastHours < 1) return;
-          else {
-            this.deltaList[2] = ((h % 12) / 12) * doublePI - halfPI;
-            this.lastHours = h;
-          }
-        },
-        draw() {
-          drawRadialLine(
-            ctx,
-            -10,
-            this.lengthList[0],
-            this.deltaList[0],
-            this.lineWidthList[0]
-          );
-          drawRadialLine(
-            ctx,
-            -8,
-            this.lengthList[1],
-            this.deltaList[1],
-            this.lineWidthList[1]
-          );
-          drawRadialLine(
-            ctx,
-            -6,
-            this.lengthList[2],
-            this.deltaList[2],
-            this.lineWidthList[2]
-          );
-        },
-        render(d) {
-          // 先更新（属性）再绘制
-          this.update(d);
-          this.draw();
-        }
-      };
-
-      //先绘制静态内容(背景)，并缓存起来，下次不必再次绘制(draw)，直接restore
-      clockPlate.draw();
-      // save the clock background
-      const bg = drawing.save();
-
-      function render() {
-        // clear the whole canvas, 一般需要整个擦出，然后重新绘制
-        drawing.clear();
-        // render static, 先绘制静态内容，静态内容缓存在变量中，不必再次update
-        drawing.restore(bg);
-        const d = new Date();
-        // render dynamic, 动态内容需要update，重新计算属性值，然后再绘制draw
-        clockHand.render(d);
-        window.requestAnimationFrame(render);
-      }
+    function render() {
+      // clear the whole canvas, 一般需要整个擦出，然后重新绘制
+      drawing.clear()
+      // z0: render static, 先绘制静态内容，静态内容缓存在变量中，不必再次update
+      drawing.restore(bg)
+      const d = new Date()
+      // z1: render dynamic, 动态内容需要update，重新计算属性值，然后再绘制draw
+      clockHand.render(d)
+      // z2: 时钟中心的银白色的点
+      clockPlate.drawCenterPoint()
       window.requestAnimationFrame(render);
-    </script>
+    }
+    window.requestAnimationFrame(render);
+
+
+  </script>
   </body>
 </html>

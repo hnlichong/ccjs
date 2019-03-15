@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>grids-axes</title>
+</head>
+<body>
+<canvas id="main" width="600" height="400"></canvas>
+<script>
+  const canvas = document.querySelector('#main')
+  const ctx = canvas.getContext('2d')
+  const {width: cw, height: ch} = canvas
+
+
+  // draw canvas border
+  // ctx.strokeRect(0, 0, cw, ch)
+
+
+  function drawGrids (ctx, stepx=10, stepy=10) {
+    ctx.save()
+    ctx.lineWidth = 0.5 // 能实现0.5像素宽效果，canvas默认“抗锯齿” -- 有点模糊的效果
+    ctx.strokeStyle = '#444'
+    const {width, height} = ctx.canvas
+    // Horizantal
+    for (let i=0.5+stepy;i<height;i+=stepy){
+      // 0.5: 因为线条是居中的，左右各0.5像素会被“抗锯齿”自动扩展为1px
+      ctx.beginPath()
+      ctx.moveTo(0, i)
+      ctx.lineTo(width, i)
+      ctx.stroke()
+    }
+    // Vertical
+    for (let i=0.5+stepx;i<width;i+=stepx){
+      ctx.beginPath()
+      ctx.moveTo(i, 0)
+      ctx.lineTo(i, height)
+      ctx.stroke()
+    }
+    ctx.restore()
+  }
+
+  // drawGrids(ctx)
+
+  function drawAxes(ctx, stepx=20, stepy=20, markw=2, showIndex=true, indexInterval=100) {
+    const {width, height} = ctx.canvas
+    ctx.save()
+    ctx.lineWidth = 1
+    ctx.strokeStyle = '#444'
+    // x, y axes
+    ctx.beginPath()
+    ctx.moveTo(0, 0)
+    ctx.lineTo(width, 0)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(0, 0)
+    ctx.lineTo(0, height)
+    ctx.stroke()
+
+    // 刻度尺mark and index
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'middle'
+    // y graduation mark and index
+    for (let i=0.5+stepy;i<height;i+=stepy){
+      // 0.5: 因为线条是相对线宽中心线居中放置的，左右各0.5像素会被“抗锯齿”柔化到为1px，则最后线宽为2px。如要实现真正的1px线条，需要放置在0.5+n的轴上
+      ctx.beginPath()
+      ctx.moveTo(0, i)
+      ctx.lineTo(markw, i)
+      ctx.stroke()
+      let ii = parseInt(i)
+      if (showIndex && ii % indexInterval === 0) {
+        ctx.fillText(ii, markw, ii)
+      }
+    }
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'top'
+    // x graduation mark and index
+    for (let i=0.5+stepx;i<width;i+=stepx){
+      ctx.beginPath()
+      ctx.moveTo(i, 0)
+      ctx.lineTo(i, markw)
+      ctx.stroke()
+      let ii = parseInt(i)
+      if (showIndex && ii % indexInterval === 0) {
+        ctx.fillText(ii, ii, markw)
+      }
+    }
+    ctx.restore()
+  }
+
+  drawAxes(ctx)
+
+
+</script>
+</body>
+</html>
