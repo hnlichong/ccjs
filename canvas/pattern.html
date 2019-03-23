@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>canvas createPattern</title>
+</head>
+<body>
+<canvas class="demo" width="600" height="400"></canvas>
+
+<script>
+  const canvas = document.querySelector('.demo')
+  const ctx = canvas.getContext('2d')
+  const {width, height} = canvas
+
+  // canvas border
+  ctx.strokeRect(0,0,width, height)
+
+  function createUnitRect() {
+    // offline canvas
+    const canvas = document.createElement('canvas')
+    canvas.width = 10
+    canvas.height= 10
+    const ctx = canvas.getContext('2d')
+    ctx.strokeRect(0.5,0.5, canvas.width-0.5, canvas.height-0.5)
+    return canvas
+  }
+
+  const pat = ctx.createPattern(createUnitRect(), 'repeat')
+  ctx.fillStyle = pat
+  ctx.rect(0,0,width, height)
+  ctx.fill()
+
+
+
+</script>
+</body>
+</html>

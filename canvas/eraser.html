@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="canvas eraser">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>canvas eraser</title>
+</head>
+<body>
+<canvas class="demo" width="600" height="400"></canvas>
+
+<script>
+  const canvas = document.querySelector('.demo')
+  const ctx = canvas.getContext('2d')
+  const {width, height} = canvas
+
+  // canvas border
+  ctx.strokeRect(0,0,width, height)
+
+  // start of utils
+  const mousePosToCanvasPos = (function(canvas) {
+    const {x:xx, y:yy, width:ww, height:hh}=canvas.getBoundingClientRect()
+    const {width, height} = canvas
+    const scaleX = width / ww
+    const scaleY = height /hh
+    return function (x, y) {
+      return {
+        x: (x-xx) * scaleX,
+        y: (y-yy) * scaleY
+      }
+    }
+  })(canvas)
+
+  function loadImage(url, cb) {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = ()=>{
+      cb(img)
+    }
+    img.src = url
+    return img
+
+  }
+
+  const drawing = {
+    data: [],
+    save(x = 0, y = 0, ) {
+      const d = ctx.getImageData(x, y, width, height)
+      this.data.push(d)
+      return d
+    },
+    restore(data, x = 0, y = 0, ) {
+      ctx.putImageData(data || this.data.pop() || ctx.createImageData(width, height), x, y)
+    },
+    clear(x = 0, y = 0,)  {
+      ctx.clearRect(x, y, width, height)
+    }
+  }
+
+  // end of utils
+
+  loadImage('http://cdn.hnlichong.com/img/________10798-2017-12-24-0018.jpg', (img)=>{
+    ctx.drawImage(img, 0, 0, width, height)
+    drawing.save()
+  })
+
+  const eraser = {
+    radius: 10,
+    x: 0,
+    y: 0,
+    active: false,
+    update(x, y, active=true) {
+      this.x = x
+      this.y = y
+      this.active = active
+    },
+    draw() {
+      ctx.beginPath()
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+      ctx.stroke()
+    },
+    clearArea() {
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+      ctx.clip()
+      ctx.clearRect(0, 0, width, height)
+      ctx.restore()
+    },
+    render(x, y, active) {
+      this.update(x, y, active)
+      drawing.clear()
+      drawing.restore()
+      if (this.active) {
+        this.clearArea()
+      }
+      drawing.save()
+      this.draw()
+    }
+  }
+
+
+  let isMouseDown = false
+
+  function mouseMoveEraser(ev) {
+    const {clientX,clientY} = ev
+    const {x, y} = mousePosToCanvasPos(clientX, clientY)
+    eraser.render(x, y, isMouseDown)
+  }
+  canvas.addEventListener('mousemove', mouseMoveEraser)
+
+  canvas.addEventListener('mousedown', (ev)=>{
+    isMouseDown = true
+    mouseMoveEraser(ev)
+  })
+  canvas.addEventListener('mouseup', (ev)=>{
+    isMouseDown = false
+    mouseMoveEraser(ev)
+  })
+
+
+
+
+</script>
+</body>
+</html>

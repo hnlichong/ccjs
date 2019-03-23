@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="canvas dashed line">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+</head>
+<body>
+<canvas class="demo" width="600" height="400"></canvas>
+
+<script>
+  const canvas = document.querySelector('.demo')
+  const ctx = canvas.getContext('2d')
+  const {width, height} = canvas
+
+  // canvas border
+  ctx.strokeRect(0,0,width, height)
+
+  function dashedLineTo(x1,y1,x2,y2,length,) {
+    const dist = Math.sqrt((x1-x2)**2 + (y1-y2)**2)
+    const count = Math.floor(dist / length)
+    const dx = (x2 - x1) / count
+    const dy = (y2 - y1) / count
+    ctx.beginPath()
+    for (let i=0;i<count;i+=2) {
+      ctx.moveTo(x1 + i * dx, y1 + i * dy)
+      ctx.lineTo(x1 + (i+1) * dx, y1 + (i+1) * dy)
+    }
+    ctx.stroke()
+
+
+  }
+
+  dashedLineTo(50,100, 200, 100, 10)
+  ctx.beginPath()
+  ctx.setLineDash([10,10])
+  ctx.moveTo(50, 200)
+  ctx.lineTo(200, 200)
+  ctx.stroke()
+</script>
+</body>
+</html>

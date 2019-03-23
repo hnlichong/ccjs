@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>canvas coordinate transformation</title>
+    <style>
+        .demo {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas class="demo" width="600" height="400"></canvas>
+
+<script>
+  const canvas = document.querySelector('.demo')
+  const ctx = canvas.getContext('2d')
+  const {width, height} = canvas
+  // canvas border
+  ctx.strokeRect(0,0,width, height)
+
+  const mousePosToCanvasPos = (function(canvas) {
+    const {x:xx, y:yy, width:ww, height:hh}=canvas.getBoundingClientRect()
+    const {width, height} = canvas
+    const scaleX = width / ww
+    const scaleY = height /hh
+    return function (x, y) {
+      return {
+        x: (x-xx) * scaleX,
+        y: (y-yy) * scaleY
+      }
+    }
+  })(canvas)
+  const mousePosSpan = document.createElement('span')
+  mousePosSpan.class = 'mouse-pos'
+  mousePosSpan.innerText = '[0,0]'
+  document.body.appendChild(mousePosSpan)
+
+  function mouseMoveHandler(ev) {
+    const {clientX:x, clientY:y} = ev
+    const {x: xx, y:yy} = mousePosToCanvasPos(x, y)
+    mousePosSpan.innerText = `[${x},${y}] -> [${xx},${yy}]`
+
+    ctx.clearRect(0,0,width,height)
+    ctx.beginPath()
+    ctx.moveTo(0, yy)
+    ctx.lineTo(width, yy)
+    ctx.moveTo(xx, 0)
+    ctx.lineTo(xx, height)
+    ctx.stroke()
+  }
+  canvas.addEventListener('mousemove', mouseMoveHandler)
+
+</script>
+</body>
+</html>
