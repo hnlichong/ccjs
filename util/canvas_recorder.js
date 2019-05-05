@@ -78,3 +78,4 @@ CanvasRecorder.prototype.download = function() {
 // window.CanvasRecorder = CanvasRecorder
 // export default CanvasRecorder
 // module.exports = CanvasRecorder
+

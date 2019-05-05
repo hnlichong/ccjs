@@ -7,11 +7,19 @@
         .wrapper {
             border: black 1px solid;
             margin: 10px 0;
-            height: 300px;
+            height: 500px;
             position: relative;
         }
         .content {
             border: 1px black solid;
+        }
+        .margin-auto-img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
         }
 
     </style>
@@ -26,6 +34,10 @@
         [margin: auto方式, 推荐] 绝对定位的block元素, 定好宽高，四边抵边，margin:auto自动填充剩余空间，完成垂直水平居中
     </div>
     <p>解释：这个方法使用了一个 position:absolute，有固定宽度和高度的 div。这个 div 被设置为 top:0; bottom:0;。但是因为它有固定高度，其实并不能和上下都间距为 0，因此 margin:auto; 会使它居中。使用 margin:auto;使块级元素垂直居中是很简单的。</p>
+</div>
+<div class="wrapper">
+    <p>图片水平垂直居中, 但对于图片宽度超过容器的，无法左右margin auto, 只能上下auto, 所以最好设置img width: 100%充满容器</p>
+    <img class="margin-auto-img" src="http://sf3-ttcdn-tos.pstatp.com/obj/web.business.image/201905055d0d388a0b0e35da4564b575" alt="">
 </div>
 <div class="wrapper">
     <div class="outer" style="position: absolute; top: 50%; left: 50%;">
