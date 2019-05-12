@@ -53,6 +53,7 @@
         _timer = setInterval(()=>{
             let speed = (target - tX)/8 // 减速运动
             tX += speed
+            // 判断停止条件
             if (Math.abs(tX - target) < Math.abs(speed) ||
             Math.abs(speed) < 1) {
                 tX = target
