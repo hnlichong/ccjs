@@ -1,4 +1,4 @@
-class Timer {
+class Stopwatch {
     constructor (duration) {
         this.duration = duration
         this.isRunning = false
@@ -7,7 +7,7 @@ class Timer {
     }
     start() {
         this.isRunning = true
-        this.startTime = Date.now()
+        this.startTime = Date.now() - this._elapsedTime
     }
     stop() {
         this.isRunning = false
@@ -31,38 +31,34 @@ class Timer {
 }
 
 class MockProgress {
-    constructor ({startProgress=0, interval=200, step=0.01}={}) {
+    constructor ({startProgress=0, timeScale=10000, interval=200, }={}) {
         Object.assign(this, {
             startProgress,
             progress: startProgress,
             interval,
-            step,
-            i: -Math.log(1 - startProgress)/step,
+         timeScale,
         })
+        this.stopwatch = new Stopwatch()
+        this.stopwatch.elapsedTime = -Math.log(1 - this.startProgress) * this.timeScale
+
     }
     start() {
+        this.stopwatch.start()
         this.timer = setInterval(()=>{
-            if (this.i >= Number.MAX_SAFE_INTEGER) {
-                this.stop()
-                return
-            } 
-            this.progress = 1 - Math.exp(-this.step * this.i++)
+            this.progress = 1 - Math.exp(-this.stopwatch.elapsedTime / this.timeScale)
         }, this.interval)
     }
     stop() {
         clearInterval(this.timer)
-        this.progress = 1
     }
     reset() {
         this.progress = this.startProgress
-        this.i = 0
+        this.stopwatch.reset()
+        this.stopwatch.elapsedTime = -Math.log(1 - this.startProgress) * this.timeScale
     }
 }
 
-/*
 const mp = new MockProgress({
-    interval: 1000,
-    step: 0.01,
     startProgress: 0.6,
 })
 mp.start()
@@ -71,5 +67,4 @@ setInterval(() => {
 }, 100);
 setTimeout(()=>{
     mp.stop()
-},30000)
-*/
+}, 60000)
