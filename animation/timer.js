@@ -29,3 +29,47 @@ class Timer {
         return this.elapsedTime >= this.duration
     }
 }
+
+class MockProgress {
+    constructor ({startProgress=0, interval=200, step=0.01}={}) {
+        Object.assign(this, {
+            startProgress,
+            progress: startProgress,
+            interval,
+            step,
+            i: -Math.log(1 - startProgress)/step,
+        })
+    }
+    start() {
+        this.timer = setInterval(()=>{
+            if (this.i >= Number.MAX_SAFE_INTEGER) {
+                this.stop()
+                return
+            } 
+            this.progress = 1 - Math.exp(-this.step * this.i++)
+        }, this.interval)
+    }
+    stop() {
+        clearInterval(this.timer)
+        this.progress = 1
+    }
+    reset() {
+        this.progress = this.startProgress
+        this.i = 0
+    }
+}
+
+/*
+const mp = new MockProgress({
+    interval: 1000,
+    step: 0.01,
+    startProgress: 0.6,
+})
+mp.start()
+setInterval(() => {
+    console.log(`progress: ${Math.floor((mp.progress*100))}%`);
+}, 100);
+setTimeout(()=>{
+    mp.stop()
+},30000)
+*/

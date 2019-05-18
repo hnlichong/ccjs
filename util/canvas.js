@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { uriToUrl } from './cdn';
+// import { uriToUrl } from './cdn';
 import _ from 'lodash';
 
 let imageUploadUrl = '';
@@ -72,13 +72,13 @@ function loadImage(url, crossOrigin = true) {
       // local image
       img.src = url;
     } else if (url.match(/^(http(s)?:)?\/\//)) {
-      // todo CORS 跨域图片服务。有些图片需要跨域请求，才能用于canvas编辑
       // img.src = Api.cors_img + url;
       // 未跨域:
       img.src = url;
     } else {
       // uri
-      img.src = uriToUrl(url);
+      // todo
+      // img.src = uriToUrl(url);
     }
   });
 }
@@ -97,8 +97,13 @@ async function fileToImage(f) {
   return img;
 }
 
+async function fileToCanvas(f) {
+  const image = await fileToImage(f)
+  return await imageToCanvas(image, {})
+}
+
 /**
- *
+ * core !!!
  * @param image
  * @param scaleMode
  ['no-scale', 'contain', 'cover',  'stretch']
@@ -110,7 +115,7 @@ async function fileToImage(f) {
  */
 async function imageToCanvas(
   image,
-  { scaleMode = 'no-scale', position = '0 0', dw, dh }
+  { scaleMode = 'no-scale', position = '0 0', dw, dh }={}
 ) {
   // dom img
   let img = null;
@@ -213,7 +218,7 @@ async function uploadImage(image, url = imageUploadUrl) {
  */
 async function compressImage(
   image,
-  { format = 'image/jpeg', quality = 1, toBlob = false }
+  { format = 'image/jpeg', quality = 0.92, toBlob = false }={}
 ) {
   const canvas = await imageToCanvas(image, {});
   if (!toBlob) {
@@ -256,7 +261,7 @@ async function compressImageTo(image, maxSize) {
   return file;
 }
 
-async function canvasToFile(canvas, { format = 'image/jpeg', quality = 1 }) {
+async function canvasToFile(canvas, { format = 'image/jpeg', quality = 0.92 }={}) {
   return new Promise(resolve => {
     canvas.toBlob(
       blob => {
@@ -270,7 +275,7 @@ async function canvasToFile(canvas, { format = 'image/jpeg', quality = 1 }) {
 
 async function imageToFile(image) {
   const canvas = await imageToCanvas(image, {});
-  return await canvasToFile(canvas, {});
+  return await canvasToFile(canvas);
 }
 
 async function mergeImage(
@@ -361,6 +366,60 @@ function checkDimension(sw, sh, td) {
 }
 
 
+/**
+ * 就近原则得到目标尺寸
+ */
+// function getTargetDimensionByNearestRatio (width, height) {
+//   const srcRatio = width / height
+//   if (srcRatio < 0.7813) return { width: 720, height: 1280 }
+//   if (srcRatio >= 0.7813 && srcRatio <= 1.3889) return { width: 640, height: 640 }
+//   if (srcRatio > 1.3889) return { width: 1280, height: 720 }
+//   return { width: 720, height: 1280 }
+// }
+
+function getTargetRatioType(srcRatio) {
+  if (srcRatio > 1.3889) return 0
+  if (srcRatio >= 0.7813 && srcRatio <= 1.3889) return 1
+  if (srcRatio < 0.7813) return 2
+}
+
+/*********** canvas handle part   *****************/
+async function resizeCanvasUnder(canvas, dimensions=[[1280, 720], [600, 600], [720, 1280]]) {
+  const {width: sw, height: sh} = canvas
+  const srcRatio = sw/sh
+  const tarDimension = dimensions[getTargetRatioType(srcRatio)]
+  let [dw, dh] = tarDimension
+  let tarRatio = dw/dh
+  console.log(`resizeCanvasUnder before resize ${sw}x${sh}`);
+  if (sw <= dw && sh <= dh) return canvas
+  if (srcRatio > tarRatio) {
+    // 宽大一些，限制宽，由宽高比算高(保证原图比例), 这样高就不会超过限制
+    dh = dw / srcRatio
+  } else {
+    dw = dh * srcRatio
+  }
+  console.log(`resizeCanvasUnder after resize ${dw}x${dh}`);
+  return await imageToCanvas(canvas, {'scaleMode': 'stretch', dw, dh})
+}
+
+
+
+/*
+    createDownload(blob, name='test.mp4') {
+        const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.style.display = "none";
+  a.href = url;
+  a.download = name
+  a.target = '_blank'
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, 100);
+    },
+*/
 export {
   rgbaToHex,
   newCanvas,
@@ -368,9 +427,12 @@ export {
   imageToCanvas,
   uploadImage,
   fileToImage,
+  fileToCanvas,
   compressImage,
   compressImageTo,
   canvasToFile,
   imageToFile,
-  mergeImage
+  mergeImage,
+  checkDimension,
+  resizeCanvasUnder,
 };

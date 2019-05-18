@@ -1,0 +1,132 @@
+.rating {
+    position: fixed;
+    right: 0;
+    bottom: 5%;
+    z-index: 999;
+    transition: transform 1s ease;
+}
+.rating-hide {
+    transform: translateX(100%);
+}
+.rating__icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    // min-width: 46px;
+    // height: 34px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    >img {
+        margin: 8px 14px 9px 14px;
+    }
+    >span {
+        margin-left: 24px;
+        margin-right: -6px;
+font-size:14px;
+font-family:PingFang-SC-Medium;
+font-weight:500;
+color:rgba(51,51,51,1);
+line-height:22px;
+    }
+}
+
+.rating__main {
+  width: 313px;
+//   height: 261px;
+  background:rgba(255,255,255,1);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  padding: 20px 24px;
+  box-sizing: border-box;
+  transition: all 0.5s ease;
+}
+
+.rating__main.hide{
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: right top;
+}
+
+.rating__single {
+    margin-bottom: 14px;
+}
+.rating__single-item {
+  display: flex;
+  height: 22px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(102, 102, 102, 1);
+  line-height: 22px;
+  margin-bottom: 14px;
+}
+.rating__single-rating {
+  margin-left: 20px;
+  width: 102px;
+}
+.rating__overall-title {
+  width: 140px;
+  height: 22px;
+  font-size: 14px;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 22px;
+  margin-bottom: 12px;
+}
+
+.rating__overall-rating {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  > div {
+    display: flex;
+    height: 33px;
+    line-height: 33px;
+    background: rgba(255, 255, 255, 1) no-repeat;
+    border-radius: 16px;
+    border: 1px solid rgba(244, 248, 252, 1);
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    padding-right: 14px;
+    cursor: pointer;
+  }
+  > div:hover {
+    border: 1px solid rgba(47, 136, 255, 1);
+  }
+  > div.active {
+    color: white;
+    background: rgba(47, 136, 255, 1);
+  }
+  > div:hover img:last-of-type, div.active img:last-of-type {
+    opacity: 1;
+  }
+  i {
+    position: relative;
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    margin: 6px;
+  }
+  img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    border-radius: 50%;
+  }
+  img:last-of-type {
+    opacity: 0;
+  }
+}
+
+.rating .el-button {
+    display: block;
+}
