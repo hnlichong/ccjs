@@ -6,12 +6,12 @@ class Stopwatch {
         this._elapsedTime = 0
     }
     start() {
-        this.isRunning = true
         this.startTime = Date.now() - this._elapsedTime
+        this.isRunning = true
     }
     stop() {
-        this.isRunning = false
         this.elapsedTime = Date.now() - this.startTime
+        this.isRunning = false
     }
     reset() {
         this.elapsedTime = 0
@@ -28,24 +28,21 @@ class Stopwatch {
     get isOver() {
         return this.elapsedTime >= this.duration
     }
-}
-
-class MockProgress {
-    constructor ({startProgress=0, timeScale=10000, interval=200, }={}) {
-        Object.assign(this, {
-            startProgress,
-            progress: startProgress,
-            interval,
-         timeScale,
-        })
+  }
+  
+  class MockProgress {
+    constructor (options={startProgress=0, timeScale=10000, interval=200, onUpdate=null}={}) {
+      // options = {startProgress:0, timeScale:10000, interval:200, onUpdate:null, ...options}
+      Object.assign(this, options)
+      this.progress = options.startProgress
         this.stopwatch = new Stopwatch()
         this.stopwatch.elapsedTime = -Math.log(1 - this.startProgress) * this.timeScale
-
     }
     start() {
         this.stopwatch.start()
         this.timer = setInterval(()=>{
             this.progress = 1 - Math.exp(-this.stopwatch.elapsedTime / this.timeScale)
+            if (this.onUpdate) this.onUpdate(this.progress)
         }, this.interval)
     }
     stop() {
@@ -56,15 +53,22 @@ class MockProgress {
         this.stopwatch.reset()
         this.stopwatch.elapsedTime = -Math.log(1 - this.startProgress) * this.timeScale
     }
-}
-
-const mp = new MockProgress({
+  }
+  
+  /*
+  const mp = new MockProgress({
     startProgress: 0.6,
-})
-mp.start()
-setInterval(() => {
+  })
+  mp.start()
+  setInterval(() => {
     console.log(`progress: ${Math.floor((mp.progress*100))}%`);
-}, 100);
-setTimeout(()=>{
+  }, 100);
+  setTimeout(()=>{
     mp.stop()
-}, 60000)
+  }, 60000)
+  */
+  
+  export {
+    MockProgress,
+  }
+  
